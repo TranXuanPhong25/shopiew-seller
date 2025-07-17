@@ -32,7 +32,7 @@ const  NavHeader = () => {
             <NavUser user={{
               name: "shadcn",
               email: "@shadcn",
-               avatar: "/avatars/shadcn.jpg",
+               avatar: "/globe.svg",
             }} />
           </div>
         </header>

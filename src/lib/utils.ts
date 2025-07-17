@@ -21,3 +21,16 @@ export function handlePlural(value: number, unit: string, shouldTruncate: boolea
 
   return `${value}${unit}`;
 }
+
+export const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      // Adjust scroll position to account for sticky header height if needed
+      const headerOffset = 120 // Approximate height of the sticky header
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({
+        top: elementPosition - headerOffset,
+        behavior: "smooth",
+      })
+    }
+  }

@@ -4,35 +4,28 @@ import * as React from "react"
 import {
   AudioWaveform,
   BookOpen,
-  Bot,
   Command,
   Frame,
   GalleryVerticalEnd,
   Map,
+  PackageOpenIcon,
   PieChart,
   Settings2,
-  SquareTerminal,
+  TruckIcon,
 } from "lucide-react"
 
 import { NavMain } from '@/components/layout/sidebar/nav-main'
 import { NavProjects } from '@/components/layout/sidebar/nav-projects'
-import { NavUser } from '@/components/layout/header/nav-user'
 import { TeamSwitcher } from '@/components/layout/sidebar/team-switcher'
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "Acme Inc",
@@ -52,88 +45,50 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Products",
+      icon: PackageOpenIcon,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "All Products",
+          url: "/products",
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
+          title: "Add Product",
+          url: "/products/new",
+        } 
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
+      title: "Orders",
+      icon: TruckIcon,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "All Orders",
+          url: "/orders",
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: "Returned/Canceled Orders",
+          url: "/orders/returned",
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: "Delivery Management",
+          url: "/orders/delivery-management",
         },
       ],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
+      title: "Customers Service",
       icon: Settings2,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "Chats Management",
+          url: "/customers-service/chats",
         },
         {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
+          title: "Reviews Management",
+          url: "/customers-service/reviews",
+        }
       ],
     },
   ],

@@ -35,7 +35,7 @@ export default function RootLayout({
                     <AjaxProgressBarProvider>
 
                         {children}
-                        <BackToTopButton />
+                        {/* <BackToTopButton /> */}
                     </AjaxProgressBarProvider>
                 </AuthProvider>
                 <Toaster/>

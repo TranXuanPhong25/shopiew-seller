@@ -42,11 +42,6 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
          </div>
          <div className="grid gap-6">
             <div className="grid gap-2">
-               <Label htmlFor="name">Name</Label>
-               <Input id="name" type="text" placeholder="John Doe" required {...register("name")} />
-               {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
-            </div>
-            <div className="grid gap-2">
                <Label htmlFor="email">Email</Label>
                <Input id="email" type="email" placeholder="m@example.com" required {...register("email")} />
                {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}

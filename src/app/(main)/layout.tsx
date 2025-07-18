@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar"
 
-import { SidebarInset, SidebarProvider,  } from "@/components/ui/sidebar"
+import { SidebarInset, SidebarProvider, } from "@/components/ui/sidebar"
 import NavHeader from '@/components/layout/nav-header';
 
 export const metadata: Metadata = {
@@ -18,8 +18,10 @@ export default function MainLayout({
       <AppSidebar />
       <SidebarInset>
         <NavHeader />
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          {children}
+        <div className="m-[9px] ">
+          <div>
+            {children}
+          </div>
         </div>
       </SidebarInset>
     </SidebarProvider>

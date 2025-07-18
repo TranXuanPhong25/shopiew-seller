@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator"
 import { NavUser } from "./header/nav-user"
 const  NavHeader = () => {
    return (
-      <header className="sticky top-0 z-10 flex justify-between h-16 shrink-0 items-center gap-2 bg-background transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+      <header className="mx-2 sticky top-2 z-50  flex justify-between h-16 shrink-0 items-center gap-2 bg-white transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 shadow-sm border-b-4 border-[1px] border-gray-200 rounded-lg">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />

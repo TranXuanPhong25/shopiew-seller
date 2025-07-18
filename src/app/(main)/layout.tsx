@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar"
 
 import { SidebarInset, SidebarProvider, } from "@/components/ui/sidebar"
-import NavHeader from '@/components/layout/nav-header';
+import NavHeader from '@/components/layout/header/nav-header';
 import { ChatWidget } from '@/features/chat-widget/chat.widget';
 
 export const metadata: Metadata = {

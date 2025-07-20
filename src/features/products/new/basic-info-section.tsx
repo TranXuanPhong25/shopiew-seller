@@ -8,11 +8,8 @@ import { PlayCircle, ImageIcon } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form"
 import React, { useEffect } from "react"
-type NewProductFormData = {
-   productName: string;
-   category: string;
-   productDescription: string;
-}
+import { NewProductFormData } from "./new-product-form"
+
 type BasicInfoSectionProps = {
    register: UseFormRegister<NewProductFormData>,
    control:  Control<NewProductFormData, any, NewProductFormData>,
@@ -102,9 +99,9 @@ const BasicInfoSection = ({ register, control, errors }:BasicInfoSectionProps) =
                <Input
                   id="product-name"
                   placeholder="Tên sản phẩm + Thương hiệu + Model + Thông số kỹ thuật"
-                  {...register("productName")}
+                  {...register("name")}
                />
-               {errors.productName && <p className="text-red-500 text-sm mt-1">{errors.productName.message}</p>}
+               {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
             </div>
          </div>
 
@@ -152,10 +149,10 @@ const BasicInfoSection = ({ register, control, errors }:BasicInfoSectionProps) =
                   id="product-description"
                   placeholder="Nhập mô tả sản phẩm hoặc tải lên hình ảnh"
                   className="min-h-[120px]"
-                  {...register("productDescription")}
+                  {...register("description")}
                />
-               {errors.productDescription && (
-                  <p className="text-red-500 text-sm mt-1">{errors.productDescription.message}</p>
+               {errors.description && (
+                  <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
                )}
             </div>
          </div>

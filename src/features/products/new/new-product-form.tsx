@@ -7,52 +7,81 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
-import { PlayCircle, ImageIcon } from "lucide-react"
+import { PlayCircle, ImageIcon, PlusCircle, CircleCheck, TriangleAlert, X } from "lucide-react"
 
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { cn } from "@/lib/utils"
-import BasicInfoSection from "@/features/products/basic-info-section"
+import BasicInfoSection from "@/features/products/new/basic-info-section"
+import { toast } from "sonner"
+import FloatingNotificationBar from "@/features/notifications/floating-notification-bar"
+import { useEffect, useState } from "react"
 // Define the Zod schema for form validation
 const formSchema = z.object({
-  productName: z.string().min(1, { message: "Tên sản phẩm là bắt buộc." }),
+  name: z.string().min(1, { message: "Tên sản phẩm là bắt buộc." }),
   category: z.string().min(1, { message: "Ngành hàng là bắt buộc." }),
-  productDescription: z.string().min(1, { message: "Mô tả sản phẩm là bắt buộc." }),
+  description: z.string().min(1, { message: "Mô tả sản phẩm là bắt buộc." }),
   // Add other fields if they become required later
 })
 
-type FormData = z.infer<typeof formSchema>
+export type NewProductFormData = z.infer<typeof formSchema>
 
 export default function NewProductForm() {
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
-  } = useForm<FormData>({
+    reset,
+    formState: { errors, isDirty },
+  } = useForm<NewProductFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      productName: "",
+      name: "",
       category: "",
-      productDescription: "",
+      description: "",
     },
+
   })
 
-  const onSubmit = (data: FormData) => {
-    console.log("Form submitted:", data)
-    alert("Form submitted successfully! Check console for data.")
-  }
+  const onSubmit = (data: NewProductFormData) => {
+    toast.info("Form submitted:", {
+      description: JSON.stringify(data, null, 2),
 
+    })
+  }
 
 
   return (
     <>
       {/* Basic Info Section */}
-      <div id="basic-info-section" className="pt-8">
-        <h2 className="text-2xl font-bold mb-6">Thông tin cơ bản</h2>
+      <div className="pt-8 relative">
+        <FloatingNotificationBar isExpanded={isDirty} >
+          <div className="flex items-center  justify-between w-full">
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16">
+            <span className="font-semibold flex items-center ml-4">
+              <TriangleAlert className="size-5 mr-2" />
+              <span className="text-base line-clamp-1">Unsaved product</span>
+            </span>
+            <span className="flex items-center rounded-full bg-gray-700    text-sm mr-1 h-fit justify-center p-1 gap-1">
+              <Button
+                className=" bg-green-500 hover:bg-green-500/90 rounded-full px-3 py-1 h-fit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
+              <Button
+                className=" bg-transparent hover:bg-red-500 rounded-full px-3 py-1 h-fit"
+                onClick={() => reset()}
+              >
+                Discard
+              </Button>
+            </span>
+          </div>
+        </FloatingNotificationBar>
+        <h2 className="text-2xl font-bold mb-6 ">Thông tin cơ bản</h2>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 relative">
           <BasicInfoSection
             register={register}
             control={control}
@@ -76,12 +105,9 @@ export default function NewProductForm() {
           >
             <h3 className="text-xl text-gray-500">Thông tin khác (Content will go here)</h3>
           </section>
-          {/* Submit Button */}
-          <div className="flex justify-end">
-            <Button type="submit" className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md">
-              Lưu thông tin
-            </Button>
-          </div>
+          <Button type="submit" className="px-6 py-2 text-white rounded-md float-right">
+            Lưu thông tin
+          </Button>
         </form>
       </div>
     </>

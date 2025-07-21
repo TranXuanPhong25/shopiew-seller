@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { cn, scrollToSection } from "@/lib/utils";
-import { sectionsNav, useSectionsNav } from "./hook";
+import { sectionsNav, useSectionsNav } from "../hook";
 const SectionsNav = () => {
    const { currentTab } = useSectionsNav();
    return (

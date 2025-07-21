@@ -20,6 +20,7 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
    const {
       register,
       handleSubmit,
+      reset,
       formState: { errors, isSubmitting },
    } = useForm<SignupFormInputs>({
       resolver: zodResolver(SignupFormSchema),
@@ -28,7 +29,9 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
    const onSubmit = async (data: SignupFormInputs) => {
       try {
          await signUp(data.email, data.password)
-         redirect("/auth/signup/verify")
+         toast.success("Registration successful! Please check your email to verify your account.")
+         reset()
+         // redirect("/auth/signup/verify")
       } catch (error) {
          toast.error("Register failed. Please check your credentials.")
       }

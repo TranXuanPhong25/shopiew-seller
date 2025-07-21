@@ -1,4 +1,4 @@
-   import { DataTable } from "@/features/products/products-table";
+   import { DataTable } from "@/features/products/components/products-table";
    import data from "@/features/products/data.json"
    import SectionWrapper from "@/components/layout/section-wrapper";
    const ProductsManagementPage = () => {

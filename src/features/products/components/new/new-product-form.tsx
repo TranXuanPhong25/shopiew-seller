@@ -1,31 +1,18 @@
 "use client"
-
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import Image from "next/image"
-import { PlayCircle, ImageIcon, PlusCircle, CircleCheck, TriangleAlert, X } from "lucide-react"
+import {  TriangleAlert, X } from "lucide-react"
 
-import { useForm, Controller } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { cn } from "@/lib/utils"
-import BasicInfoSection from "@/features/products/new/basic-info-section"
+import BasicInfoSection from "./basic-info-section"
 import { toast } from "sonner"
 import FloatingNotificationBar from "@/features/notifications/floating-notification-bar"
-import { useEffect, useState } from "react"
-// Define the Zod schema for form validation
-const formSchema = z.object({
-  name: z.string().min(1, { message: "Tên sản phẩm là bắt buộc." }),
-  category: z.string().min(1, { message: "Ngành hàng là bắt buộc." }),
-  description: z.string().min(1, { message: "Mô tả sản phẩm là bắt buộc." }),
-  // Add other fields if they become required later
-})
+import { useCreateProduct } from "../../hook"
+import { ErrorResponse } from "@/types/ErrorResponse"
+import { NewProductFormData, NewProductFormSchema } from "@/lib/validations"
 
-export type NewProductFormData = z.infer<typeof formSchema>
+
 
 export default function NewProductForm() {
   const {
@@ -35,23 +22,48 @@ export default function NewProductForm() {
     reset,
     formState: { errors, isDirty },
   } = useForm<NewProductFormData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(NewProductFormSchema),
     defaultValues: {
       name: "",
       category: "",
       description: "",
     },
-
   })
 
-  const onSubmit = (data: NewProductFormData) => {
-    toast.info("Form submitted:", {
-      description: JSON.stringify(data, null, 2),
+  const {isCreating, createProduct } = useCreateProduct()
 
-    })
+  const onSubmit = async (data: NewProductFormData) => {
+    await createProduct({
+      product: {
+        name: data.name,
+        categoryId: parseInt(data.category.split("-")[0]), // Assuming category is a string that can be parsed to a number
+        description: data.description,
+      },
+      variants: [
+        {  
+          price: 3600000, // Default price, can be changed later
+          stockQuantity: 100, // Default stock quantity, can be changed later
+          images: [], // Assuming no images for now, can be extended later
+          // sku: "v", // Assuming no SKU for now, can be extended later
+          attributes: {}, // Assuming no attributes for now, can be extended later
+        }
+      ], // Assuming no variants for now, can be extended later
+    },{
+      onError: (error:unknown) => {
+        const err = error as ErrorResponse;
+        toast.error(`Error creating product`, {
+          description: err.detail,
+        })
+      },
+      onSuccess: () => {
+        toast.success("Product created successfully!")
+        reset()
+      },
+    }
+  )
   }
 
-
+ 
   return (
     <>
       {/* Basic Info Section */}

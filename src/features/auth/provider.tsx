@@ -41,6 +41,8 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
         } catch (error) {
             console.error('Auth check failed:', error);
             setUser(null);
+            const currentPath = window.location.pathname;
+            loginWithRedirect(currentPath);
         } finally {
             setLoading(false);
         }

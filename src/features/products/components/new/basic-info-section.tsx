@@ -8,14 +8,15 @@ import { PlayCircle, ImageIcon } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form"
 import React, { useEffect } from "react"
-import { NewProductFormData } from "./new-product-form"
+import { NewProductFormData } from "@/lib/validations"
+import CategorySelection from "./category-selection"
 
 type BasicInfoSectionProps = {
    register: UseFormRegister<NewProductFormData>,
-   control:  Control<NewProductFormData, any, NewProductFormData>,
+   control: Control<NewProductFormData, any, NewProductFormData>,
    errors: FieldErrors<NewProductFormData>
 }
-const BasicInfoSection = ({ register, control, errors }:BasicInfoSectionProps) => {
+const BasicInfoSection = ({ register, control, errors }: BasicInfoSectionProps) => {
    return (
       <section className="space-y-8" id={"basic-info-section"}>
          <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
@@ -105,31 +106,7 @@ const BasicInfoSection = ({ register, control, errors }:BasicInfoSectionProps) =
             </div>
          </div>
 
-         {/* Category */}
-         <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6 items-center">
-            <Label htmlFor="category" className="text-base font-normal">
-               *Ngành hàng
-            </Label>
-            <div>
-               <Controller
-                  name="category"
-                  control={control}
-                  render={({ field }) => (
-                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger className="w-full">
-                           <SelectValue placeholder="Chọn ngành hàng" />
-                        </SelectTrigger>
-                        <SelectContent>
-                           <SelectItem value="fashion">Thời trang</SelectItem>
-                           <SelectItem value="electronics">Điện tử</SelectItem>
-                           <SelectItem value="home-decor">Nội thất</SelectItem>
-                        </SelectContent>
-                     </Select>
-                  )}
-               />
-               {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>}
-            </div>
-         </div>
+         <CategorySelection control={control} errors={errors} />
 
          {/* Product Description */}
          <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
@@ -157,7 +134,7 @@ const BasicInfoSection = ({ register, control, errors }:BasicInfoSectionProps) =
             </div>
          </div>
 
-        
+
       </section>
    )
 }

@@ -34,7 +34,7 @@ export default function FloatingNotificationBar({
         width: '350px',
         height: '46px',
         borderRadius: '24px',
-        duration: 300,
+        duration: 350,
       })
     } else {
       animate(barRef.current, {
@@ -42,7 +42,7 @@ export default function FloatingNotificationBar({
         width: '0',
         height: '0',
         borderRadius: '24px',
-        duration: 300,
+        duration: 200,
       })
     }
   }, [isExpandedState])

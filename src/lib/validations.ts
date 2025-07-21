@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 export const LoginFormSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email." }).trim(),
+  email: z.email({ message: "Please enter a valid email." }).trim(),
   password: z.string().min(1, { message: "Password is required." }).trim(),
 })
 
@@ -17,6 +17,14 @@ export const SignupFormSchema = z.object({
     })
     .trim(),
 })
+export const NewProductFormSchema = z.object({
+  name: z.string().min(1, { message: "Product's name is required" }),
+  category: z.string().nonempty({ message: "Product's category is required." }),
+  description: z.string().min(1, { message: "Product's description is required." }),
+  // Add other fields if they become required later
+})
+
+export type NewProductFormData = z.infer<typeof NewProductFormSchema>
 
 export type LoginFormState =
   | {

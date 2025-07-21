@@ -22,13 +22,12 @@ jobs:
         with:
           node-version: 22.17.0
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
+      - name: install semantic-release
+        run: npm install -D semantic-release
       - name: Install dependencies
-        run: pnpm ci
+        run: npm ci
 
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm dlx semantic-release
+        run: npx semantic-release

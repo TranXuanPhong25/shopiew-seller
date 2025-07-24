@@ -1,10 +1,13 @@
 export type Product = {
-   id?: string
+   shopId: string
+   id: string
    name: string
    categoryId: number
    description: string
+   createdAt?: string
+   updatedAt?: string
 }
-export type ProductVariant ={
+export type ProductVariant = {
    id?: string
    price: number
    stockQuantity: number
@@ -16,4 +19,12 @@ export type ProductVariant ={
 export type CreateProductData = {
    product: Product
    variants: ProductVariant[]
+}
+
+export type GetProductResponse = {
+   content: Product[]
+   pageNumber: number
+   pageSize: number
+   totalElements: number
+   totalPages: number
 }

@@ -31,7 +31,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import {
-  CheckCircle2Icon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -39,20 +38,14 @@ import {
   ChevronsRightIcon,
   ColumnsIcon,
   GripVerticalIcon,
-  LoaderIcon,
   MoreVerticalIcon,
   PlusIcon,
-  TrendingUpIcon,
   ArrowUpDownIcon,
 } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-import { toast } from "sonner"
-import { z } from "zod"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
@@ -65,29 +58,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-export const schema = z.object({
-  id: z.number(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
-})
+import { Product } from "../model"
+import { calculatePassedTime } from "@/lib/utils"
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: number }) {
@@ -109,11 +84,11 @@ function DragHandle({ id }: { id: number }) {
   )
 }
 
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columns: ColumnDef<Product>[] = [
   {
     id: "drag",
     header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original.id} />,
+    cell: ({ row }) => <DragHandle id={Number(row.original.id)} />,
   },
   {
     id: "select",
@@ -139,168 +114,75 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "header",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Header
+          Name
           <ArrowUpDownIcon className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      return <TableCellViewer item={row.original} />
+      return <h1>{row.original.name}</h1>
     },
     enableHiding: false,
     enableSorting: true, // Enabled sorting for header
   },
   {
-    accessorKey: "type",
+    accessorKey: "createdAt",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Section Type
-          <ArrowUpDownIcon className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge variant="outline" className="px-1.5 text-muted-foreground">
-          {row.original.type}
-        </Badge>
-      </div>
-    ),
-    enableSorting: true, // Enabled sorting for type
-  },
-  {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Status
-          <ArrowUpDownIcon className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => (
-      <Badge variant="outline" className="flex gap-1 px-1.5 text-muted-foreground [&_svg]:size-3">
-        {row.original.status === "Done" ? (
-          <CheckCircle2Icon className="text-green-500 dark:text-green-400" />
-        ) : (
-          <LoaderIcon />
-        )}
-        {row.original.status}
-      </Badge>
-    ),
-    enableSorting: true, // Enabled sorting for status
-  },
-  {
-    accessorKey: "target",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="w-full justify-start"
-      >
-        Target
-        <ArrowUpDownIcon className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row }) => (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-            loading: `Saving ${row.original.header}`,
-            success: "Done",
-            error: "Error",
-          })
-        }}
-      >
-        <Label htmlFor={`${row.original.id}-target`} className="sr-only">
-          Target
-        </Label>
-        <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background"
-          defaultValue={row.original.target}
-          id={`${row.original.id}-target`}
-        />
-      </form>
-    ),
-    enableSorting: true, // Enabled sorting for target
-  },
-  {
-    accessorKey: "limit",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="w-full justify-start"
-      >
-        Limit
-        <ArrowUpDownIcon className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    cell: ({ row }) => (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-            loading: `Saving ${row.original.header}`,
-            success: "Done",
-            error: "Error",
-          })
-        }}
-      >
-        <Label htmlFor={`${row.original.id}-limit`} className="sr-only">
-          Limit
-        </Label>
-        <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background"
-          defaultValue={row.original.limit}
-          id={`${row.original.id}-limit`}
-        />
-      </form>
-    ),
-    enableSorting: true, // Enabled sorting for limit
-  },
-  {
-    accessorKey: "reviewer",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Reviewer
+          <h1>Created At</h1>
           <ArrowUpDownIcon className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      const isAssigned = row.original.reviewer !== "Assign reviewer"
-
-      if (isAssigned) {
-        return row.original.reviewer
-      }
-
+      return <h1>{ new Date(row.original.createdAt).toLocaleString()}</h1>
+    },
+    enableHiding: false,
+    enableSorting: true, // Enabled sorting for header
+  },
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => {
       return (
-        <>
-          <Label htmlFor={`${row.original.id}-reviewer`} className="sr-only">
-            Reviewer
-          </Label>
-          <Select>
-            <SelectTrigger className="h-8 w-40" id={`${row.original.id}-reviewer`}>
-              <SelectValue placeholder="Assign reviewer" />
-            </SelectTrigger>
-            <SelectContent align="end">
-              <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
-              <SelectItem value="Jamik Tashpulatov">Jamik Tashpulatov</SelectItem>
-            </SelectContent>
-          </Select>
-        </>
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <h1>Updated At</h1>
+          <ArrowUpDownIcon className="ml-2 h-4 w-4" />
+        </Button>
       )
     },
-    enableSorting: true, // Enabled sorting for reviewer
+    cell: ({ row }) => {
+      return <h1>{calculatePassedTime(row.original.updatedAt)}</h1>
+    },
+    enableHiding: false,
+    enableSorting: true, // Enabled sorting for header
   },
+  // {
+  //   accessorKey: "status",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+  //         Status
+  //         <ArrowUpDownIcon className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     )
+  //   },
+  //   cell: ({ row }) => (
+  //     <Badge variant="outline" className="flex gap-1 px-1.5 text-muted-foreground [&_svg]:size-3">
+  //       {row.original.status === "Done" ? (
+  //         <CheckCircle2Icon className="text-green-500 dark:text-green-400" />
+  //       ) : (
+  //         <LoaderIcon />
+  //       )}
+  //       {row.original.status}
+  //     </Badge>
+  //   ),
+  //   enableSorting: true, // Enabled sorting for status
+  // },
   {
     id: "actions",
     cell: () => (
@@ -323,7 +205,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
 ]
 
-function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
+function DraggableRow({ row }: { row: Row<Product> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.id,
   })
@@ -346,19 +228,29 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   )
 }
 
-export function DataTable({
-  data: initialData,
+export function ProductsTable({
+  products,
+  pageNumber,
+  pageSize,
+  totalElements,
+  totalPages,
+  isLoading,
 }: {
-  data: z.infer<typeof schema>[]
+  products: Product[],
+  pageNumber: number,
+  pageSize: number,
+  totalElements: number,
+  totalPages: number, 
+  isLoading: boolean,
 }) {
-  const [data, setData] = React.useState(() => initialData)
+  const [data, setData] = React.useState(() => products)
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [pagination, setPagination] = React.useState({
-    pageIndex: 0,
-    pageSize: 10,
+    pageIndex: pageNumber,
+    pageSize: pageSize,
   })
   const sortableId = React.useId()
   const sensors = useSensors(useSensor(MouseSensor, {}), useSensor(TouchSensor, {}), useSensor(KeyboardSensor, {}))
@@ -408,17 +300,17 @@ export function DataTable({
           View
         </Label>
         <div className="@4xl/main:flex hidden">
-           <Select defaultValue="outline" >
-          <SelectTrigger className="@4xl/main:hidden flex w-fit" id="view-selector">
-            <SelectValue placeholder="Select a view" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="outline">Outline</SelectItem>
-            <SelectItem value="past-performance">Past Performance</SelectItem>
-            <SelectItem value="key-personnel">Key Personnel</SelectItem>
-            <SelectItem value="focus-documents">Focus Documents</SelectItem>
-          </SelectContent>
-        </Select>
+          <Select defaultValue="outline" >
+            <SelectTrigger className="@4xl/main:hidden flex w-fit" id="view-selector">
+              <SelectValue placeholder="Select a view" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="outline">Outline</SelectItem>
+              <SelectItem value="past-performance">Past Performance</SelectItem>
+              <SelectItem value="key-personnel">Key Personnel</SelectItem>
+              <SelectItem value="focus-documents">Focus Documents</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <TabsList >
           <TabsTrigger value="outline">Outline</TabsTrigger>
@@ -479,9 +371,9 @@ export function DataTable({
       <TabsContent value="outline" className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
         <div className="flex items-center py-4">
           <Input
-            placeholder="Filter headers..."
-            value={(table.getColumn("header")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("header")?.setFilterValue(event.target.value)}
+            placeholder="Filter name..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
             className="max-w-sm"
           />
         </div>
@@ -612,169 +504,5 @@ export function DataTable({
         <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
       </TabsContent>
     </Tabs>
-  )
-}
-
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--primary)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--primary)",
-  },
-} satisfies ChartConfig
-
-function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
-  const isMobile = useIsMobile()
-
-  return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="link" className="w-fit px-0 text-left text-foreground">
-          {item.header}
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="right" className="flex flex-col">
-        <SheetHeader className="gap-1">
-          <SheetTitle>{item.header}</SheetTitle>
-          <SheetDescription>Showing total visitors for the last 6 months</SheetDescription>
-        </SheetHeader>
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto py-4 text-sm">
-          {!isMobile && (
-            <>
-              <ChartContainer config={chartConfig}>
-                <AreaChart
-                  accessibilityLayer
-                  data={chartData}
-                  margin={{
-                    left: 0,
-                    right: 10,
-                  }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                    hide
-                  />
-                  <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
-                  <Area
-                    dataKey="mobile"
-                    type="natural"
-                    fill="var(--color-mobile)"
-                    fillOpacity={0.6}
-                    stroke="var(--color-mobile)"
-                    stackId="a"
-                  />
-                  <Area
-                    dataKey="desktop"
-                    type="natural"
-                    fill="var(--color-desktop)"
-                    fillOpacity={0.4}
-                    stroke="var(--color-desktop)"
-                    stackId="a"
-                  />
-                </AreaChart>
-              </ChartContainer>
-              <Separator />
-              <div className="grid gap-2">
-                <div className="flex gap-2 font-medium leading-none">
-                  Trending up by 5.2% this month <TrendingUpIcon className="size-4" />
-                </div>
-                <div className="text-muted-foreground">
-                  Showing total visitors for the last 6 months. This is just some random text to test the layout. It
-                  spans multiple lines and should wrap around.
-                </div>
-              </div>
-              <Separator />
-            </>
-          )}
-          <form className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="header">Header</Label>
-              <Input id="header" defaultValue={item.header} />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="type">Type</Label>
-                <Select defaultValue={item.type}>
-                  <SelectTrigger id="type" className="w-full">
-                    <SelectValue placeholder="Select a type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Table of Contents">Table of Contents</SelectItem>
-                    <SelectItem value="Executive Summary">Executive Summary</SelectItem>
-                    <SelectItem value="Technical Approach">Technical Approach</SelectItem>
-                    <SelectItem value="Design">Design</SelectItem>
-                    <SelectItem value="Capabilities">Capabilities</SelectItem>
-                    <SelectItem value="Focus Documents">Focus Documents</SelectItem>
-                    <SelectItem value="Narrative">Narrative</SelectItem>
-                    <SelectItem value="Cover Page">Cover Page</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="status">Status</Label>
-                <Select defaultValue={item.status}>
-                  <SelectTrigger id="status" className="w-full">
-                    <SelectValue placeholder="Select a status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Done">Done</SelectItem>
-                    <SelectItem value="In Progress">In Progress</SelectItem>
-                    <SelectItem value="Not Started">Not Started</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="target">Target</Label>
-                <Input id="target" defaultValue={item.target} />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="limit">Limit</Label>
-                <Input id="limit" defaultValue={item.limit} />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="reviewer">Reviewer</Label>
-              <Select defaultValue={item.reviewer}>
-                <SelectTrigger id="reviewer" className="w-full">
-                  <SelectValue placeholder="Select a reviewer" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
-                  <SelectItem value="Jamik Tashpulatov">Jamik Tashpulatov</SelectItem>
-                  <SelectItem value="Emily Whalen">Emily Whalen</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </form>
-        </div>
-        <SheetFooter className="mt-auto flex gap-2 sm:flex-col sm:space-x-0">
-          <Button className="w-full">Submit</Button>
-          <SheetClose asChild>
-            <Button variant="outline" className="w-full bg-transparent">
-              Done
-            </Button>
-          </SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
   )
 }

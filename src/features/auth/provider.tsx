@@ -7,18 +7,27 @@ import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {AuthContext} from './context';
 import {AuthService} from './service';
-import {User} from './models';
+import {Shop, User} from './models';
 
 export function AuthProvider({children}: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [redirectTo, setRedirectTo] = useState("/");
     const router = useRouter();
-
+    const [shop, setShop] = useState<Shop | null>(null);
     // Initialize by checking auth status on mount
     useEffect(() => {
         checkAuthStatus();
     }, []);
+    const getShop = async (userId:string) => {
+        if (!userId) return;
+        try {
+            const shop = await AuthService.getShop(userId);
+            setShop(shop);
+        } catch (error) {
+            console.error('Failed to fetch shop:', error);
+        }
+    };
 
     // Update specific user details without replacing the entire user object
     const updateUserDetails = (details: Partial<User>) => {
@@ -38,6 +47,8 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
             setLoading(true);
             const userData = await AuthService.getCurrentUser();
             setUser(userData.userInfo);
+            await getShop(userData.userInfo.userId);
+
         } catch (error) {
             console.error('Auth check failed:', error);
             setUser(null);
@@ -87,6 +98,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
 
     return (
         <AuthContext.Provider value={{
+            shop,
             user,
             loading,
             login,

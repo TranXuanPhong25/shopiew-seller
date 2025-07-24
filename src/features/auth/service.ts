@@ -1,7 +1,7 @@
 /**
  * Auth service handling API interactions
  */
-import {LoginResponse, RegisterResponse, User} from './models';
+import {LoginResponse, RegisterResponse, Shop, User} from './models';
 import axiosClient from '@/utils/axiosClient';
 
 export const AuthService = {
@@ -61,6 +61,20 @@ export const AuthService = {
             return true
         } catch (error: any) {
             console.error('Logout action failed:', error.response?.data || error.message);
+            throw error;
+        }
+    },
+
+    getShop: async (userId: string): Promise<Shop> => {
+        try {
+            const response = await axiosClient.get(`/shops`, {
+                params: { 
+                    owner_id: userId
+                }
+            });
+            return response.data;
+        } catch (error: any) {
+            console.error('Get shop action failed:', error.response?.data || error.message);
             throw error;
         }
     }

@@ -14,11 +14,14 @@ import CategorySelection from "./category-selection"
 type BasicInfoSectionProps = {
    register: UseFormRegister<NewProductFormData>,
    control: Control<NewProductFormData, any, NewProductFormData>,
-   errors: FieldErrors<NewProductFormData>
+   errors: FieldErrors<NewProductFormData>,
+   isDirty?: boolean
 }
-const BasicInfoSection = ({ register, control, errors }: BasicInfoSectionProps) => {
+const BasicInfoSection = ({ register, control, errors, isDirty }: BasicInfoSectionProps) => {
    return (
-      <section className="space-y-8" id={"basic-info-section"}>
+      <section className=" space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto" id={"basic-info-section"}>
+         <h2 className="text-2xl font-bold mb-6 ">Thông tin cơ bản</h2>
+
          <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
             <Label htmlFor="product-images" className="text-base font-normal pt-2">
                Hình ảnh sản phẩm
@@ -106,7 +109,7 @@ const BasicInfoSection = ({ register, control, errors }: BasicInfoSectionProps) 
             </div>
          </div>
 
-         <CategorySelection control={control} errors={errors} />
+         <CategorySelection control={control} errors={errors} isDirty={isDirty} />
 
          {/* Product Description */}
          <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">

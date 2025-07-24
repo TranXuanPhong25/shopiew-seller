@@ -1,5 +1,5 @@
 import axiosClient from "@/utils/axiosClient";
-import { CreateProductData, Product } from "./model";
+import { CreateProductData, GetProductResponse, Product } from "./model";
 import { ErrorResponse } from "@/types/ErrorResponse";
 import axios from "axios";
 
@@ -26,6 +26,17 @@ export const ProductsService = {
          }
          throw err;
       }
-   }
+   },
+   getProductsByShopId: async (shopId: string): Promise<GetProductResponse> => {
+      try {
+         const response = await axiosClient.get<GetProductResponse>(`/products?shop_id=${shopId}`);
+         return response.data;
+      } catch (err) {
+         if (axios.isAxiosError(err) && err.response) {
+            throw err.response.data as ErrorResponse;
+         }
+         throw err;
+      }
+   },
 
 }

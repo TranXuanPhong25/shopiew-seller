@@ -5,7 +5,7 @@ const VerticalSectionsNav = () => {
    const { currentTab } = useSectionsNav();
    return (
       <div className="sticky top-20 z-10 bg-white h-fit  shadow-sm rounded-lg w-[312px] border-b-4 border[1px] border-gray-200">
-         <ul className="flex flex-col !rounded-lg overflow-hidden p-2">
+         <ul className="flex flex-col !rounded-lg overflow-hidden p-2 font-semibold">
             {sectionsNav.map((section) => (
             <li
                key={section.id}

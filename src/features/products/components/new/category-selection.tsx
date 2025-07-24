@@ -5,19 +5,29 @@ import { Label } from "@/components/ui/label"
 import { useCategorySelection, useGetCategoryAndChildren } from "../../hook"
 import CategorySelectionItems from "./category-selection-items"
 import { toast } from "sonner"
+import { useEffect } from "react"
 
 type BasicInfoSectionProps = {
    control: Control<NewProductFormData, any, NewProductFormData>,
-   errors: FieldErrors<NewProductFormData>
+   errors: FieldErrors<NewProductFormData>,
+   isDirty?: boolean
 }
 const CategorySelection = ({
    control,
    errors,
+   isDirty
 }: BasicInfoSectionProps) => {
-   const { path, pushToPath, isLoading, categoryAndChildren } = useCategorySelection();
-   // const { isLoading, categoryAndChildren } = useGetCategoryAndChildren(selectedCategory);
+   const { path, pushToPath, selectedCategory, resetPath } = useCategorySelection();
+   const { isLoading, categoryAndChildren } = useGetCategoryAndChildren(selectedCategory);
+   useEffect(() => {
+      if (!isDirty && path.length > 0) {
+         resetPath();
+      }
+   }, [isDirty, resetPath]);
+
    const handleValueChange = (value: string, field: any) => {
-      if(!value) return;
+      toast(value);
+      if (!value) return;
       const isShift = value.startsWith("-"); // Check if the value is "-"
       const actualValue = isShift ? value.slice(1) : value; // Remove "---" prefix if present
       field.onChange(actualValue); // Update form value
@@ -35,7 +45,7 @@ const CategorySelection = ({
                   control={control}
                   render={({ field }) => (
                      <Select
-                        onValueChange={(value) => {handleValueChange(value,field)}}
+                        onValueChange={(value) => { handleValueChange(value, field) }}
                         value={field.value == "-" ? "" : field.value} // Handle empty value
                      >
                         <SelectTrigger className="w-full">

@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import {  TriangleAlert, X } from "lucide-react"
+import { TriangleAlert, X } from "lucide-react"
 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,10 +11,17 @@ import FloatingNotificationBar from "@/features/notifications/floating-notificat
 import { useCreateProduct } from "../../hook"
 import { ErrorResponse } from "@/types/ErrorResponse"
 import { NewProductFormData, NewProductFormSchema } from "@/lib/validations"
+import { useAuth } from "@/features/auth/hook"
+import ProductDetailsForm from "./product-details-form"
+import SalesInfoSection from "./sales-info-section"
+import PublishCardForm from "./publish-card-form"
+import ShippingSection from "./shipping-section"
+import OthersInfoSection from "./others-info-section"
 
 
 
 export default function NewProductForm() {
+  const { shop } = useAuth();
   const {
     register,
     handleSubmit,
@@ -27,20 +34,41 @@ export default function NewProductForm() {
       name: "",
       category: "",
       description: "",
+      brand: "Weilaiya",
+      packageSize: "",
+      activeIngredients: "Anti-oxidants",
+      ingredients: "",
+      quantity: "100",
+      responsibleManufacturingAddress: "",
+      weightValue: "50",
+      weightUnit: "g",
+      packagingType: "Type A",
+      productSize: "",
+      packagingMaterial: "",
+      price: "3600000",
+      stockQuantity: "100",
+      maxPurchaseQuantity: "",
+      status: "active",
+      isNew: "New",
     },
   })
 
-  const {isCreating, createProduct } = useCreateProduct()
+  const { isCreating, createProduct } = useCreateProduct()
 
   const onSubmit = async (data: NewProductFormData) => {
+    if (!shop?.id) {
+      return;
+    }
     await createProduct({
       product: {
+        id: "",
+        shopId: shop?.id, // Ensure shop_id is set
         name: data.name,
         categoryId: parseInt(data.category.split("-")[0]), // Assuming category is a string that can be parsed to a number
         description: data.description,
       },
       variants: [
-        {  
+        {
           price: 3600000, // Default price, can be changed later
           stockQuantity: 100, // Default stock quantity, can be changed later
           images: [], // Assuming no images for now, can be extended later
@@ -48,8 +76,8 @@ export default function NewProductForm() {
           attributes: {}, // Assuming no attributes for now, can be extended later
         }
       ], // Assuming no variants for now, can be extended later
-    },{
-      onError: (error:unknown) => {
+    }, {
+      onError: (error: unknown) => {
         const err = error as ErrorResponse;
         toast.error(`Error creating product`, {
           description: err.detail,
@@ -60,14 +88,14 @@ export default function NewProductForm() {
         reset()
       },
     }
-  )
+    )
   }
 
- 
+
   return (
     <>
       {/* Basic Info Section */}
-      <div className="pt-8 relative">
+      <div className="relative">
         <FloatingNotificationBar isExpanded={isDirty} >
           <div className="flex items-center  justify-between w-full">
 
@@ -91,35 +119,41 @@ export default function NewProductForm() {
             </span>
           </div>
         </FloatingNotificationBar>
-        <h2 className="text-2xl font-bold mb-6 ">Thông tin cơ bản</h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 relative">
-          <BasicInfoSection
+        <form onSubmit={handleSubmit(onSubmit)} className=" space-x-4 relative flex">
+          <div>
+            <BasicInfoSection
+              register={register}
+              control={control}
+              errors={errors}
+              isDirty={isDirty}
+            />
+            <ProductDetailsForm
+              control={control}
+              errors={errors}
+              isDirty={isDirty}
+            />
+            <SalesInfoSection
+              register={register}
+              control={control}
+              errors={errors}
+            />
+           <ShippingSection
+              register={register}
+              control={control}
+              errors={errors}
+            />
+            <OthersInfoSection
+              register={register}
+              control={control}
+              errors={errors}
+            />
+          </div>
+          <PublishCardForm 
             register={register}
             control={control}
             errors={errors}
           />
-          <section
-            id="sales-info-section"
-            className="pt-16 h-[700px] bg-gray-50 flex items-center justify-center border-t border-gray-200 mt-8"
-          >
-            <h3 className="text-xl text-gray-500">Thông tin bán hàng (Content will go here)</h3>
-          </section>
-          <section
-            id="shipping-section"
-            className="pt-16 h-[700px] bg-gray-100 flex items-center justify-center border-t border-gray-200 mt-8"
-          >
-            <h3 className="text-xl text-gray-500">Vận chuyển (Content will go here)</h3>
-          </section>
-          <section
-            id="other-info-section"
-            className="pt-16 h-[700px] bg-gray-50 flex items-center justify-center border-t border-gray-200 mt-8"
-          >
-            <h3 className="text-xl text-gray-500">Thông tin khác (Content will go here)</h3>
-          </section>
-          <Button type="submit" className="px-6 py-2 text-white rounded-md float-right">
-            Lưu thông tin
-          </Button>
         </form>
       </div>
     </>

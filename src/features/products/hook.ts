@@ -6,9 +6,10 @@ import { toast } from "sonner";
 import { ErrorResponse } from "@/types/ErrorResponse";
 const sectionsNav = [
    { id: "basic-info-section", label: "Thông tin cơ bản" },
+   { id: "products-detail-section", label: "Chi tiết sản phẩm" },
    { id: "sales-info-section", label: "Thông tin bán hàng" },
    { id: "shipping-section", label: "Vận chuyển" },
-   { id: "other-info-section", label: "Thông tin khác" },
+   { id: "others-info-section", label: "Thông tin khác" },
 ];
 const useSectionsNav = () => {
 
@@ -54,11 +55,13 @@ const useCreateProduct = () => {
 const useCategorySelection = () => {
    const [selectedCategory, setSelectedCategory] = useState<string>("");
    const [path, setPath] = useState<string[]>([]);
-   const { isLoading, categoryAndChildren } = useGetCategoryAndChildren(selectedCategory);
-
+   const resetPath = () => {
+      setPath([]);
+      setSelectedCategory("");
+   };
    const pushToPath = (category: string, isShift: boolean) => {
       const [id, name] = category.split("-");
-
+      
       setPath((prevPath) => {
          if (isShift) {
             return prevPath.slice(0, prevPath.length - 1);
@@ -70,8 +73,7 @@ const useCategorySelection = () => {
       setSelectedCategory(id);
    };
    return {
-      isLoading,
-      categoryAndChildren,
+      resetPath,
       selectedCategory,
       path,
       pushToPath
@@ -95,6 +97,8 @@ const useGetCategoryAndChildren = (categoryId: string) => {
          }
       },
       retry: 1,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
       staleTime: 1000 * 60 * 5, // 5 minutes
    });
    return {
@@ -103,10 +107,36 @@ const useGetCategoryAndChildren = (categoryId: string) => {
    };
 }
 
+const useGetProductsByShopId = (shopId: string) => {
+   const { isLoading, data: productsData } = useQuery({
+      queryKey: ["products", shopId],
+      queryFn: async () => {
+         try {
+            const response = await ProductsService.getProductsByShopId(shopId);
+            return response;
+         } catch (error) {
+            if (error instanceof Error) {
+               toast.error(error.message);
+            } else {
+               toast.error("An unexpected error occurred while fetching products.");
+            }
+            throw error; // Re-throw to handle it in the component
+         }
+      },
+      enabled: !!shopId, // Only run the query if shopId is available
+      retry: 1,
+      refetchOnReconnect: false,
+   });
+   return {
+      isLoading,
+      productsData,
+   };
+}
 export {
    useSectionsNav,
    sectionsNav,
    useCreateProduct,
    useCategorySelection,
-   useGetCategoryAndChildren
+   useGetCategoryAndChildren,
+   useGetProductsByShopId,
 };

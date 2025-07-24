@@ -3,16 +3,25 @@
  */
 
 export type User = {
-    id: string;
+    userId: string;
     email: string;
     username?: string;
     role: string;
     avatar?: string;
     userDetails?: Record<string, any>; // Additional user details from the API
+
+};
+export type Shop = {
+    id: string;
+    name: string;
+    address?: string;
+    phone?: string;
+    email?: string;
 };
 
 export type AuthContextType = {
     user: User | null;
+    shop: Shop | null;
     loading: boolean;
     login: (email: string, password: string) => Promise<LoginResponse>;
     register: (email: string, password: string) => Promise<RegisterResponse>;

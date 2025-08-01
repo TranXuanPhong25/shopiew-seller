@@ -8,8 +8,8 @@ import { toast } from "sonner"
 import { useEffect } from "react"
 
 type BasicInfoSectionProps = {
-   control: Control<NewProductFormData, any, NewProductFormData>,
-   errors: FieldErrors<NewProductFormData>,
+   control: Control<any,any,any>
+   errors: FieldErrors<any>
    isDirty?: boolean
 }
 const CategorySelection = ({
@@ -77,7 +77,7 @@ const CategorySelection = ({
          </div>
          {errors.category &&
             <div className="r">
-               <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
+               <p className="text-red-500 text-sm mt-1">{String(errors.category.message)}</p>
             </div>}
       </div>
    );

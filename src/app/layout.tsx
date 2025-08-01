@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
 import AjaxProgressBarProvider from "@/features/ajax-progress-bar/provider";
-import { BackToTopButton } from "@/components/ui/back-to-top-btn";
 import { AuthProvider } from "@/features/auth";
 import { Toaster } from "@/components/ui/sonner";
 import ReactQueryProvider from "@/features/react-query/provider";
@@ -18,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Shopiew | Miscellaneous land",
+    title: "Shopiew - Miscellaneous land",
     description: "A strange shopping sanctuary",
 };
 

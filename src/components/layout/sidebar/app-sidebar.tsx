@@ -11,6 +11,7 @@ import {
   PackageOpenIcon,
   PieChart,
   Settings2,
+  ShoppingCartIcon,
   TruckIcon,
 } from "lucide-react"
 
@@ -61,7 +62,7 @@ const data = {
     },
     {
       title: "Orders",
-      icon: TruckIcon,
+      icon: ShoppingCartIcon,
       items: [
         {
           title: "All Orders",
@@ -88,6 +89,16 @@ const data = {
         {
           title: "Reviews Management",
           url: "/customers-service/reviews",
+        }
+      ],
+    },
+    {
+      title: "Developer Tools",
+      icon: Command,
+      items: [
+        {
+          title: "Mock Product Generator",
+          url: "/tools/mock-product",
         }
       ],
     },

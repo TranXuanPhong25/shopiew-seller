@@ -1,3 +1,9 @@
+## [0.4.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.3.0...v0.4.0) (2025-08-01)
+
+### 🚀 Features
+
+* create mock product tool ([e03a787](https://github.com/TranXuanPhong25/shopiew-seller/commit/e03a787805ab189cd6496e9c4a7c1dcbed53bf42))
+
 ## [0.3.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.2.0...v0.3.0) (2025-08-01)
 
 ### 🚀 Features

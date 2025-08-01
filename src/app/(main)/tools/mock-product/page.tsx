@@ -1,9 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 
@@ -17,13 +14,6 @@ import {
    CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue,
-} from "@/components/ui/select"
 import {
    Form,
    FormControl,
@@ -110,10 +100,10 @@ export default function MockProductGenerator() {
                               <FormItem>
                                  <FormLabel>Number of Products</FormLabel>
                                  <FormControl>
-                                    <Input type="number" placeholder="5" min={1} max={50} {...field} disabled={isGenerating} />
+                                    <Input type="number" placeholder="5" min={1} {...field} disabled={isGenerating} />
                                  </FormControl>
                                  <FormDescription>
-                                    How many mock products do you want to generate? (Max: 50)
+                                    How many mock products do you want to generate?
                                  </FormDescription>
                                  <FormMessage />
                               </FormItem>

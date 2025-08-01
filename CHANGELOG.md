@@ -1,3 +1,9 @@
+## [0.3.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.2.0...v0.3.0) (2025-08-01)
+
+### 🚀 Features
+
+* Refactor product form components and add variant options ([47f4e48](https://github.com/TranXuanPhong25/shopiew-seller/commit/47f4e48ae367d4a1b10216d4866b2750963d849c))
+
 ## [0.2.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.1.1...v0.2.0) (2025-07-24)
 
 ### 🚀 Features

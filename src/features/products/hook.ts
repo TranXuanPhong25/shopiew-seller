@@ -4,6 +4,7 @@ import { CreateProductData } from "./model";
 import { ProductsService } from "./service";
 import { toast } from "sonner";
 import { ErrorResponse } from "@/types/ErrorResponse";
+import { useAuth } from '../auth/hook';
 const sectionsNav = [
    { id: "basic-info-section", label: "Thông tin cơ bản" },
    { id: "products-detail-section", label: "Chi tiết sản phẩm" },

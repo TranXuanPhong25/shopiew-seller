@@ -4,23 +4,20 @@ import SectionWrapper from "@/components/layout/section-wrapper";
 import ProtectedPage from "@/components/auth/ProtectedPage";
 import { useAuth } from "@/features/auth";
 import { useGetProductsByShopId } from "@/features/products/hook";
+import { Skeleton } from "@/components/ui/skeleton";
 const ProductsManagementPage = () => {
-   const { shop } = useAuth();
+   const { loading, shop } = useAuth();
    const { productsData, isLoading } = useGetProductsByShopId(shop?.id||"");
-   if (!shop) {
-      return <div>Loading...</div>;
-   }
-   if (isLoading) {
-      return <div>Loading products...</div>;
+   if (isLoading || loading) {
+      return <Skeleton className="h-screen w-full mt-4" />;
    }
    if (!productsData) {
       return <div>No products found for this shop.</div>;
    }
-   console.log("Products Data:", productsData);
    return (
       <ProtectedPage>
          <div className="w-full mt-4 gap-4 ">
-            <SectionWrapper >
+            <SectionWrapper>
                <ProductsTable
                   products={productsData.content||[]}
                   pageNumber={productsData.pageNumber||0}

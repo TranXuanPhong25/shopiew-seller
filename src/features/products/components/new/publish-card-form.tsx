@@ -27,16 +27,16 @@ export default function PublishCardForm({
                   name="status"
                   control={control}
                   render={({ field }) => (
-                     <Select defaultValue="active"
+                     <Select defaultValue="ACTIVE"
                         onValueChange={field.onChange}
                         value={field.value}>
                         <SelectTrigger className="w-full">
                            <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                         <SelectContent>
-                           <SelectItem value="active">Active</SelectItem>
-                           <SelectItem value="draft">Draft</SelectItem>
-                           <SelectItem value="archived">Archived</SelectItem>
+                           <SelectItem value="ACTIVE">Active</SelectItem>
+                           <SelectItem value="DRAFT">Draft</SelectItem>
+                           <SelectItem value="ARCHIVED">Archived</SelectItem>
                         </SelectContent>
                      </Select>)}
                />
@@ -61,7 +61,7 @@ export default function PublishCardForm({
             </CardContent>
          </Card>
          <Button type="submit" className="px-6 py-2 text-white rounded-md float-right  w-full">
-            Lưu thông tin
+            Save Product
          </Button>
       </div>
    )

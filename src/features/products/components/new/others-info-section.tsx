@@ -14,23 +14,23 @@ export default function OthersInfoSection({ register, control, errors, }: Others
    return (
       <section
          id="others-info-section"
-         className=" mt-8 space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
+         className=" mt-8 space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto ">
          <h2 className="text-2xl font-bold mb-2">Thông tin khác</h2>
          <div>
-            <div className="flex items-center gap-2">
+            <div className="grid items-center grid-cols-[150px_1fr] gap-6">
                <Controller
                   name="isNew"
                   control={control}
                   render={({ field }) => (
                      <>
-                        <Label>
-                           condition/ tình trạng
+                        <Label htmlFor="others-isNew" className="text-base font-normal">
+                           Condition
                         </Label>
                         <Select
                            onValueChange={field.onChange}
                            defaultValue={"New"}
                            value={field.value}>
-                           <SelectTrigger className="max-w-md">
+                           <SelectTrigger className="max-w-md" id="others-isNew">
                               <SelectValue placeholder="Không" />
                            </SelectTrigger>
                            <SelectContent>

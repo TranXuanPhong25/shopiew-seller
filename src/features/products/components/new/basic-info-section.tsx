@@ -10,8 +10,8 @@ import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-fo
 import React, { useEffect } from "react"
 import { NewProductFormData } from "@/lib/validations"
 import CategorySelection from "./category-selection"
-
-type BasicInfoSectionProps = {
+import ProductDescription from "./product-description"
+export type BasicInfoSectionProps = {
    register: UseFormRegister<NewProductFormData>,
    control: Control<NewProductFormData, any, NewProductFormData>,
    errors: FieldErrors<NewProductFormData>,
@@ -22,7 +22,7 @@ const BasicInfoSection = ({ register, control, errors, isDirty }: BasicInfoSecti
       <section className=" space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto" id={"basic-info-section"}>
          <h2 className="text-2xl font-bold mb-6 ">Thông tin cơ bản</h2>
 
-         <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
+         <div>
             <Label htmlFor="product-images" className="text-base font-normal pt-2">
                Hình ảnh sản phẩm
             </Label>
@@ -69,7 +69,7 @@ const BasicInfoSection = ({ register, control, errors, isDirty }: BasicInfoSecti
          </div>
 
          {/* Product Video Section */}
-         <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
+         <div>
             <Label htmlFor="product-video" className="text-base font-normal pt-2">
                Video sản phẩm
             </Label>
@@ -95,7 +95,7 @@ const BasicInfoSection = ({ register, control, errors, isDirty }: BasicInfoSecti
          </div>
 
          {/* Product Name */}
-         <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6 items-center">
+         <div >
             <Label htmlFor="product-name" className="text-base font-normal">
                *Tên sản phẩm
             </Label>
@@ -110,33 +110,12 @@ const BasicInfoSection = ({ register, control, errors, isDirty }: BasicInfoSecti
          </div>
 
          <CategorySelection control={control} errors={errors} isDirty={isDirty} />
-
-         {/* Product Description */}
-         <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
-            <Label htmlFor="product-description" className="text-base font-normal">
-               *Mô tả sản phẩm
-            </Label>
-            <div>
-               <Button
-                  type="button"
-                  variant="outline"
-                  className="flex items-center gap-2 px-3 py-2 mb-2 text-gray-600 hover:bg-gray-50 bg-transparent"
-               >
-                  <ImageIcon className="w-4 h-4" />
-                  Tải lên hình ảnh (0/12)
-               </Button>
-               <Textarea
-                  id="product-description"
-                  placeholder="Nhập mô tả sản phẩm hoặc tải lên hình ảnh"
-                  className="min-h-[120px]"
-                  {...register("description")}
-               />
-               {errors.description && (
-                  <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
-               )}
-            </div>
-         </div>
-
+         <ProductDescription
+            register={register}
+            control={control}
+            errors={errors}
+            isDirty={isDirty}
+         />
 
       </section>
    )

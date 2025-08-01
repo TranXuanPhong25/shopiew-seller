@@ -4,7 +4,6 @@ export const LoginFormSchema = z.object({
   email: z.email({ message: "Please enter a valid email." }).trim(),
   password: z.string().min(1, { message: "Password is required." }).trim(),
 })
-
 export const SignupFormSchema = z.object({
   email: z.email({ message: "Please enter a valid email." }).trim(),
   password: z
@@ -21,22 +20,45 @@ export const NewProductFormSchema = z.object({
   name: z.string().min(1, { message: "Product's name is required" }),
   category: z.string().nonempty({ message: "Product's category is required." }),
   description: z.string().min(1, { message: "Product's description is required." }),
-  brand: z.string().min(1, { message: "Thương hiệu không được để trống." }),
-  packageSize: z.string().regex(/^\d+$/, { message: "Kích cỡ gói phải là số." }),
-  activeIngredients: z.string().optional(), // Simplified for now, would be a multi-select/tag input
-  ingredients: z.string().optional(),
-  quantity: z.string().regex(/^\d+$/, { message: "Số lượng phải là số." }),
-  responsibleManufacturingAddress: z.string().optional(), // Simplified for now, would be a multi-select
-  weightValue: z.string().regex(/^\d+(\.\d+)?$/, { message: "Trọng lượng phải là số." }),
-  weightUnit: z.enum(["g", "kg", "ml", "l"]), // Example units
-  packagingType: z.string().optional(),
-  productSize: z.string().optional(),
-  packagingMaterial: z.string().optional(),
-  price: z.string().regex(/^\d+(\.\d+)?$/, { message: "Giá phải là số." }),
-  stockQuantity: z.string().regex(/^\d+$/, { message: "Kho hàng phải là số." }),
+  specs: z.object({
+    brand: z.string().min(1, { message: "Thương hiệu không được để trống." }),
+    packageSize: z.string()
+      .refine(val => !val || /^\d+$/.test(val), { message: "Package size must be a integer." }),
+    activeIngredients: z.string().optional(),
+    ingredients: z.string().optional(),
+    quantity: z.string()
+      .refine(val => !val || /^\d+$/.test(val), { message: "Số lượng phải là số." }),
+    responsibleManufacturingAddress: z.string().optional(),
+    weightValue: z.string()
+      .refine(val => !val || /^\d+(\.\d+)?$/.test(val), { message: "Trọng lượng phải là số." }),
+    weightUnit: z.enum(["g", "kg", "ml", "l"]), // Example units
+    packagingType: z.string().optional(),
+    productSize: z.string().optional(),
+    packagingMaterial: z.string().optional()
+  }),
+  price: z.string()
+    .refine(val => !val || /^\d+(\.\d+)?$/.test(val), { message: "Giá phải là số." }),
+  stockQuantity: z.string()
+    .refine(val => !val || /^\d+$/.test(val), { message: "Kho hàng phải là số." }),
   maxPurchaseQuantity: z.string().optional(),
-  status: z.enum(["active", "draft", "archived"]).default("active").optional(),
-  isNew: z.string().optional(), // Assuming this is a select input for new products
+  status: z.enum(["ACTIVE", "DRAFT", "ARCHIVED"]),
+  isNew: z.string().optional(),
+  shippingInfo: z.object({
+    weightAfterPackaging: z.string()
+      .refine(val => !val || /^\d+(\.\d+)?$/.test(val), { message: "Trọng lượng sau khi đóng gói phải là số." })
+      .optional(),
+    dimensions: z.object({
+      width: z.string()
+        .refine(val => !val || /^\d+$/.test(val), { message: "Chiều rộng phải là số." })
+        .optional(),
+      length: z.string()
+        .refine(val => !val || /^\d+$/.test(val), { message: "Chiều dài phải là số." })
+        .optional(),
+      height: z.string()
+        .refine(val => !val || /^\d+$/.test(val), { message: "Chiều cao phải là số." })
+        .optional(),
+    }).optional()
+  }).optional()
 })
 
 export type NewProductFormData = z.infer<typeof NewProductFormSchema>

@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Info } from 'lucide-react'
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form"
 import { NewProductFormData } from "@/lib/validations"
+import VariantOptions from "./variant-options"
 
 type SalesInfoSectionProps = {
    register: UseFormRegister<NewProductFormData>
@@ -20,7 +21,7 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
             className=" mt-8 space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
          <h2 className="text-2xl font-bold mb-2">Thông tin bán hàng</h2>
 
-         <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6 items-center">
+         <div className="">
             <Label htmlFor="product-classification" className="text-base font-normal">
                <span className="text-red-500">*</span> Phân loại hàng
             </Label>
@@ -35,22 +36,22 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
             </div>
          </div>
 
-         <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6 items-center">
+         <div className="">
             <Label htmlFor="price" className="text-base font-normal">
                <span className="text-red-500">*</span> Giá
             </Label>
             <div>
                <div className="flex items-center gap-2">
-                  <Input id="price" placeholder="0" {...register("price")} className="w-[300px]" />
+                  <Input id="price" placeholder="0" {...register("price")}  />
                   <span className="text-muted-foreground">đ</span>
                </div>
                {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
             </div>
          </div>
-
+         <VariantOptions />
          {/* Stock Quantity */}
-         <div className="grid grid-cols-2 gap-6">
-            <div className=" gap-6 items-center">
+         <div className="grid  md:grid-cols-2 gap-6">
+            <div className=" ">
                <Label htmlFor="stock-quantity" className="text-base font-normal gap-1 flex items-center">
                   <span className="text-red-500">*</span> Kho hàng
                   <TooltipProvider>
@@ -67,14 +68,13 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
                <div>
                   <div className="flex items-center gap-2">
                      <Input id="stock-quantity" placeholder="0" {...register("stockQuantity")} />
-
                   </div>
                   {errors.stockQuantity && <p className="text-red-500 text-sm mt-1">{errors.stockQuantity.message}</p>}
                </div>
             </div>
 
             {/* Max Purchase Quantity */}
-            <div className=" gap-6 items-center">
+            <div className="">
                <Label htmlFor="max-purchase-quantity" className="text-base font-normal flex items-center gap-1">
                   <span>Số Lượng Mua Tối Đa</span>
                      <TooltipProvider>
@@ -95,10 +95,10 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
                         control={control}
                         render={({ field }) => (
                            <Select onValueChange={field.onChange} defaultValue={field.value} >
-                              <SelectTrigger className="w-full">
+                              <SelectTrigger className="w-full" id="max-purchase-quantity">
                                  <SelectValue placeholder="Không" />
                               </SelectTrigger>
-                              <SelectContent>
+                              <SelectContent >
                                  <SelectItem value="Không">Không</SelectItem>
                                  <SelectItem value="1">1</SelectItem>
                                  <SelectItem value="2">2</SelectItem>

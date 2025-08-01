@@ -27,6 +27,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
         } catch (error) {
             console.error('Failed to fetch shop:', error);
         }
+
     };
 
     // Update specific user details without replacing the entire user object

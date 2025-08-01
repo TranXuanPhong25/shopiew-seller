@@ -1,11 +1,8 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Control, Controller, FieldErrors, useForm } from "react-hook-form"
-import { z } from "zod"
+import { Control, Controller, FieldErrors } from "react-hook-form"
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { NewProductFormData } from "@/lib/validations"
@@ -35,14 +32,14 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Brand */}
                <Controller
                   control={control}
-                  name="brand"
+                  name="specs.brand"
                   render={({ field }) => (
                      <div>
-                        <Label>
+                        <Label htmlFor="brand">
                            <span className="text-red-500">*</span> Thương hiệu
                         </Label>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
-                           <SelectTrigger>
+                           <SelectTrigger id="brand">
                               <SelectValue placeholder="Chọn thương hiệu" />
                            </SelectTrigger>
                            <SelectContent>
@@ -58,28 +55,33 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Package Size */}
                <Controller
                   control={control}
-                  name="packageSize"
+                  name="specs.packageSize"
                   render={({ field }) => (
                      <div>
-                        <Label>Kích Cỡ Gói</Label>
+                        <Label htmlFor="packageSize">Kích Cỡ Gói</Label>
                         <div className="flex items-center gap-2">
-                           <Input type="text" placeholder="Vui lòng điền vào" {...field} />
+                           <Input type="number" placeholder="Vui lòng điền vào" id="packageSize" {...field} />
                            <span className="text-muted-foreground">ML</span>
                         </div>
+                        {errors.specs?.packageSize && (
+                           <p className="text-red-500 text-xs mt-1">
+                              {errors.specs?.packageSize?.message  || "Kích cỡ gói phải là số."}
+                           </p>
+                        )}
                      </div>
                   )} />
 
                {/* Active Ingredients */}
                <Controller
                   control={control}
-                  name="activeIngredients"
+                  name="specs.activeIngredients"
                   render={({ field }) => (
                      <div>
-                        <Label>
+                        <Label htmlFor="activeIngredients">
                            Thành Phần Hoạt Tính <span className="text-xs text-muted-foreground">1/5</span>
                         </Label>
                         {/* This would ideally be a multi-select/tag input component */}
-                        <Input type="text" placeholder="Anti-oxidants" {...field} />
+                        <Input type="text" placeholder="Anti-oxidants" id="activeIngredients" {...field} />
                      </div>
                   )}
                />
@@ -87,11 +89,11 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Ingredients */}
                <Controller
                   control={control}
-                  name="ingredients"
+                  name="specs.ingredients"
                   render={({ field }) => (
                      <div>
-                        <Label>Thành phần</Label>
-                        <Input type="text" placeholder="Vui lòng điền vào" {...field} />
+                        <Label htmlFor="ingredients">Thành phần</Label>
+                        <Input type="text" placeholder="Vui lòng điền vào" id="ingredients" {...field} />
                      </div>
                   )}
                />
@@ -99,11 +101,11 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Quantity */}
                <Controller
                   control={control}
-                  name="quantity"
+                  name="specs.quantity"
                   render={({ field }) => (
                      <div>
-                        <Label>Số lượng</Label>
-                        <Input type="text" placeholder="100" {...field} />
+                        <Label htmlFor="quantity">Số lượng</Label>
+                        <Input type="number" placeholder="100" id="quantity" {...field} />
                      </div>
                   )}
                />
@@ -111,14 +113,14 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Responsible Manufacturing Address */}
                <Controller
                   control={control}
-                  name="responsibleManufacturingAddress"
+                  name="specs.responsibleManufacturingAddress"
                   render={({ field }) => (
                      <div>
-                        <Label>
+                        <Label htmlFor="responsibleManufacturingAddress">
                            Địa chỉ tổ chức chịu trách nhiệm sản xuất <span className="text-xs text-muted-foreground">0/5</span>
                         </Label>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
-                           <SelectTrigger>
+                           <SelectTrigger id="responsibleManufacturingAddress">
                               <SelectValue placeholder="Vui lòng chọn" />
                            </SelectTrigger>
                            <SelectContent>
@@ -133,15 +135,15 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Weight */}
                <Controller
                   control={control}
-                  name="weightValue"
+                  name="specs.weightValue"
                   render={({ field }) => (
                      <div>
-                        <Label>Trọng lượng</Label>
+                        <Label htmlFor="specs-weightValue">Trọng lượng</Label>
                         <div className="flex items-center gap-2">
-                           <Input type="text" placeholder="50" {...field} />
+                           <Input type="text" placeholder="50" {...field} id="specs-weightValue"/>
                            <Controller
                               control={control}
-                              name="weightUnit"
+                              name="specs.weightUnit"
                               render={({ field: unitField }) => (
                                  <Select onValueChange={unitField.onChange} defaultValue={unitField.value}>
                                     <SelectTrigger className="w-[80px]">
@@ -164,16 +166,16 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Packaging Type */}
                <Controller
                   control={control}
-                  name="packagingType"
+                  name="specs.packagingType"
                   render={({ field }) => (
                      <div>
-                        <Label>Kiểu đóng gói</Label>
+                        <Label htmlFor="specs-packagingType">Kiểu đóng gói</Label>
                         <Select
                            onValueChange={field.onChange}
                            defaultValue={"Type A"}
                            value={field.value}
                         >
-                           <SelectTrigger>
+                           <SelectTrigger  id="specs-packagingType">
                               <SelectValue placeholder="Vui lòng chọn" />
                            </SelectTrigger>
                            <SelectContent>
@@ -188,12 +190,12 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Product Size */}
                <Controller
                   control={control}
-                  name="productSize"
+                  name="specs.productSize"
                   render={({ field }) => (
                      <div>
-                        <Label>Kích cỡ sản phẩm</Label>
+                        <Label htmlFor="specs-productSize">Kích cỡ sản phẩm</Label>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
-                           <SelectTrigger>
+                           <SelectTrigger id="specs-productSize">
                               <SelectValue placeholder="Vui lòng chọn" />
                            </SelectTrigger>
                            <SelectContent>
@@ -209,12 +211,12 @@ export default function ProductDetailsForm({ control, errors, isDirty }: Product
                {/* Packaging Material */}
                <Controller
                   control={control}
-                  name="packagingMaterial"
+                  name="specs.packagingMaterial"
                   render={({ field }) => (
                      <div>
-                        <Label>Loại bao bì</Label>
+                        <Label htmlFor="specs-packagingMaterial">Loại bao bì</Label>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
-                           <SelectTrigger>
+                           <SelectTrigger id="specs-packagingMaterial">
                               <SelectValue placeholder="Vui lòng chọn" />
                            </SelectTrigger>
                            <SelectContent>

@@ -35,7 +35,7 @@ const CategorySelection = ({
    }
    return (
       <div>
-         <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6 items-center">
+         <div >
             <Label htmlFor="category" className="text-base font-normal">
                *Ngành hàng
             </Label>
@@ -48,7 +48,7 @@ const CategorySelection = ({
                         onValueChange={(value) => { handleValueChange(value, field) }}
                         value={field.value == "-" ? "" : field.value} // Handle empty value
                      >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full" id="category">
                            <SelectValue placeholder="Select product category">
                               {
                                  field.value && field.value.includes('-')
@@ -76,8 +76,7 @@ const CategorySelection = ({
             </div>
          </div>
          {errors.category &&
-            <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6 items-center">
-               <span></span>
+            <div className="r">
                <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
             </div>}
       </div>

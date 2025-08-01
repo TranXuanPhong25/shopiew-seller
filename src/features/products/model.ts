@@ -1,34 +1,40 @@
-export type Product = {
+export type RawProduct = {
    shopId: string
-   id?: string
    name: string
    categoryId: number
    description: string
-   createdAt?: string
    brand?: Brand
-   updatedAt?: string
    specs?: Record<string, string | number | boolean>
    status?: "ACTIVE" | "DRAFT" | "ARCHIVED"
 }
 
+export type Product = RawProduct & {
+   id: string
+   createdAt: string
+   updatedAt: string
+}
 export type Brand = {
    id: string
    name?: string
    description?: string
    logo?: string
 }
-export type ProductVariant = {
-   id?: string
+
+export type RawProductVariant = {
+
    price: number
    stockQuantity: number
    images?: string[]
    sku?: string
-   attributes?: Record<string, string|number | boolean>
+   attributes?: Record<string, string | number | boolean>
+}
+export type ProductVariant = RawProductVariant & {
+   id: string
 }
 
 export type CreateProductData = {
-   product: Product
-   variants: ProductVariant[]
+   product: RawProduct
+   variants: RawProductVariant[]
    shippingInfo?: {
       weightAfterPackaging?: string
       dimensions?: {

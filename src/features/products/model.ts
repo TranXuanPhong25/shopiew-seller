@@ -24,9 +24,14 @@ export type RawProductVariant = {
 
    price: number
    stockQuantity: number
-   images?: string[]
+   images?: Image[]
    sku?: string
    attributes?: Record<string, string | number | boolean>
+}
+
+export type Image = {
+   imageUrl: string
+   isPrimary: boolean
 }
 export type ProductVariant = RawProductVariant & {
    id: string

@@ -27,9 +27,15 @@ export const ProductsService = {
          throw err;
       }
    },
-   getProductsByShopId: async (shopId: string): Promise<GetProductResponse> => {
+   getProductsByShopId: async (shopId: string, page: number, size: number): Promise<GetProductResponse> => {
       try {
-         const response = await axiosClient.get<GetProductResponse>(`/products?shop_id=${shopId}`);
+         const response = await axiosClient.get<GetProductResponse>(`/products`,{
+            params: {
+               shop_id: shopId,
+               page,
+               size
+            }
+         });
          return response.data;
       } catch (err) {
          if (axios.isAxiosError(err) && err.response) {
@@ -38,5 +44,36 @@ export const ProductsService = {
          throw err;
       }
    },
-
+   deleteProductById: async (productId: string): Promise<void> => {
+      try {
+         await axiosClient.delete(`/products/${productId}`);
+      } catch (err) {
+         if (axios.isAxiosError(err) && err.response) {
+            throw err.response.data;
+         }
+         throw err;
+      }
+   },
+   updateProductById: async (productId: string, data: CreateProductData): Promise<Product> => {
+      try {
+         const response = await axiosClient.put<Product>(`/products/${productId}`, data);
+         return response.data;
+      } catch (err) {
+         if (axios.isAxiosError(err) && err.response) {
+            throw err.response.data as ErrorResponse;
+         }
+         throw err;
+      }
+   },
+   getProductById: async (productId: string): Promise<Product> => {
+      try {
+         const response = await axiosClient.get<Product>(`/products/${productId}`);
+         return response.data;
+      } catch (err) {
+         if (axios.isAxiosError(err) && err.response) {
+            throw err.response.data as ErrorResponse;
+         }
+         throw err;
+      }
+   }
 }

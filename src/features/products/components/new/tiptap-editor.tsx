@@ -62,7 +62,6 @@ export default function ProductDescriptionEditor({
          setShowLinkInput(false)
       }
    }, [editor, linkUrl])
-   console.log(editor)
    const toggleLink = () => {
       if (!editor) return
 

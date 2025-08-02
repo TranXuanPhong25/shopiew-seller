@@ -51,11 +51,11 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "All Products",
-          url: "/products",
+          title: "Collections",
+          url: "/products/collections",
         },
         {
-          title: "Add Product",
+          title: "Publish new product",
           url: "/products/new",
         } 
       ],

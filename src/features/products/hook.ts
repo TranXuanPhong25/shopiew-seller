@@ -62,7 +62,7 @@ const useCategorySelection = () => {
    };
    const pushToPath = (category: string, isShift: boolean) => {
       const [id, name] = category.split("-");
-      
+
       setPath((prevPath) => {
          if (isShift) {
             return prevPath.slice(0, prevPath.length - 1);
@@ -108,12 +108,12 @@ const useGetCategoryAndChildren = (categoryId: string) => {
    };
 }
 
-const useGetProductsByShopId = (shopId: string) => {
-   const { isLoading, data: productsData } = useQuery({
-      queryKey: ["products", shopId],
+const useGetProductsByShopId = (shopId: string, page: number, size: number) => {
+   const { isLoading, data, refetch } = useQuery({
+      queryKey: ["products", shopId, page, size],
       queryFn: async () => {
          try {
-            const response = await ProductsService.getProductsByShopId(shopId);
+            const response = await ProductsService.getProductsByShopId(shopId, page, size);
             return response;
          } catch (error) {
             if (error instanceof Error) {
@@ -124,15 +124,69 @@ const useGetProductsByShopId = (shopId: string) => {
             throw error; // Re-throw to handle it in the component
          }
       },
+      refetchOnWindowFocus: true,
+      refetchInterval: 1000 * 60 * 5, // 5 minutes
       enabled: !!shopId, // Only run the query if shopId is available
       retry: 1,
       refetchOnReconnect: false,
    });
    return {
       isLoading,
-      productsData,
+      data,
+      refetch
    };
 }
+
+export const useProductCollection = (shopId: string) => {
+   const [page, setPage] = useState(0);
+   const [size, setSize] = useState(10);
+   const {data , isLoading, refetch } = useGetProductsByShopId(shopId, page, size);
+   const [totalElements, setTotalElements] = useState(0);
+   useEffect(() => {
+      if (data && data.totalElements !== undefined ) {
+         setTotalElements(data.totalElements);
+      }
+   }, [data]);
+   const handleChangeSize = (newSize: number) => {
+      setSize(newSize);
+      setPage(0); // Reset to first page when size changes
+   }
+   const nextPage = () => {
+      setPage((prev) => prev + 1);
+   }
+
+   const prevPage = () => {
+      setPage((prev) => Math.max(prev - 1, 0));
+   }
+   
+   const lastPage = () => {
+      if (data?.totalPages) {
+         setPage(data.totalPages-1);
+      }
+   }
+
+   const firstPage = () => {
+      setPage(0);
+   }
+
+   return {
+      products: data?.content || [],
+      totalElements: totalElements,
+      totalPages: data?.totalPages || 0,
+      pageSize: data?.pageSize || 0,
+      pageNumber: data?.pageNumber || 0,
+      isLoading,
+      page,
+      size,
+      refetch,
+      handleChangeSize,
+      nextPage,
+      prevPage,
+      lastPage,
+      firstPage
+   };
+}
+
 export {
    useSectionsNav,
    sectionsNav,

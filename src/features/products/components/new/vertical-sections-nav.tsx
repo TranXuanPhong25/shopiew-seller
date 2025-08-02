@@ -1,6 +1,6 @@
 "use client";
 import { cn, scrollToSection } from "@/lib/utils";
-import { sectionsNav, useSectionsNav } from "../hook";
+import { sectionsNav, useSectionsNav } from "../../hook";
 const VerticalSectionsNav = () => {
    const { currentTab } = useSectionsNav();
    return (

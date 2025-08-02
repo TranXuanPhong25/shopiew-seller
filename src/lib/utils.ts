@@ -58,3 +58,7 @@ export function calculatePassedTime(lastTime: string | number): string {
         return `${Math.floor(diffInDays)} days ago`;
     }
 }
+
+export const slugsTransform = (slug: string): string => {
+  return slug.charAt(0).toUpperCase() + slug.slice(1)
+}

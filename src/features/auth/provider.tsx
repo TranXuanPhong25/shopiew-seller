@@ -16,31 +16,21 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
     const router = useRouter();
     const [shop, setShop] = useState<Shop | null>(null);
     // Initialize by checking auth status on mount
-    useEffect(() => {
-        checkAuthStatus();
-    }, []);
+
     const getShop = async (userId:string) => {
         if (!userId) return;
         try {
             const shop = await AuthService.getShop(userId);
+            if (!shop) {
+                router.push('/shop/create');
+                setShop(null);
+                return;
+            }
             setShop(shop);
         } catch (error) {
             console.error('Failed to fetch shop:', error);
         }
 
-    };
-
-    // Update specific user details without replacing the entire user object
-    const updateUserDetails = (details: Partial<User>) => {
-        if (!user) return;
-
-        const updatedUser = {...user, ...details};
-        setUser(updatedUser);
-    };
-
-    const loginWithRedirect = async (redirectTo: string) => {
-        setRedirectTo(redirectTo);
-        router.push('/auth/login');
     };
 
     const checkAuthStatus = async () => {
@@ -58,6 +48,19 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
         } finally {
             setLoading(false);
         }
+    };
+
+    // Update specific user details without replacing the entire user object
+    const updateUserDetails = (details: Partial<User>) => {
+        if (!user) return;
+
+        const updatedUser = {...user, ...details};
+        setUser(updatedUser);
+    };
+
+    const loginWithRedirect = async (redirectTo: string) => {
+        setRedirectTo(redirectTo);
+        router.push('/auth/login');
     };
 
     const logout = async () => {

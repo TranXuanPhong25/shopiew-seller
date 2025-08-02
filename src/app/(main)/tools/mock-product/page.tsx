@@ -26,7 +26,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import CategorySelection from "@/features/products/components/new/category-selection"
 import { useAuth } from "@/features/auth/hook"
-import { useGenerateMockProducts } from "@/features/products/hooks/use-generate-mock-products"
+import { useGenerateMockProducts } from "@/features/dev/hooks/use-generate-mock-products"
 import { Progress } from "@/components/ui/progress"
 
 export default function MockProductGenerator() {

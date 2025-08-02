@@ -4,6 +4,7 @@ import { AppSidebar } from "@/components/layout/sidebar/app-sidebar"
 import { SidebarInset, SidebarProvider, } from "@/components/ui/sidebar"
 import NavHeader from '@/components/layout/header/nav-header';
 import { ChatWidget } from '@/features/chat-widget/chat.widget';
+import ProtectedPage from '@/components/auth/ProtectedPage';
 
 export const metadata: Metadata = {
   title: 'Shopiew Seller',
@@ -15,7 +16,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <ProtectedPage>
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
@@ -28,6 +29,6 @@ export default function MainLayout({
         </SidebarInset>
       </SidebarProvider>
       <ChatWidget />
-    </>
+    </ProtectedPage>
   );
 }

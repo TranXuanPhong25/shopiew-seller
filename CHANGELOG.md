@@ -1,3 +1,13 @@
+## [0.5.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.4.0...v0.5.0) (2025-08-02)
+
+### 🚀 Features
+
+* Add landing, dashboard, orders, shop, and products management pages ([6e8190a](https://github.com/TranXuanPhong25/shopiew-seller/commit/6e8190a1f6142af60a3ffa7f70bd26756b5409e8))
+
+### 🔨 Technical Changes
+
+* product type ([359d6c6](https://github.com/TranXuanPhong25/shopiew-seller/commit/359d6c6c6c14680b1946acae2b18a2dc7bcc3c43))
+
 ## [0.4.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.3.0...v0.4.0) (2025-08-01)
 
 ### 🚀 Features

@@ -3,10 +3,10 @@ import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbS
 import { cn, slugsTransform } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 
 const NavBreadcrumb = () => {
-   console.log(document.title)
    const pathname = usePathname();
    const [pageTitle, setPageTitle] = useState("");
 
@@ -23,8 +23,8 @@ const NavBreadcrumb = () => {
       <Breadcrumb>
          <BreadcrumbList>
             {pathnameParts.map((part, index) => (
-               <>
-                  <BreadcrumbItem key={index}>
+               <React.Fragment key={index}>
+                  <BreadcrumbItem >
                      <BreadcrumbPage>
                         <BreadcrumbLink href={`/${pathnameParts.slice(0, index + 1).join('/')}`} asChild>
                            <Link
@@ -37,7 +37,7 @@ const NavBreadcrumb = () => {
                      </BreadcrumbPage>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
-               </>
+               </React.Fragment>
             ))}
             <BreadcrumbItem>
                <BreadcrumbPage>

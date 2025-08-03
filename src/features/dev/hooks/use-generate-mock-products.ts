@@ -324,11 +324,11 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
   const price = Math.floor(Math.random() * 3601) + 10;
 
   // Get random product name and description based on category
-  const randomIndex = (categoryId - 1) % 8;
+  const randomIndex = Math.floor(Math.random() * Math.min(productNames.length-1, brands.length-1, descriptions.length-1));
   const name = productNames[randomIndex] + " " + Math.floor(Math.random() * 10000);
   const brand = brands[randomIndex];
   const description = descriptions[randomIndex];
-
+  
 
 
   const statuses = ["ACTIVE", "DRAFT", "ARCHIVED"] as const;

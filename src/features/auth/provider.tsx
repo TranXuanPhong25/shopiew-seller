@@ -3,68 +3,61 @@
  */
 "use client";
 
-import React, {useEffect, useState} from 'react';
-import {useRouter, useSearchParams} from 'next/navigation';
-import {AuthContext} from './context';
-import {AuthService} from './service';
-import {Shop, User} from './models';
+import React, { useEffect, useReducer, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { AuthContext } from './context';
+import { AuthService } from './service';
+import { Shop, User } from './models';
+import { authReducer } from './reducer';
 
-export function AuthProvider({children}: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+    const [state, dispatch] = useReducer(authReducer, {
+        user: null,
+        shop: null,
+        loading: true
+    });
+
     const router = useRouter();
-    const [shop, setShop] = useState<Shop | null>(null);
     const redirectUrl = useSearchParams().get('redirect') || '/';
-
-    const getShop = async (userId:string) => {
-        if (!userId) return;
-        try {
-            const shop = await AuthService.getShop(userId);
-            if (!shop) {
-                router.push('/shop/create');
-                setShop(null);
-                return;
-            }
-            setShop(shop);
-        } catch (error) {
-            console.error('Failed to fetch shop:', error);
-        }
-
-    };
-
     const checkAuthStatus = async () => {
         try {
-            setLoading(true);
             const userData = await AuthService.getCurrentUser();
-            setUser(userData.userInfo);
-            await getShop(userData.userInfo.userId);
+            const shop = await AuthService.getShop(userData.userInfo.userId);
+
+            if (!shop) {
+                router.push('/shop/create');
+                dispatch({ type: 'SET_AUTH_DATA', payload: { user: userData.userInfo, shop: null } });
+                return;
+            }
+
+            // Single state update - only 1 re-render!
+            dispatch({ type: 'SET_AUTH_DATA', payload: { user: userData.userInfo, shop } });
 
         } catch (error) {
             console.error('Auth check failed:', error);
-            setUser(null);
+            dispatch({ type: 'RESET_AUTH' });
             const currentPath = window.location.pathname;
             loginWithRedirect(currentPath);
-        } finally {
-            setLoading(false);
         }
     };
 
     // Update specific user details without replacing the entire user object
     const updateUserDetails = (details: Partial<User>) => {
-        if (!user) return;
+        if (!state.user) return;
 
-        const updatedUser = {...user, ...details};
-        setUser(updatedUser);
+        const updatedUser = { ...state.user, ...details };
+        dispatch({ type: 'SET_USER', payload: updatedUser });
     };
 
     const loginWithRedirect = async (redirectTo: string) => {
-        router.push('/auth/login');
+        const dest = redirectTo ? '/auth/login?redirect=' + redirectTo : '/auth/login';
+        router.push(dest);
     };
 
     const logout = async () => {
         try {
             await AuthService.logout();
-            setUser(null);
+            dispatch({ type: 'RESET_AUTH' }); // Instead of SET_USER
         } catch (error) {
             console.error('Logout failed:', error);
         }
@@ -74,7 +67,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
         try {
             const response = await AuthService.login(email, password);
             const user = response.userInfo;
-            setUser(user);
+            dispatch({ type: 'SET_USER', payload: user });
 
             router.push(redirectUrl);
             return response;
@@ -96,9 +89,9 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
 
     return (
         <AuthContext.Provider value={{
-            shop,
-            user,
-            loading,
+            shop: state.shop,
+            user: state.user,
+            loading: state.loading,
             login,
             register,
             logout,

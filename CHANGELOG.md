@@ -1,3 +1,9 @@
+## [0.10.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.9.0...v0.10.0) (2025-08-04)
+
+### 🚀 Features
+
+* integrate VerticalSectionsNav into NewProductForm and adjust layout in ProductsManagementPage ([be6a566](https://github.com/TranXuanPhong25/shopiew-seller/commit/be6a566909bee42152890eaeec5896e3e7c18f16))
+
 ## [0.9.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.8.0...v0.9.0) (2025-08-04)
 
 ### 🚀 Features

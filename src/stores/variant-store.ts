@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import {
-  VariantStore,
-  ProductOption,
-  Variant,
-  OptionValue,
+import { 
+  VariantStore, 
+  ProductOption, 
+  Variant, 
+  OptionValue 
 } from '@/stores/types/variant-store'
 import { TriadState } from '@/components/ui/triad-checkbox'
 

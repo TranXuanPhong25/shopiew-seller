@@ -4,7 +4,7 @@
 "use client";
 
 import React, {useEffect, useState} from 'react';
-import {useRouter} from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 import {AuthContext} from './context';
 import {AuthService} from './service';
 import {Shop, User} from './models';
@@ -12,10 +12,9 @@ import {Shop, User} from './models';
 export function AuthProvider({children}: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-    const [redirectTo, setRedirectTo] = useState("/");
     const router = useRouter();
     const [shop, setShop] = useState<Shop | null>(null);
-    // Initialize by checking auth status on mount
+    const redirectUrl = useSearchParams().get('redirect') || '/';
 
     const getShop = async (userId:string) => {
         if (!userId) return;
@@ -59,7 +58,6 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
     };
 
     const loginWithRedirect = async (redirectTo: string) => {
-        setRedirectTo(redirectTo);
         router.push('/auth/login');
     };
 
@@ -78,11 +76,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
             const user = response.userInfo;
             setUser(user);
 
-            const dest = redirectTo;
-            if (redirectTo !== "/") {
-                setRedirectTo("/");
-            }
-            router.push(dest);
+            router.push(redirectUrl);
             return response;
         } catch (error) {
             console.error('Login failed:', error);

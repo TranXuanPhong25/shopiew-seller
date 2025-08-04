@@ -1,112 +1,28 @@
 "use client"
 
-import { useState } from "react"
 import { Plus, GripVertical, Trash2, Search, Filter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-
-interface OptionValue {
-  id: string
-  value: string
-}
-
-interface ProductOption {
-  id: string
-  name: string
-  values: OptionValue[]
-}
-
-interface Variant {
-  id: string
-  name: string
-  price: string
-  available: string
-  selected: boolean
-}
+import { useVariantStore } from "@/stores/variant-store"
 
 export default function VariantOptions() {
-  const [options, setOptions] = useState<ProductOption[]>([
-    {
-      id: "1",
-      name: "sdj",
-      values: [
-        { id: "v1", value: "sgf" },
-        { id: "v2", value: "sf" },
-        { id: "v3", value: "d" },
-        { id: "v4", value: "sfg" },
-      ],
-    },
-  ])
-
-  const [variants, setVariants] = useState<Variant[]>([
-    { id: "1", name: "sgf", price: "0", available: "0", selected: false },
-    { id: "2", name: "sf", price: "0", available: "0", selected: false },
-    { id: "3", name: "d", price: "0", available: "0", selected: false },
-    { id: "4", name: "sfg", price: "0", available: "0", selected: false },
-  ])
-
-  const addOption = () => {
-    const newOption: ProductOption = {
-      id: Date.now().toString(),
-      name: "",
-      values: [],
-    }
-    setOptions([...options, newOption])
-  }
-
-  const updateOptionName = (optionId: string, name: string) => {
-    setOptions(options.map((option) => (option.id === optionId ? { ...option, name } : option)))
-  }
-
-  const addValue = (optionId: string) => {
-    const newValue: OptionValue = {
-      id: Date.now().toString(),
-      value: "",
-    }
-    setOptions(
-      options.map((option) => (option.id === optionId ? { ...option, values: [...option.values, newValue] } : option)),
-    )
-  }
-
-  const updateValue = (optionId: string, valueId: string, value: string) => {
-    setOptions(
-      options.map((option) =>
-        option.id === optionId
-          ? {
-              ...option,
-              values: option.values.map((v) => (v.id === valueId ? { ...v, value } : v)),
-            }
-          : option,
-      ),
-    )
-  }
-
-  const deleteValue = (optionId: string, valueId: string) => {
-    setOptions(
-      options.map((option) =>
-        option.id === optionId ? { ...option, values: option.values.filter((v) => v.id !== valueId) } : option,
-      ),
-    )
-  }
-
-  const deleteOption = (optionId: string) => {
-    setOptions(options.filter((option) => option.id !== optionId))
-  }
-
-  const updateVariant = (variantId: string, field: "price" | "available", value: string) => {
-    setVariants(variants.map((variant) => (variant.id === variantId ? { ...variant, [field]: value } : variant)))
-  }
-
-  const toggleVariant = (variantId: string) => {
-    setVariants(
-      variants.map((variant) => (variant.id === variantId ? { ...variant, selected: !variant.selected } : variant)),
-    )
-  }
+  const {
+    options,
+    variants,
+    addOption,
+    updateOptionName,
+    deleteOption,
+    addValue,
+    updateValue,
+    deleteValue,
+    updateVariant,
+    toggleVariant,
+  } = useVariantStore()
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen">
+    <>
       <div className="space-y-6">
         <div className="bg-white rounded-lg p-6 shadow-sm border">
           <h2 className="text-lg font-semibold mb-4">Variants</h2>
@@ -139,6 +55,7 @@ export default function VariantOptions() {
                         placeholder="Enter value"
                       />
                       <Button
+                        type="button"
                         variant="ghost"
                         size="sm"
                         onClick={() => deleteValue(option.id, value.id)}
@@ -149,6 +66,8 @@ export default function VariantOptions() {
                     </div>
                   ))}
                   <Button
+                    type="button"
+
                     variant="ghost"
                     onClick={() => addValue(option.id)}
                     className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100"
@@ -160,13 +79,14 @@ export default function VariantOptions() {
 
               <div className="flex justify-between items-center pt-4">
                 <Button
+                  type="button"
                   variant="ghost"
                   onClick={() => deleteOption(option.id)}
                   className="text-red-600 hover:text-red-700 hover:bg-red-50 px-0"
                 >
                   Delete
                 </Button>
-                <Button className="bg-gray-800 hover:bg-gray-900 text-white px-6">Done</Button>
+                <Button type="button" className="bg-gray-800 hover:bg-gray-900 text-white px-6">Done</Button>
               </div>
             </div>
           ))}
@@ -174,6 +94,7 @@ export default function VariantOptions() {
           <Button
             variant="ghost"
             onClick={addOption}
+            type="button"
             className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100 py-3 mt-4"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -189,10 +110,10 @@ export default function VariantOptions() {
               <span className="font-medium">Variant</span>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" type="button">
                 <Search className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" type="button">
                 <Filter className="w-4 h-4" />
               </Button>
             </div>
@@ -221,11 +142,12 @@ export default function VariantOptions() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center">
-                        <span className="text-gray-500 mr-1">d</span>
+                        <span className="text-gray-500 mr-1">$</span>
                         <Input
                           value={variant.price}
                           onChange={(e) => updateVariant(variant.id, "price", e.target.value)}
                           className="w-20"
+                          placeholder="0.00"
                         />
                       </div>
                     </td>
@@ -234,6 +156,7 @@ export default function VariantOptions() {
                         value={variant.available}
                         onChange={(e) => updateVariant(variant.id, "available", e.target.value)}
                         className="w-20"
+                        placeholder="0"
                       />
                     </td>
                   </tr>
@@ -243,10 +166,10 @@ export default function VariantOptions() {
           </div>
 
           <div className="p-4 border-t bg-gray-50 text-center text-sm text-gray-600">
-            Total inventory at Shop location: 0 available
+            Total inventory at Shop location: {variants.reduce((total, variant) => total + parseInt(variant.available || '0'), 0)} available
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

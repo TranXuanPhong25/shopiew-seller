@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Info } from 'lucide-react'
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form"
 import { NewProductFormData } from "@/lib/validations"
+import { InputWithUnit } from "@/components/form/input-with-unit"
 import VariantOptions from "./variant-options"
 
 type SalesInfoSectionProps = {
@@ -17,8 +18,8 @@ type SalesInfoSectionProps = {
 const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) => {
    return (
       <section
-            id="sales-info-section"
-            className=" mt-8 space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
+         id="sales-info-section"
+         className=" mt-8 space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
          <h2 className="text-2xl font-bold mb-2">Thông tin bán hàng</h2>
 
          <div className="">
@@ -42,13 +43,22 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
             </Label>
             <div>
                <div className="flex items-center gap-2">
-                  <Input id="price" placeholder="0" {...register("price")}  />
-                  <span className="text-muted-foreground">đ</span>
+                  <InputWithUnit
+                     id="price"
+                     placeholder="0"
+                     type="number"
+                     unit="đ"
+                     {...register("price")}
+                  />
+                  {
+                     errors.price && (
+                        <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+                     )
+                  }
                </div>
                {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
             </div>
          </div>
-         <VariantOptions />
          {/* Stock Quantity */}
          <div className="grid  md:grid-cols-2 gap-6">
             <div className=" ">
@@ -77,16 +87,16 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
             <div className="">
                <Label htmlFor="max-purchase-quantity" className="text-base font-normal flex items-center gap-1">
                   <span>Số Lượng Mua Tối Đa</span>
-                     <TooltipProvider>
-                        <Tooltip>
-                           <TooltipTrigger asChild>
-                              <Info className="w-4 h-4 text-muted-foreground cursor-help ml-1" />
-                           </TooltipTrigger>
-                           <TooltipContent>
-                              <p>Số lượng tối đa khách hàng có thể mua trong một đơn hàng.</p>
-                           </TooltipContent>
-                        </Tooltip>
-                     </TooltipProvider>
+                  <TooltipProvider>
+                     <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Info className="w-4 h-4 text-muted-foreground cursor-help ml-1" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                           <p>Số lượng tối đa khách hàng có thể mua trong một đơn hàng.</p>
+                        </TooltipContent>
+                     </Tooltip>
+                  </TooltipProvider>
                </Label>
                <div>
                   <div className="flex items-center gap-2">
@@ -110,14 +120,16 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
                            </Select>
                         )}
                      />
-                  
+
                   </div>
                   {errors.maxPurchaseQuantity && (
                      <p className="text-red-500 text-sm mt-1">{errors.maxPurchaseQuantity.message}</p>
                   )}
                </div>
             </div>
+
          </div>
+         <VariantOptions/>
       </section>
    )
 }

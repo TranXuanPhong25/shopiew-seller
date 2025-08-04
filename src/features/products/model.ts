@@ -21,7 +21,6 @@ export type Brand = {
 }
 
 export type RawProductVariant = {
-
    price: number
    stockQuantity: number
    images?: Image[]

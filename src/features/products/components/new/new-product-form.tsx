@@ -17,16 +17,21 @@ import PublishCardForm from "./publish-card-form"
 import ShippingSection from "./shipping-section"
 import OthersInfoSection from "./others-info-section"
 import { Skeleton } from "@/components/ui/skeleton"
-
-
+import { useVariantStore } from "@/stores/variant-store"
+import { useVariantFormIntegration } from "../../hooks/use-variant-form"
+import { useEffect } from "react"
 
 export default function NewProductForm() {
-  const { shop,loading } = useAuth();
+  const { shop, loading } = useAuth();
+
   const {
     register,
     handleSubmit,
     control,
     reset,
+    watch,
+    setValue,
+    getValues,
     formState: { errors, isDirty },
   } = useForm<NewProductFormData>({
     resolver: zodResolver(NewProductFormSchema),
@@ -60,40 +65,38 @@ export default function NewProductForm() {
           height: "",
         },
       },
+      // Add variants field to form
     },
   })
   const { createProduct } = useCreateProduct()
-
+  const {
+    getSelectedVariantsForSubmission,
+    hasSelectedVariants,
+    resetAllVariants
+  } = useVariantFormIntegration(setValue)
   const onSubmit = async (data: NewProductFormData) => {
     if (!shop?.id) {
       return;
     }
+
+    // Get selected variants from store using the hook
+    const selectedVariants = getSelectedVariantsForSubmission()
     await createProduct({
       product: {
-        id: "",
-        shopId: shop?.id, // Ensure shop_id is set
+        shopId: shop?.id,
         name: data.name,
-        categoryId: parseInt(data.category.split("-")[0]), // Assuming category is a string that can be parsed to a number
+        categoryId: parseInt(data.category.split("-")[0]),
         description: data.description,
         brand: {
-          id: "1", // Assuming brand is a string that can be used as an ID
+          id: "1",
         },
-        createdAt: new Date().toISOString(),
         specs: {
-          ...data.specs, // Assuming specs is an object with the necessary fields
-          packageSize: data.specs.packageSize ? String(data.specs.packageSize) : "", // Ensure packageSize is a string
+          ...data.specs,
+          packageSize: data.specs.packageSize ? String(data.specs.packageSize) : "",
         },
-        status: data.status, // Ensure status is in the correct format
+        status: data.status,
       },
-      variants: [
-        // {
-        // price: 4444,
-        // stockQuantity: 100, // Default stock quantity, can be changed later
-        // images: [], // Assuming no images for now, can be extended later
-        // // sku: "v", // Assuming no SKU for now, can be extended later
-        // attributes: {}, // Assuming no attributes for now, can be extended later
-        // }
-      ], // Assuming no variants for now, can be extended later
+      variants: selectedVariants,
       shippingInfo: {
         ...data.shippingInfo
       },
@@ -106,12 +109,15 @@ export default function NewProductForm() {
       },
       onSuccess: () => {
         toast.success("Product created successfully!")
-        reset()
+        handleReset()
       },
-    }
-    )
+    })
   }
 
+  const handleReset = () => {
+    reset()
+    resetAllVariants() // Reset variant store when discarding changes
+  }
 
   return (
     <>
@@ -139,7 +145,7 @@ export default function NewProductForm() {
               </div>
             </div>
           </div>
-          
+
           {/* Skeleton for ProductDetailsForm */}
           <div className="p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
             <Skeleton className="h-8 w-1/4 mb-6" />
@@ -152,7 +158,7 @@ export default function NewProductForm() {
               ))}
             </div>
           </div>
-          
+
           {/* Skeleton for SalesInfoSection */}
           <div className="p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
             <Skeleton className="h-8 w-1/4 mb-6" />
@@ -169,23 +175,22 @@ export default function NewProductForm() {
       ) : (
         /* Basic Info Section */
         <div className="relative">
-          <FloatingNotificationBar isExpanded={isDirty} >
-            <div className="flex items-center  justify-between w-full">
-
+          <FloatingNotificationBar isExpanded={isDirty || hasSelectedVariants()}>
+            <div className="flex items-center justify-between w-full">
               <span className="font-semibold flex items-center ml-4">
                 <TriangleAlert className="size-5 mr-2" />
                 <span className="text-base line-clamp-1">Unsaved product</span>
               </span>
-              <span className="flex items-center rounded-full bg-gray-700    text-sm mr-1 h-fit justify-center p-1 gap-1">
+              <span className="flex items-center rounded-full bg-gray-700 text-sm mr-1 h-fit justify-center p-1 gap-1">
                 <Button
-                  className=" bg-green-500 hover:bg-green-500/90 rounded-full px-3 py-1 h-fit"
+                  className="bg-green-500 hover:bg-green-500/90 rounded-full px-3 py-1 h-fit"
                   onClick={handleSubmit(onSubmit)}
                 >
                   Save
                 </Button>
                 <Button
-                  className=" bg-transparent hover:bg-red-500 rounded-full px-3 py-1 h-fit"
-                  onClick={() => reset()}
+                  className="bg-transparent hover:bg-red-500 rounded-full px-3 py-1 h-fit"
+                  onClick={handleReset}
                 >
                   Discard
                 </Button>

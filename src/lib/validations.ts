@@ -16,6 +16,7 @@ export const SignupFormSchema = z.object({
     })
     .trim(),
 })
+
 export const NewProductFormSchema = z.object({
   name: z.string().min(1, { message: "Product's name is required" }),
   category: z.string().nonempty({ message: "Product's category is required." }),
@@ -58,7 +59,7 @@ export const NewProductFormSchema = z.object({
         .refine(val => !val || /^\d+$/.test(val), { message: "Chiều cao phải là số." })
         .optional(),
     }).optional()
-  }).optional()
+  }).optional(),
 })
 
 export type NewProductFormData = z.infer<typeof NewProductFormSchema>

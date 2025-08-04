@@ -1,3 +1,9 @@
+## [0.7.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.6.0...v0.7.0) (2025-08-04)
+
+### 🚀 Features
+
+* implement triad checkbox for variant selection and update variant form integration ([262699b](https://github.com/TranXuanPhong25/shopiew-seller/commit/262699b37df847308f28351509783aaa523709c6))
+
 ## [0.6.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.5.0...v0.6.0) (2025-08-04)
 
 ### 🚀 Features

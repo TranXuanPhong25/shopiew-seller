@@ -1,3 +1,9 @@
+## [0.12.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.11.0...v0.12.0) (2025-08-04)
+
+### 🚀 Features
+
+* enhance variant management with price formatting, SKU support, and input adjustments ([4c417cb](https://github.com/TranXuanPhong25/shopiew-seller/commit/4c417cb7e8f262c9e46887bd48c890d3add96be6))
+
 ## [0.11.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.10.0...v0.11.0) (2025-08-04)
 
 ### 🚀 Features

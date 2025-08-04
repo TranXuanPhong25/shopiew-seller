@@ -67,7 +67,7 @@ export default function VariantOptions() {
                       </Button>
                     </div>
                   ))}
-                  <Button
+                  {/* <Button
                     type="button"
 
                     variant="ghost"
@@ -77,7 +77,7 @@ export default function VariantOptions() {
                     <PlusCircle />
                     Add another value
 
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
 
@@ -101,7 +101,7 @@ export default function VariantOptions() {
             type="button"
             className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100 py-3 mt-4"
           >
-            <Plus className="w-4 h-4 mr-2" />
+            <PlusCircle className="w-4 h-4 mr-2" />
             Add another option
           </Button>
         </div>

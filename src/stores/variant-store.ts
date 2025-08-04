@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { 
-  VariantStore, 
-  ProductOption, 
-  Variant, 
-  OptionValue, 
+import {
+  VariantStore,
+  ProductOption,
+  Variant,
+  OptionValue,
 } from '@/stores/types/variant-store'
 import { TriadState } from '@/components/ui/triad-checkbox'
 
@@ -24,7 +24,7 @@ const generateVariantCombinations = (options: ProductOption[]): Variant[] => {
     if (acc.length === 0) {
       return option.values.map(value => [{ name: option.name, value: value.value }])
     }
-    
+
     const newCombinations: Array<Array<{ name: string; value: string }>> = []
     acc.forEach(combination => {
       option.values.forEach(value => {
@@ -55,7 +55,7 @@ export const useVariantStore = create<VariantStore>()(
       generateVariants: (options) => generateVariantCombinations(options),
 
       updateVariants: (newOptions) => {
-        const validOptions = newOptions.filter(option => 
+        const validOptions = newOptions.filter(option =>
           option.name.trim() !== '' && option.values.some(value => value.value.trim() !== '')
         )
         const newVariants = generateVariantCombinations(validOptions)
@@ -71,10 +71,11 @@ export const useVariantStore = create<VariantStore>()(
         const newOptions = [...get().options, newOption]
         set({ options: newOptions })
         get().updateVariants(newOptions)
+        get().addValue(newOption.id) // Automatically add a value to the new option
       },
 
       updateOptionName: (optionId, name) => {
-        const newOptions = get().options.map((option) => 
+        const newOptions = get().options.map((option) =>
           option.id === optionId ? { ...option, name } : option
         )
         set({ options: newOptions })
@@ -92,32 +93,51 @@ export const useVariantStore = create<VariantStore>()(
           id: generateUniqueId(),
           value: "",
         }
-        const newOptions = get().options.map((option) => 
-          option.id === optionId 
-            ? { ...option, values: [...option.values, newValue] } 
+        const newOptions = get().options.map((option) =>
+          option.id === optionId
+            ? { ...option, values: [...option.values, newValue] }
             : option
         )
         set({ options: newOptions })
         get().updateVariants(newOptions)
       },
-
       updateValue: (optionId, valueId, value) => {
+
         const newOptions = get().options.map((option) =>
           option.id === optionId
             ? {
-                ...option,
-                values: option.values.map((v) => (v.id === valueId ? { ...v, value } : v)),
-              }
+              ...option,
+              values: option.values.map((v) => (v.id === valueId ? { ...v, value } : v)),
+            }
             : option,
         )
         set({ options: newOptions })
         get().updateVariants(newOptions)
-      },
 
+        // Automatically add a new value if the current one is empty
+        const isLastValueEmpty = get().options.find(option =>
+          option.id === optionId &&
+          option.values.length > 0 &&
+          option.values[option.values.length - 1].id === valueId &&
+          option.values[option.values.length - 1].value.trim() === ""
+        )
+        if (isLastValueEmpty) {
+          get().addValue(optionId) 
+        }
+
+        // Automatically delete the last value if the current one is not empty
+        if (value.trim() == "") {
+          const lastValue = newOptions.find(option => option.id === optionId)?.values.slice(-1)[0]
+          if (lastValue) {
+            get().deleteValue(optionId, lastValue.id) 
+            console.log(lastValue)
+          }
+        }
+      },
       deleteValue: (optionId, valueId) => {
         const newOptions = get().options.map((option) =>
-          option.id === optionId 
-            ? { ...option, values: option.values.filter((v) => v.id !== valueId) } 
+          option.id === optionId
+            ? { ...option, values: option.values.filter((v) => v.id !== valueId) }
             : option,
         )
         set({ options: newOptions })
@@ -125,14 +145,14 @@ export const useVariantStore = create<VariantStore>()(
       },
 
       updateVariant: (variantId, field, value) => {
-        const newVariants = get().variants.map((variant) => 
+        const newVariants = get().variants.map((variant) =>
           variant.id === variantId ? { ...variant, [field]: value } : variant
         )
         set({ variants: newVariants })
       },
 
       toggleVariant: (variantId) => {
-        const newVariants = get().variants.map((variant) => 
+        const newVariants = get().variants.map((variant) =>
           variant.id === variantId ? { ...variant, selected: !variant.selected } : variant
         )
         set({ variants: newVariants })
@@ -149,7 +169,7 @@ export const useVariantStore = create<VariantStore>()(
       variantsSelectState: () => {
         const selectedCount = get().variants.filter(variant => variant.selected).length
         const totalCount = get().variants.length
-        
+
         if (selectedCount === 0) {
           return TriadState.None
         } else if (selectedCount === totalCount) {

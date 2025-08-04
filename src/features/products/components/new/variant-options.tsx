@@ -20,12 +20,12 @@ export default function VariantOptions() {
   return (
     <>
       <div className="space-y-6">
-        <div className="bg-white rounded-lg p-6 shadow-sm border">
-          <h2 className="text-lg font-semibold mb-4">Variants</h2>
+        <div >
+          <h2 className="text-lg font-semibold mb-2">Variants</h2>
           {options.map((option) => (
-            <div key={option.id} className="space-y-4">
+            <div key={option.id} className="space-y-4 mb-4 border p-3 rounded-lg" >
               <div className="flex items-center gap-2">
-                <GripVertical className="w-4 h-4 text-gray-400" />
+                <GripVertical className="size-5 text-gray-600" />
                 <div className="flex-1">
                   <Label className="text-sm font-medium text-gray-700">Option name</Label>
                   <Input
@@ -41,8 +41,8 @@ export default function VariantOptions() {
                 <Label className="text-sm font-medium text-gray-700">Option values</Label>
                 <div className="mt-2 space-y-2">
                   {option.values.map((value) => (
-                    <div key={value.id} className="flex items-center gap-2">
-                      <GripVertical className="w-4 h-4 text-gray-400" />
+                    <div key={value.id} className="flex items-center">
+                      <GripVertical className="w-4 h-4 text-gray-400 mx-1 " />
                       <Input
                         value={value.value}
                         onChange={(e) => updateValue(option.id, value.id, e.target.value)}
@@ -71,7 +71,7 @@ export default function VariantOptions() {
                   type="button"
                   variant="ghost"
                   onClick={() => deleteOption(option.id)}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50 px-0"
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50 "
                 >
                   Delete
                 </Button>
@@ -84,10 +84,10 @@ export default function VariantOptions() {
             variant="ghost"
             onClick={addOption}
             type="button"
-            className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100 py-3 mt-4"
+            className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100 py-3 "
           >
             <PlusCircle className="w-4 h-4 mr-2" />
-            Add another option
+            {options.length === 0 ? "Add option" : "Add another option"}
           </Button>
         </div>
 

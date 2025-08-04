@@ -17,6 +17,34 @@ const generateUniqueId = () => {
 
 let debounceTimer: NodeJS.Timeout | null = null
 
+// Helper function to format price with delimiters and decimals
+const formatPriceValue = (value: string): string => {
+  // Remove all non-numeric characters except decimal point
+  let cleanValue = value.replace(/[^0-9.]/g, '')
+
+  // Handle multiple decimal points - keep only the first one
+  const parts = cleanValue.split('.')
+  if (parts.length > 2) {
+    cleanValue = parts[0] + '.' + parts.slice(1).join('')
+  }
+
+  if (!cleanValue || isNaN(Number(cleanValue))) return ''
+
+  // Split into integer and decimal parts
+  const [integerPart, decimalPart] = cleanValue.split('.')
+
+  // Format integer part with commas
+  const formattedInteger = parseInt(integerPart || '0').toLocaleString()
+
+  // Combine with decimal part if it exists, limit to 2 decimal places
+  if (decimalPart !== undefined) {
+    const limitedDecimal = decimalPart.substring(0, 2)
+    return formattedInteger + '.' + limitedDecimal
+  }
+
+  return formattedInteger
+}
+
 const generateVariantCombinations = (options: ProductOption[]): Variant[] => {
   if (options.length === 0 || options.some(option => option.values.length === 0)) {
     return []
@@ -41,8 +69,9 @@ const generateVariantCombinations = (options: ProductOption[]): Variant[] => {
   return combinations.map((combination, index) => ({
     id: `variant-${index}`,
     name: combination.map(item => item.value).join(' / '),
-    price: '0',
-    available: '0',
+    price: '',
+    available: '',
+    sku: '',
     selected: false,
     combination
   }))
@@ -63,7 +92,41 @@ export const useVariantStore = create<VariantStore>()(
           option.name.trim() !== '' && option.values.some(value => value.value.trim() !== '')
         )
         const newVariants = generateVariantCombinations(validOptions)
-        set({ variants: newVariants })
+
+        // Preserve existing variant data
+        const existingVariants = get().variants
+        const mergedVariants = newVariants.map(newVariant => {
+          // Find existing variant by matching the combination name
+          const existingVariant = existingVariants.find(existing =>
+            existing.name === newVariant.name
+          )
+          // const existingVariant = existingVariants.find(existing => {
+          //   if (existing.combination.length !== newVariant.combination.length) {
+          //     return false
+          //   }
+
+          //   return existing.combination.every(existingItem =>
+          //     newVariant.combination.some(newItem =>
+          //       newItem.name === existingItem.name && newItem.value === existingItem.value
+          //     )
+          //   )
+          // })
+          if (existingVariant) {
+            // Preserve existing data but update the combination structure
+            return {
+              ...newVariant,
+              id: existingVariant.id, // Keep the same ID
+              price: existingVariant.price, // Preserve price
+              available: existingVariant.available, // Preserve availability
+              selected: existingVariant.selected, // Preserve selection status
+            }
+          }
+
+          // Return new variant with default values
+          return newVariant
+        })
+
+        set({ variants: mergedVariants })
       },
 
       addOption: () => {
@@ -157,8 +220,15 @@ export const useVariantStore = create<VariantStore>()(
       },
 
       updateVariant: (variantId, field, value) => {
+        let formattedValue = value
+
+        // Auto-format price values
+        if (field === 'price') {
+          formattedValue = formatPriceValue(value)
+        }
+
         const newVariants = get().variants.map((variant) =>
-          variant.id === variantId ? { ...variant, [field]: value } : variant
+          variant.id === variantId ? { ...variant, [field]: formattedValue } : variant
         )
         set({ variants: newVariants })
       },

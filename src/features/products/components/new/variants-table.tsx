@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { TriadCheckbox } from "@/components/ui/triad-checkbox"
 import { useVariantStore } from "@/stores/variant-store"
+import { InputWithUnit } from "@/components/form/input-with-unit"
 
 export default function VariantsTable() {
    const {
@@ -22,8 +23,6 @@ export default function VariantsTable() {
       <div className="bg-white rounded-lg shadow-sm border">
          <div className="p-4 border-b flex justify-between items-center">
             <div className="flex items-center gap-4">
-               <TriadCheckbox state={variantsSelectState()} onStateChange={onChangeVariantsSelect} />
-               <span className="font-medium">Variant</span>
             </div>
             <div className="flex items-center gap-2">
                <Button variant="ghost" size="sm" type="button">
@@ -39,9 +38,13 @@ export default function VariantsTable() {
             <table className="w-full">
                <thead className="bg-gray-50">
                   <tr>
-                     <th className="text-left p-4 font-medium text-gray-700">Variant</th>
+                     <th className="text-left p-4 font-medium text-gray-700">
+                        <TriadCheckbox state={variantsSelectState()} onStateChange={onChangeVariantsSelect} />
+                        <span className="ml-3">Variant</span>
+                     </th>
                      <th className="text-left p-4 font-medium text-gray-700">Price</th>
                      <th className="text-left p-4 font-medium text-gray-700">Available</th>
+                     <th className="text-left p-4 font-medium text-gray-700">SKU (Optional)</th>
                   </tr>
                </thead>
                <tbody>
@@ -50,29 +53,42 @@ export default function VariantsTable() {
                         <td className="p-4">
                            <div className="flex items-center gap-3">
                               <Checkbox checked={variant.selected} onCheckedChange={() => toggleVariant(variant.id)} />
-                              <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center">
+                              <div className="size-14 bg-blue-100 rounded flex items-center justify-center">
                                  +
                               </div>
                               <span>{variant.name}</span>
                            </div>
                         </td>
                         <td className="p-4">
-                           <div className="flex items-center">
-                              <span className="text-gray-500 mr-1">$</span>
-                              <Input
-                                 value={variant.price}
-                                 onChange={(e) => updateVariant(variant.id, "price", e.target.value)}
-                                 className="w-20"
-                                 placeholder="0.00"
+                           <div className="w-32">
+                              <InputWithUnit
+                              id={`price-${variant.id}`}
+                              unit="đ"
+                              type="text"
+                              inputClassName="!w-full"
+                              value={variant.price}
+                              onChange={(e) => updateVariant(variant.id, "price", e.target.value)}
+                              placeholder="0"
                               />
                            </div>
                         </td>
                         <td className="p-4">
                            <Input
+                              id={`available-${variant.id}`}
+                              type="number"
                               value={variant.available}
                               onChange={(e) => updateVariant(variant.id, "available", e.target.value)}
                               className="w-20"
                               placeholder="0"
+                           />
+                        </td>
+                        <td className="p-4">
+                           <Input
+                              id={`sku-${variant.id}`}
+                              value={variant.sku}
+                              onChange={(e) => updateVariant(variant.id, "sku", e.target.value)}
+                              className="w-32"
+                              placeholder="sku"
                            />
                         </td>
                      </tr>

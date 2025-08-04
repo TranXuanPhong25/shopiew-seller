@@ -23,21 +23,6 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
          <h2 className="text-2xl font-bold mb-2">Thông tin bán hàng</h2>
 
          <div className="">
-            <Label htmlFor="product-classification" className="text-base font-normal">
-               <span className="text-red-500">*</span> Phân loại hàng
-            </Label>
-            <div>
-               <Button
-                  type="button"
-                  variant="outline"
-                  className="flex items-center gap-2 px-4 py-2 border border-dashed border-gray-300 text-gray-600 hover:bg-gray-50 bg-transparent"
-               >
-                  Thêm nhóm phân loại
-               </Button>
-            </div>
-         </div>
-
-         <div className="">
             <Label htmlFor="price" className="text-base font-normal">
                <span className="text-red-500">*</span> Giá
             </Label>

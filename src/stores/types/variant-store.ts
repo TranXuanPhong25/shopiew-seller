@@ -14,8 +14,9 @@ export interface ProductOption {
 export interface Variant {
   id: string
   name: string
-  price: string
-  available: string
+  price?: string
+  available?: string
+  sku?: string
   selected: boolean
   combination?: Array<{ name: string; value: string }>
 }
@@ -31,7 +32,7 @@ export interface VariantStoreActions {
   updateValueImmediate: (optionId: string, valueId: string, value: string) => void
   updateValue: (optionId: string, valueId: string, value: string) => void
   deleteValue: (optionId: string, valueId: string) => void
-  updateVariant: (variantId: string, field: 'price' | 'available', value: string) => void
+  updateVariant: (variantId: string, field: 'price' | 'available' | 'sku', value: string) => void
   toggleVariant: (variantId: string) => void
   generateVariants: (options: ProductOption[]) => Variant[]
   updateVariants: (newOptions: ProductOption[]) => void

@@ -15,7 +15,9 @@ export default function VariantsTable() {
       variantsSelectState,
       onChangeVariantsSelect,
    } = useVariantStore()
-
+   if (variants.length === 0) {
+      return null
+   }
    return (
       <div className="bg-white rounded-lg shadow-sm border">
          <div className="p-4 border-b flex justify-between items-center">

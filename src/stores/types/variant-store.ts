@@ -28,6 +28,7 @@ export interface VariantStoreActions {
   updateOptionName: (optionId: string, name: string) => void
   deleteOption: (optionId: string) => void
   addValue: (optionId: string) => void
+  updateValueImmediate: (optionId: string, valueId: string, value: string) => void
   updateValue: (optionId: string, valueId: string, value: string) => void
   deleteValue: (optionId: string, valueId: string) => void
   updateVariant: (variantId: string, field: 'price' | 'available', value: string) => void

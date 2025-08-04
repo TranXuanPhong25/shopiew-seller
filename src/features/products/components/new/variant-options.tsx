@@ -22,7 +22,6 @@ export default function VariantOptions() {
       <div className="space-y-6">
         <div className="bg-white rounded-lg p-6 shadow-sm border">
           <h2 className="text-lg font-semibold mb-4">Variants</h2>
-
           {options.map((option) => (
             <div key={option.id} className="space-y-4">
               <div className="flex items-center gap-2">
@@ -50,28 +49,20 @@ export default function VariantOptions() {
                         className="flex-1"
                         placeholder="Enter value"
                       />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => deleteValue(option.id, value.id)}
-                        className="text-gray-400 hover:text-red-600"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
+                      {
+                        option.values.length > 2 && value.value.trim() !== "" &&
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => deleteValue(option.id, value.id)}
+                          className="text-gray-400 hover:text-red-600"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      }
                     </div>
                   ))}
-                  {/* <Button
-                    type="button"
-
-                    variant="ghost"
-                    onClick={() => addValue(option.id)}
-                    className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100"
-                  >
-                    <PlusCircle />
-                    Add another value
-
-                  </Button> */}
                 </div>
               </div>
 

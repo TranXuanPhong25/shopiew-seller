@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { 
-  VariantStore, 
-  ProductOption, 
-  Variant, 
-  OptionValue 
+import {
+  VariantStore,
+  ProductOption,
+  Variant,
+  OptionValue
 } from '@/stores/types/variant-store'
 import { TriadState } from '@/components/ui/triad-checkbox'
 
@@ -15,6 +15,8 @@ const generateUniqueId = () => {
   return `${Date.now()}-${idCounter}`
 }
 
+let debounceTimer: NodeJS.Timeout | null = null
+
 const generateVariantCombinations = (options: ProductOption[]): Variant[] => {
   if (options.length === 0 || options.some(option => option.values.length === 0)) {
     return []
@@ -22,13 +24,15 @@ const generateVariantCombinations = (options: ProductOption[]): Variant[] => {
 
   const combinations = options.reduce((acc, option) => {
     if (acc.length === 0) {
-      return option.values.map(value => [{ name: option.name, value: value.value }])
+      return option.values.filter(valueOption => valueOption.value.trim() !== "").map(value => [{ name: option.name, value: value.value }])
     }
 
     const newCombinations: Array<Array<{ name: string; value: string }>> = []
     acc.forEach(combination => {
       option.values.forEach(value => {
-        newCombinations.push([...combination, { name: option.name, value: value.value }])
+        if (value.value.trim() !== "") {
+          newCombinations.push([...combination, { name: option.name, value: value.value }])
+        }
       })
     })
     return newCombinations
@@ -99,10 +103,8 @@ export const useVariantStore = create<VariantStore>()(
             : option
         )
         set({ options: newOptions })
-        get().updateVariants(newOptions)
       },
-      updateValue: (optionId, valueId, value) => {
-
+      updateValueImmediate: (optionId, valueId, value) => {
         const newOptions = get().options.map((option) =>
           option.id === optionId
             ? {
@@ -112,27 +114,37 @@ export const useVariantStore = create<VariantStore>()(
             : option,
         )
         set({ options: newOptions })
-        get().updateVariants(newOptions)
+      },
 
-        // Automatically add a new value if the current one is empty
+      updateValue: (optionId, valueId, value) => {
+        // Check if we need to add a new value
         const isLastValueEmpty = get().options.find(option =>
           option.id === optionId &&
           option.values.length > 0 &&
           option.values[option.values.length - 1].id === valueId &&
-          option.values[option.values.length - 1].value.trim() === ""
+          option.values[option.values.length - 1].value === ""
         )
-        if (isLastValueEmpty) {
-          get().addValue(optionId) 
+
+        if (isLastValueEmpty && value.trim() !== "") {
+          get().addValue(optionId)
         }
 
-        // Automatically delete the last value if the current one is not empty
-        if (value.trim() == "") {
-          const lastValue = newOptions.find(option => option.id === optionId)?.values.slice(-1)[0]
-          if (lastValue) {
-            get().deleteValue(optionId, lastValue.id) 
-            console.log(lastValue)
-          }
+        if (debounceTimer) {
+          clearTimeout(debounceTimer)
         }
+
+        // Update value immediately for UI responsiveness
+        get().updateValueImmediate(optionId, valueId, value)
+
+
+        // Debounce variant generation
+        debounceTimer = setTimeout(() => {
+          if (value.trim() === "") {
+            get().deleteValue(optionId, valueId)
+          }
+          const currentOptions = get().options
+          get().updateVariants(currentOptions)
+        }, 100)
       },
       deleteValue: (optionId, valueId) => {
         const newOptions = get().options.map((option) =>
@@ -186,8 +198,11 @@ export const useVariantStore = create<VariantStore>()(
         }
       },
       resetVariants: () => {
+        if (debounceTimer) {
+          clearTimeout(debounceTimer)
+          debounceTimer = null
+        }
         set({ options: [], variants: [] })
-
       },
     }),
     {

@@ -114,7 +114,6 @@ export default function NewProductForm() {
       },
     })
   }
-
   const handleReset = () => {
     reset()
     resetAllVariants() // Reset variant store when discarding changes

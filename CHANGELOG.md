@@ -1,3 +1,17 @@
+## [0.6.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.5.0...v0.6.0) (2025-08-04)
+
+### 🚀 Features
+
+* integrate variant management into new product form ([ea804a4](https://github.com/TranXuanPhong25/shopiew-seller/commit/ea804a48ec7da558d45c724463e50765a534d722))
+
+### 🔨 Technical Changes
+
+* Clean up NavBreadcrumb component by removing console log and using React.Fragment ([3351956](https://github.com/TranXuanPhong25/shopiew-seller/commit/3351956757b2cfbeda6c591988d488a6e3bff186))
+* Implement authReducer for improved state management in AuthProvider ([053c2cf](https://github.com/TranXuanPhong25/shopiew-seller/commit/053c2cfd47da8e503010b3ed42d0be268fa42a12))
+* Remove Lens component to streamline codebase ([f32a6f1](https://github.com/TranXuanPhong25/shopiew-seller/commit/f32a6f1c53504150e140f5f12390f97ff24db7d9))
+* Simplify redirect handling in AuthProvider by using useSearchParams ([2ed2588](https://github.com/TranXuanPhong25/shopiew-seller/commit/2ed2588c7489b6aaf93502ab689850b7bf023832))
+* Update generateMockProduct function to use random index for product name and description ([5f30be4](https://github.com/TranXuanPhong25/shopiew-seller/commit/5f30be49b4ab2ce46c7fc2a71bdf4b061cd77238))
+
 ## [0.5.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.4.0...v0.5.0) (2025-08-02)
 
 ### 🚀 Features

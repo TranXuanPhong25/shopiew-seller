@@ -4,9 +4,8 @@ import { Metadata } from "next/types";
 
 const ProductsManagementPage = () => {
    return (
-      <div className="w-full mt-4 flex gap-4 container mx-auto">
-         <VerticalSectionsNav />
-         <div className="flex-1  ">
+      <div className="w-full mt-4 gap-4 container mx-auto">
+         <div className="flex-1 mx-auto ">
             <NewProductForm />
          </div>
       </div>

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { CalendarClock } from 'lucide-react'
 import { NewProductFormData } from "@/lib/validations"
 import { UseFormRegister, Control, FieldErrors, Controller } from "react-hook-form"
+import VerticalSectionsNav from "./vertical-sections-nav"
 type PublishCardFormProps = {
    register: UseFormRegister<NewProductFormData>
    control: Control<NewProductFormData, any, NewProductFormData>
@@ -17,7 +18,8 @@ export default function PublishCardForm({
 }: PublishCardFormProps
 ) {
    return (
-      <div className="sticky top-20 z-10 h-fit shadow-sm rounded-lg w-[342px] border-b-4 border[1px] border-gray-200 flex flex-col gap-4 p-4 md:p-6 bg-white items-center justify-center">
+      <>
+      <div className=" z-10 h-fit shadow-sm rounded-lg w-[342px] border-b-4 border[1px] border-gray-200 flex flex-col gap-4 p-4 md:p-6 bg-white items-center justify-center">
          <Card className="w-full max-w-sm">
             <CardHeader>
                <CardTitle className="text-base font-semibold">Status</CardTitle>
@@ -63,6 +65,8 @@ export default function PublishCardForm({
          <Button type="submit" className="px-6 py-2 text-white rounded-md float-right  w-full">
             Save Product
          </Button>
+
       </div>
+      </>
    )
 }

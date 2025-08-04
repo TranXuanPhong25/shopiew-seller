@@ -20,6 +20,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useVariantStore } from "@/stores/variant-store"
 import { useVariantFormIntegration } from "../../hooks/use-variant-form"
 import { useEffect } from "react"
+import VerticalSectionsNav from "./vertical-sections-nav"
 
 export default function NewProductForm() {
   const { shop, loading } = useAuth();
@@ -173,8 +174,7 @@ export default function NewProductForm() {
           </div>
         </div>
       ) : (
-        /* Basic Info Section */
-        <div className="relative">
+        <div className="relative flex justify-center">
           <FloatingNotificationBar isExpanded={isDirty || hasSelectedVariants()}>
             <div className="flex items-center justify-between w-full">
               <span className="font-semibold flex items-center ml-4">
@@ -227,12 +227,16 @@ export default function NewProductForm() {
                 errors={errors}
               />
             </div>
-            <PublishCardForm
-              register={register}
-              control={control}
-              errors={errors}
-            />
+            <div className="sticky top-20 h-fit space-y-4">
+              <VerticalSectionsNav />
+              <PublishCardForm
+                register={register}
+                control={control}
+                errors={errors}
+              />
+            </div>
           </form>
+
         </div>
       )}
     </>

@@ -4,8 +4,9 @@ import {
   VariantStore, 
   ProductOption, 
   Variant, 
-  OptionValue 
+  OptionValue, 
 } from '@/stores/types/variant-store'
+import { TriadState } from '@/components/ui/triad-checkbox'
 
 // Helper function to generate unique IDs
 let idCounter = 0
@@ -48,7 +49,6 @@ export const useVariantStore = create<VariantStore>()(
     (set, get) => ({
       options: [],
       variants: [],
-
       setOptions: (options) => set({ options }),
       setVariants: (variants) => set({ variants }),
 
@@ -137,9 +137,37 @@ export const useVariantStore = create<VariantStore>()(
         )
         set({ variants: newVariants })
       },
-
+      selectAllVariants: () => {
+        const newVariants = get().variants.map((variant) => ({ ...variant, selected: true }))
+        set({ variants: newVariants })
+      },
+      deselectAllVariants: () => {
+        const newVariants = get().variants.map((variant) => ({ ...variant, selected: false }))
+        set({ variants: newVariants })
+      },
+      hasSelectedVariants: () => get().variants.some(variant => variant.selected),
+      variantsSelectState: () => {
+        const selectedCount = get().variants.filter(variant => variant.selected).length
+        const totalCount = get().variants.length
+        
+        if (selectedCount === 0) {
+          return TriadState.None
+        } else if (selectedCount === totalCount) {
+          return TriadState.All
+        } else {
+          return TriadState.Indeterminate
+        }
+      },
+      onChangeVariantsSelect: (state: TriadState) => {
+        if (state === TriadState.All) {
+          get().selectAllVariants()
+        } else if (state === TriadState.None) {
+          get().deselectAllVariants()
+        }
+      },
       resetVariants: () => {
         set({ options: [], variants: [] })
+
       },
     }),
     {

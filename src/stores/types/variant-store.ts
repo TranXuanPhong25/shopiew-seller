@@ -1,3 +1,5 @@
+import { TriadState } from "@/components/ui/triad-checkbox"
+
 export interface OptionValue {
   id: string
   value: string
@@ -32,6 +34,11 @@ export interface VariantStoreActions {
   toggleVariant: (variantId: string) => void
   generateVariants: (options: ProductOption[]) => Variant[]
   updateVariants: (newOptions: ProductOption[]) => void
+  selectAllVariants: () => void
+  deselectAllVariants: () => void
+  hasSelectedVariants: () => boolean,
+  onChangeVariantsSelect: (state: TriadState) => void
+  variantsSelectState: () => TriadState
   resetVariants: () => void
 }
 
@@ -39,5 +46,4 @@ export interface VariantStoreState {
   options: ProductOption[]
   variants: Variant[]
 }
-
 export type VariantStore = VariantStoreState & VariantStoreActions

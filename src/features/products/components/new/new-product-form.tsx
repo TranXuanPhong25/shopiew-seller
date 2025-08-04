@@ -73,7 +73,7 @@ export default function NewProductForm() {
     getSelectedVariantsForSubmission,
     hasSelectedVariants,
     resetAllVariants
-  } = useVariantFormIntegration(setValue)
+  } = useVariantFormIntegration()
   const onSubmit = async (data: NewProductFormData) => {
     if (!shop?.id) {
       return;

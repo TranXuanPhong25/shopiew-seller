@@ -1,11 +1,9 @@
 import { useVariantStore } from '@/stores/variant-store'
-import { useEffect } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
-import { NewProductFormData } from '@/lib/validations'
-import { ProductVariant, RawProductVariant } from '../model'
 
-export const useVariantFormIntegration = (setValue: UseFormSetValue<NewProductFormData>) => {
-  const { variants, resetVariants } = useVariantStore()
+import { RawProductVariant } from '../model'
+
+export const useVariantFormIntegration = () => {
+  const { variants, resetVariants , hasSelectedVariants } = useVariantStore()
 
   const getSelectedVariantsForSubmission = (): RawProductVariant[] => {
     return variants
@@ -16,10 +14,6 @@ export const useVariantFormIntegration = (setValue: UseFormSetValue<NewProductFo
         stockQuantity: parseInt(variant.available) || 0,
         attributes: variant.combination?.reduce((obj, item) => ({ ...obj, [item.name]: item.value }), {}) || {},
       }))
-  }
-
-  const hasSelectedVariants = () => {
-    return variants.some(variant => variant.selected)
   }
 
   const resetAllVariants = () => {

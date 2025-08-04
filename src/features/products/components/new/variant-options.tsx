@@ -1,11 +1,12 @@
 "use client"
 
-import { Plus, GripVertical, Trash2, Search, Filter } from "lucide-react"
+import { Plus, GripVertical, Trash2, Search, Filter, PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useVariantStore } from "@/stores/variant-store"
+import { TriadCheckbox } from "@/components/ui/triad-checkbox"
 
 export default function VariantOptions() {
   const {
@@ -19,8 +20,9 @@ export default function VariantOptions() {
     deleteValue,
     updateVariant,
     toggleVariant,
+    variantsSelectState,
+    onChangeVariantsSelect,
   } = useVariantStore()
-
   return (
     <>
       <div className="space-y-6">
@@ -72,7 +74,9 @@ export default function VariantOptions() {
                     onClick={() => addValue(option.id)}
                     className="w-full justify-start text-gray-600 hover:text-gray-800 hover:bg-gray-100"
                   >
+                    <PlusCircle />
                     Add another value
+
                   </Button>
                 </div>
               </div>
@@ -106,7 +110,7 @@ export default function VariantOptions() {
         <div className="bg-white rounded-lg shadow-sm border">
           <div className="p-4 border-b flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <Checkbox />
+              <TriadCheckbox state={variantsSelectState()} onStateChange={onChangeVariantsSelect} />
               <span className="font-medium">Variant</span>
             </div>
             <div className="flex items-center gap-2">
@@ -135,7 +139,7 @@ export default function VariantOptions() {
                       <div className="flex items-center gap-3">
                         <Checkbox checked={variant.selected} onCheckedChange={() => toggleVariant(variant.id)} />
                         <div className="w-6 h-6 bg-blue-100 rounded flex items-center justify-center">
-                          <div className="w-3 h-3 bg-blue-600 rounded"></div>
+                          +
                         </div>
                         <span>{variant.name}</span>
                       </div>

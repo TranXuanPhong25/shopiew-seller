@@ -1,3 +1,13 @@
+## [0.8.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.7.0...v0.8.0) (2025-08-04)
+
+### 🚀 Features
+
+* refactor variant options to use separate VariantsTable component and clean up unused code ([25b802d](https://github.com/TranXuanPhong25/shopiew-seller/commit/25b802df109e239cd5c77a409a07fee9889b93d0))
+
+### 🔨 Technical Changes
+
+* clean up variant options component and improve value handling logic ([9e65e03](https://github.com/TranXuanPhong25/shopiew-seller/commit/9e65e031eb3b1d693a3e09e97cb4c8716dac7247))
+
 ## [0.7.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.6.0...v0.7.0) (2025-08-04)
 
 ### 🚀 Features

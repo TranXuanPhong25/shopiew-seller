@@ -21,8 +21,8 @@ export type Brand = {
 }
 
 export type RawProductVariant = {
-   price: number
-   stockQuantity: number
+   price: string
+   stockQuantity: string
    images?: Image[]
    sku?: string
    attributes?: Record<string, string | number | boolean>

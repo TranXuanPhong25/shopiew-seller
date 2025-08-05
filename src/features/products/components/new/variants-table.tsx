@@ -19,6 +19,7 @@ export default function VariantsTable() {
    if (variants.length === 0) {
       return null
    }
+   console.log(variants)
    return (
       <div className="bg-white rounded-lg shadow-sm border">
          <div className="p-4 border-b flex justify-between items-center">

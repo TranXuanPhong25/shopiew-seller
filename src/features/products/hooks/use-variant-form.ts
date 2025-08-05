@@ -10,9 +10,9 @@ export const useVariantFormIntegration = () => {
       .filter(variant => variant.selected)
       .map(variant => ({
         name: variant.name,
-        price: variant.price ? Number(variant.price) : 0,
+        price: variant.price? variant.price.replace(/\.|,/g, "") : "0",
         sku: variant.sku || "",
-        stockQuantity: variant.available ? Number(variant.available) : 0,
+        stockQuantity: variant.available || "0",
         attributes: variant.combination?.reduce((obj, item) => ({ ...obj, [item.name]: item.value }), {}) || {},
       }))
   }

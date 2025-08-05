@@ -1,3 +1,9 @@
+## [0.13.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.12.0...v0.13.0) (2025-08-05)
+
+### 🚀 Features
+
+* update variant model to use string for price and stockQuantity, enhance variant form integration with proper formatting ([c25e5fd](https://github.com/TranXuanPhong25/shopiew-seller/commit/c25e5fd9b60291334bf3923e60971514b1283692))
+
 ## [0.12.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.11.0...v0.12.0) (2025-08-04)
 
 ### 🚀 Features

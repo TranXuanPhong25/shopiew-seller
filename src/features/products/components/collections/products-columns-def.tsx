@@ -6,6 +6,7 @@ import { ArrowUpDownIcon, Edit, Delete, MoreVerticalIcon, Pencil, Copy, Star, Tr
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { calculatePassedTime } from "../../../../lib/utils"
+import ProductActions from "./product-actions"
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -98,34 +99,8 @@ export const columns: ColumnDef<Product>[] = [
         Actions
       </div>
     ),
-    cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="flex mx-auto size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
-            <MoreVerticalIcon />
-            <span className="sr-only">Open menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-36">
-          <DropdownMenuItem>
-            <Pencil className=" size-4" />
-            <span>Edit</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Copy className=" size-4" />
-            <span>Make a copy</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Star className=" size-4" />
-            <span>Favorite</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="text-red-600 hover:!bg-red-500 hover:!text-white">
-            <Trash className=" size-4" />
-            <span>Delete</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+    cell: ({ row }) => (
+      <ProductActions productId={[row.original.id]} />
     ),
   },
 ]

@@ -48,6 +48,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Product } from "../../model"
 import { columns } from "@/features/products/components/collections/products-columns-def"
 import { Skeleton } from "@/components/ui/skeleton"
+import ProductActions from "./product-actions"
 
 export function ProductsTable({
   products,
@@ -113,7 +114,7 @@ export function ProductsTable({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
-
+  console.log(rowSelection)
   return (
     <Tabs defaultValue="outline" className="flex w-full flex-col justify-start gap-6">
       <div className="flex items-center justify-between px-4 lg:px-6">
@@ -194,21 +195,29 @@ export function ProductsTable({
             className="max-w-sm"
             disabled={isLoading}
           />
-          
-          {isLoading && (
-            <div className="ml-4 flex items-center text-sm text-muted-foreground">
-              <div className="mr-2 size-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-              Loading products...
-            </div>
-          )}
-          <Button
-            variant="outline"
-            onClick={refetchData}
-            disabled={isLoading}
-          >
-            <RefreshCcw className="size-4" />
-            Refresh
-          </Button>
+          <div className="flex items-center gap-2">
+            {
+              rowSelection && Object.keys(rowSelection).length > 0 && (
+                <div className="border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md p-[3px] ">
+                  <ProductActions productId={Object.keys(rowSelection)} onDelete={()=>setRowSelection({})} />
+                </div>
+              )
+            }
+            {isLoading && (
+              <div className="ml-4 flex items-center text-sm text-muted-foreground">
+                <div className="mr-2 size-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+                Loading products...
+              </div>
+            )}
+            <Button
+              variant="outline"
+              onClick={refetchData}
+              disabled={isLoading}
+            >
+              <RefreshCcw className="size-4" />
+              Refresh
+            </Button>
+          </div>
         </div>
         <div className="overflow-hidden rounded-lg border">
 
@@ -282,7 +291,7 @@ export function ProductsTable({
                   <SelectValue placeholder={pageSize} />
                 </SelectTrigger>
                 <SelectContent side="top">
-                  {[5, 10, 15, 20].map((pageSize) => (
+                  {[5, 10, 15, 20, 50, 100].map((pageSize) => (
                     <SelectItem key={pageSize} value={`${pageSize}`}>
                       {pageSize}
                     </SelectItem>

@@ -53,8 +53,8 @@ export function useGenerateMockProducts() {
             product: mockProductData.product,
             variants: [
               {
-                price: mockProductData.variant.price,
-                stockQuantity: mockProductData.variant.stockQuantity,
+                price: mockProductData.variant.price +"",
+                stockQuantity: mockProductData.variant.stockQuantity +"",
                 sku: mockProductData.variant.sku,
                 images: mockProductData.variant.images,
                 attributes: mockProductData.variant.attributes
@@ -365,16 +365,14 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
     stockQuantity: Math.floor(Math.random() * 1000) + 10,
     sku: "SKU" + Math.floor(Math.random() * 10000).toString().padStart(4, '0'),
     images: includeImages
-      ? Array.from({ length: Math.floor(Math.random() * 5) + 1 }, (_, i) => ({
-        imageUrl: `https://picsum.photos/seed/${uuid}-${i}/640/480`,
-        isPrimary: i === 0,
-      }))
+      ? Array.from({ length: Math.floor(Math.random() * 5) + 1 }, (_, i) => 
+        `https://picsum.photos/seed/${uuid}-${i}/640/480`)
       : [],
     attributes: {
       color: ["Red", "Blue", "Green", "Black", "White"][Math.floor(Math.random() * 5)],
       size: ["S", "M", "L", "XL"][Math.floor(Math.random() * 4)],
     }
-  };
+  };  
 
   return {
     product,

@@ -44,9 +44,9 @@ export const ProductsService = {
          throw err;
       }
    },
-   deleteProductById: async (productId: string): Promise<void> => {
+   deleteProductByIds: async (productIds: string[]): Promise<void> => {
       try {
-         await axiosClient.delete(`/products/${productId}`);
+         await axiosClient.delete(`/products`, { data: { ids: productIds } });
       } catch (err) {
          if (axios.isAxiosError(err) && err.response) {
             throw err.response.data;

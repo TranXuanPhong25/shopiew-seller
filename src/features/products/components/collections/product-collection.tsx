@@ -2,9 +2,8 @@
 import { ProductsTable } from "@/features/products/components/collections/products-table";
 
 import { useAuth } from "@/features/auth";
-import { useProductCollection } from "@/features/products/hook";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
+import { useProductCollection } from "./hook";
 const ProductCollection = () => {
    const { loading: isGettingShopInfo, shop } = useAuth();
    const {

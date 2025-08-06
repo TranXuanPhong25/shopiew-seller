@@ -1,3 +1,13 @@
+## [0.13.1](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.13.0...v0.13.1) (2025-08-06)
+
+### 🐛 Bug Fixes
+
+* update URL for publishing new product from /products/new to /products/create ([066606d](https://github.com/TranXuanPhong25/shopiew-seller/commit/066606ddb8275ba03a1d107b4f2984c068f30163))
+
+### 🔨 Technical Changes
+
+* change products/new to products/create and products features structures ([eefb3dc](https://github.com/TranXuanPhong25/shopiew-seller/commit/eefb3dcc3a8d797d0219dcfec8da2615d1c930a8))
+
 ## [0.13.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.12.0...v0.13.0) (2025-08-05)
 
 ### 🚀 Features

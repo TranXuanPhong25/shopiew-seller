@@ -7,6 +7,7 @@ import {
   OptionValue
 } from '@/stores/types/variant-store'
 import { TriadState } from '@/components/ui/triad-checkbox'
+import { formatPriceValue } from '@/lib/utils'
 
 // Helper function to generate unique IDs
 let idCounter = 0
@@ -17,33 +18,6 @@ const generateUniqueId = () => {
 
 let debounceTimer: NodeJS.Timeout | null = null
 
-// Helper function to format price with delimiters and decimals
-const formatPriceValue = (value: string): string => {
-  // Remove all non-numeric characters except decimal point
-  let cleanValue = value.replace(/[^0-9.]/g, '')
-
-  // Handle multiple decimal points - keep only the first one
-  const parts = cleanValue.split('.')
-  if (parts.length > 2) {
-    cleanValue = parts[0] + '.' + parts.slice(1).join('')
-  }
-
-  if (!cleanValue || isNaN(Number(cleanValue))) return ''
-
-  // Split into integer and decimal parts
-  const [integerPart, decimalPart] = cleanValue.split('.')
-
-  // Format integer part with commas
-  const formattedInteger = parseInt(integerPart || '0').toLocaleString()
-
-  // Combine with decimal part if it exists, limit to 2 decimal places
-  if (decimalPart !== undefined) {
-    const limitedDecimal = decimalPart.substring(0, 2)
-    return formattedInteger + '.' + limitedDecimal
-  }
-
-  return formattedInteger
-}
 
 const generateVariantCombinations = (options: ProductOption[]): Variant[] => {
   if (options.length === 0 || options.some(option => option.values.length === 0)) {
@@ -274,6 +248,22 @@ export const useVariantStore = create<VariantStore>()(
         }
         set({ options: [], variants: [] })
       },
+      onImageChange: (variantId, file) => {
+        // Handle image URL change logic here if needed
+        const newVariantImage = file ? [{ id: generateUniqueId(),  file }] : []
+
+        const newVariants = get().variants.map((variant) =>
+          variant.id === variantId ?
+            {
+              ...variant,
+              images: [
+                ...(variant.images || []),
+                ...newVariantImage
+              ]
+            } : variant
+        )
+        set({ variants: newVariants })
+      }
     }),
     {
       name: 'variant-store',

@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { TriadCheckbox } from "@/components/ui/triad-checkbox"
 import { useVariantStore } from "@/stores/variant-store"
 import { InputWithUnit } from "@/components/form/input-with-unit"
+import ImageUpload from "./variant-image-upload"
 
 export default function VariantsTable() {
    const {
@@ -15,6 +16,7 @@ export default function VariantsTable() {
       toggleVariant,
       variantsSelectState,
       onChangeVariantsSelect,
+      onImageChange,
    } = useVariantStore()
    if (variants.length === 0) {
       return null
@@ -54,9 +56,7 @@ export default function VariantsTable() {
                         <td className="p-4">
                            <div className="flex items-center gap-3">
                               <Checkbox checked={variant.selected} onCheckedChange={() => toggleVariant(variant.id)} />
-                              <div className="size-14 bg-blue-100 rounded flex items-center justify-center">
-                                 +
-                              </div>
+                              <ImageUpload onImageChange={(file)=>onImageChange(variant.id, file)} />
                               <span>{variant.name}</span>
                            </div>
                         </td>

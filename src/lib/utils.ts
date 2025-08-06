@@ -62,3 +62,30 @@ export function calculatePassedTime(lastTime: string | number): string {
 export const slugsTransform = (slug: string): string => {
   return slug.charAt(0).toUpperCase() + slug.slice(1)
 }
+
+export const formatPriceValue = (value: string): string => {
+  // Remove all non-numeric characters except decimal point
+  let cleanValue = value.replace(/[^0-9.]/g, '')
+
+  // Handle multiple decimal points - keep only the first one
+  const parts = cleanValue.split('.')
+  if (parts.length > 2) {
+    cleanValue = parts[0] + '.' + parts.slice(1).join('')
+  }
+
+  if (!cleanValue || isNaN(Number(cleanValue))) return ''
+
+  // Split into integer and decimal parts
+  const [integerPart, decimalPart] = cleanValue.split('.')
+
+  // Format integer part with commas
+  const formattedInteger = parseInt(integerPart || '0').toLocaleString()
+
+  // Combine with decimal part if it exists, limit to 2 decimal places
+  if (decimalPart !== undefined) {
+    const limitedDecimal = decimalPart.substring(0, 2)
+    return formattedInteger + '.' + limitedDecimal
+  }
+
+  return formattedInteger
+}

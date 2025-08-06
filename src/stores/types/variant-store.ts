@@ -16,11 +16,16 @@ export interface Variant {
   name: string
   price?: string
   available?: string
-  sku?: string
+  sku?: string,
+  images?: VariantImage[]
   selected: boolean
   combination?: Array<{ name: string; value: string }>
 }
 
+export interface VariantImage{
+  id: string
+  file: File | null
+}
 
 export interface VariantStoreActions {
   setOptions: (options: ProductOption[]) => void
@@ -42,6 +47,7 @@ export interface VariantStoreActions {
   onChangeVariantsSelect: (state: TriadState) => void
   variantsSelectState: () => TriadState
   resetVariants: () => void
+  onImageChange: (variantId: string, file: File | null) => void
 }
 
 export interface VariantStoreState {

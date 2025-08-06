@@ -56,7 +56,7 @@ const data = {
         },
         {
           title: "Publish new product",
-          url: "/products/new",
+          url: "/products/create",
         } 
       ],
     },

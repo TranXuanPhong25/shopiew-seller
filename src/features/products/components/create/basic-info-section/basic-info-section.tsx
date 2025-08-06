@@ -9,8 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form"
 import React, { useEffect } from "react"
 import { NewProductFormData } from "@/lib/validations"
-import CategorySelection from "./category-selection"
-import ProductDescription from "./product-description"
+import CategorySelection from "./categories/category-selection"
+import ProductDescription from "./description/product-description"
 export type BasicInfoSectionProps = {
    register: UseFormRegister<NewProductFormData>,
    control: Control<NewProductFormData, any, NewProductFormData>,

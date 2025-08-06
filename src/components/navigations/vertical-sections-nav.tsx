@@ -1,8 +1,17 @@
 "use client";
 import { cn, scrollToSection } from "@/lib/utils";
-import { sectionsNav, useSectionsNav } from "../../hook";
+import { useSectionsNav} from "@/hooks/use-sections-nav";
+
+const sectionsNav = [
+   { id: "basic-info-section", label: "Thông tin cơ bản" },
+   { id: "products-detail-section", label: "Chi tiết sản phẩm" },
+   { id: "sales-info-section", label: "Thông tin bán hàng" },
+   { id: "shipping-section", label: "Vận chuyển" },
+   { id: "others-info-section", label: "Thông tin khác" },
+];
+
 const VerticalSectionsNav = () => {
-   const { currentTab } = useSectionsNav();
+   const { currentTab } = useSectionsNav(sectionsNav);
    return (
       <div className=" z-10 bg-white h-fit  shadow-sm rounded-lg min-w-[220px] border-b-4 border[1px] border-gray-200 ">
          <ul className="flex flex-col !rounded-lg overflow-hidden p-2 font-semibold">

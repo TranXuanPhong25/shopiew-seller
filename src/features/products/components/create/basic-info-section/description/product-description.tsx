@@ -1,7 +1,7 @@
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import ProductDescriptionEditor from "./tiptap-editor";
-import { BasicInfoSectionProps } from "./basic-info-section";
+import { BasicInfoSectionProps } from "../basic-info-section";
 import { Controller } from "react-hook-form";
 
 export default function ProductDescription({

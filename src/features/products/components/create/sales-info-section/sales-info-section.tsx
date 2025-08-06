@@ -7,7 +7,7 @@ import { Info } from 'lucide-react'
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form"
 import { NewProductFormData } from "@/lib/validations"
 import { InputWithUnit } from "@/components/form/input-with-unit"
-import VariantOptions from "./variant-options"
+import VariantOptions from "../variants/variant-options"
 
 type SalesInfoSectionProps = {
    register: UseFormRegister<NewProductFormData>

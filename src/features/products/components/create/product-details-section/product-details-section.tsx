@@ -13,7 +13,7 @@ type ProductDetailsFormProps = {
    errors: FieldErrors<NewProductFormData>,
    isDirty?: boolean
 }
-export default function ProductDetailsForm({ control, errors, isDirty }: ProductDetailsFormProps) {
+export default function ProductDetailsSection({ control, errors, isDirty }: ProductDetailsFormProps) {
 
    return (
       <section

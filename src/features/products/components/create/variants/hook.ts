@@ -1,6 +1,6 @@
 import { useVariantStore } from '@/stores/variant-store'
 
-import { RawProductVariant } from '../model'
+import { RawProductVariant } from '../../../model'
 
 export const useVariantFormIntegration = () => {
   const { variants, resetVariants , hasSelectedVariants } = useVariantStore()

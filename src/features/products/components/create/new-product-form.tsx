@@ -4,23 +4,23 @@ import { TriangleAlert, X } from "lucide-react"
 
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import BasicInfoSection from "./basic-info-section"
+import BasicInfoSection from "./basic-info-section/basic-info-section"
 import { toast } from "sonner"
 import FloatingNotificationBar from "@/features/notifications/floating-notification-bar"
 import { useCreateProduct } from "../../hook"
 import { ErrorResponse } from "@/types/ErrorResponse"
 import { NewProductFormData, NewProductFormSchema } from "@/lib/validations"
 import { useAuth } from "@/features/auth/hook"
-import ProductDetailsForm from "./product-details-form"
-import SalesInfoSection from "./sales-info-section"
+import ProductDetailsSection from "./product-details-section/product-details-section"
+import SalesInfoSection from "./sales-info-section/sales-info-section"
 import PublishCardForm from "./publish-card-form"
-import ShippingSection from "./shipping-section"
+import ShippingSection from "./shipping-section/shipping-section"
 import OthersInfoSection from "./others-info-section"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useVariantStore } from "@/stores/variant-store"
-import { useVariantFormIntegration } from "../../hooks/use-variant-form"
+import { useVariantFormIntegration } from "./variants/hook"
 import { useEffect } from "react"
-import VerticalSectionsNav from "./vertical-sections-nav"
+import VerticalSectionsNav from "../../../../components/navigations/vertical-sections-nav"
 
 export default function NewProductForm() {
   const { shop, loading } = useAuth();
@@ -205,7 +205,7 @@ export default function NewProductForm() {
                 errors={errors}
                 isDirty={isDirty}
               />
-              <ProductDetailsForm
+              <ProductDetailsSection
                 control={control}
                 errors={errors}
                 isDirty={isDirty}

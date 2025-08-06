@@ -1,5 +1,5 @@
-import NewProductForm from "@/features/products/components/new/new-product-form";
-import VerticalSectionsNav from "@/features/products/components/new/vertical-sections-nav";
+import NewProductForm from "@/features/products/components/create/new-product-form";
+import VerticalSectionsNav from "@/components/navigations/vertical-sections-nav";
 import { Metadata } from "next/types";
 
 const ProductsManagementPage = () => {

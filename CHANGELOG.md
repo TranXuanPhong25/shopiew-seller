@@ -1,3 +1,10 @@
+## [0.14.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.13.1...v0.14.0) (2025-08-06)
+
+### 🚀 Features
+
+* delete product function and refactor hooks ([614e9a3](https://github.com/TranXuanPhong25/shopiew-seller/commit/614e9a3c364eaaa46b066558b89a9d4c42080a52))
+* file in store ([4f5a22f](https://github.com/TranXuanPhong25/shopiew-seller/commit/4f5a22f0cccb37da0cd98977c397afe1dd5efbd7))
+
 ## [0.13.1](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.13.0...v0.13.1) (2025-08-06)
 
 ### 🐛 Bug Fixes

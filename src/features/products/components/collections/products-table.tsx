@@ -82,13 +82,9 @@ export function ProductsTable({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 
-  // Update local data when products change from props
   React.useEffect(() => {
-    if (products.length !== 0) {
-      setData(products);
-    }
-  }, [products]);
-
+    setData(products)
+  }, [products])
 
   const table = useReactTable({
     data,

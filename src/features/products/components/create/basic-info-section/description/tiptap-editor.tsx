@@ -35,6 +35,7 @@ export default function ProductDescriptionEditor({
          //       class: "text-blue-600 underline cursor-pointer",
          //    },
          // }),
+         // CharacterCount
       ],
       content,
       onUpdate: ({ editor }) => {
@@ -47,7 +48,6 @@ export default function ProductDescriptionEditor({
       },
       immediatelyRender: true,
    })
-   
    useEffect(() => {
       if (!isDirty && editor.getText() !== "") {
          editor.commands.setContent(content)
@@ -71,7 +71,6 @@ export default function ProductDescriptionEditor({
          setShowLinkInput(true)
       }
    }
-
    if (!editor) {
       return null
    }
@@ -137,7 +136,7 @@ export default function ProductDescriptionEditor({
          {/* Footer with character count */}
          <div className="border-t bg-gray-50 px-4 py-2 text-sm text-gray-600 flex justify-between items-center">
             <span>Rich text editor for product descriptions</span>
-            <span>{ } characters</span>
+            <span>{editor.getText().length} characters</span>
          </div>
       </div>
    )

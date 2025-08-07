@@ -2,10 +2,10 @@ import { NewProductFormData } from "@/lib/validations"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form"
 import { Label } from "@/components/ui/label"
-import { useCategorySelection, useGetCategoryAndChildren } from "../../../../hook"
 import CategorySelectionItems from "./category-selection-items"
 import { toast } from "sonner"
 import { useEffect } from "react"
+import { useCategorySelection, useGetCategoryAndChildren } from "./hook"
 
 type BasicInfoSectionProps = {
    control: Control<any,any,any>

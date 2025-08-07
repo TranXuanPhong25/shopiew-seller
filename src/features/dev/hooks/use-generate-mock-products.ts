@@ -23,12 +23,12 @@ type GenerateMockProductsResult = {
 export function useGenerateMockProducts() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [results, setResults] = useState<Product[]>([]);
-  const [errors, setErrors] = useState<Array<{index: number; error: string}>>([]);
+  const [errors, setErrors] = useState<Array<{ index: number; error: string }>>([]);
   const [progress, setProgress] = useState(0);
 
   const generateMockProducts = async (options: GenerateMockProductsOptions): Promise<GenerateMockProductsResult> => {
     const { count, categoryId, includeImages, shopId } = options;
-    
+
     if (!shopId) {
       toast.error("Shop ID is required");
       return { success: false, count: 0, products: [], errors: [{ index: -1, error: "Shop ID is required" }] };
@@ -40,7 +40,7 @@ export function useGenerateMockProducts() {
     setProgress(0);
 
     const createdProducts: Product[] = [];
-    const creationErrors: Array<{index: number; error: string}> = [];
+    const creationErrors: Array<{ index: number; error: string }> = [];
 
     try {
       // Generate and create products one by one
@@ -53,8 +53,8 @@ export function useGenerateMockProducts() {
             product: mockProductData.product,
             variants: [
               {
-                price: mockProductData.variant.price +"",
-                stockQuantity: mockProductData.variant.stockQuantity +"",
+                price: mockProductData.variant.price + "",
+                stockQuantity: mockProductData.variant.stockQuantity + "",
                 sku: mockProductData.variant.sku,
                 images: mockProductData.variant.images,
                 attributes: mockProductData.variant.attributes
@@ -73,11 +73,11 @@ export function useGenerateMockProducts() {
           // Call the actual product service to create the product
           const createdProduct = await ProductsService.createProduct(createProductData);
           createdProducts.push(createdProduct);
-          
+
           // Update state after each successful creation for better UX
           setResults(prev => [...prev, createdProduct]);
           setProgress(Math.round(((i + 1) / count) * 100));
-          
+
           // Show toast for each product
           toast.success(`Created product ${i + 1}/${count}: ${mockProductData.product.name}`);
         } catch (err) {
@@ -87,11 +87,11 @@ export function useGenerateMockProducts() {
             error: err instanceof Error ? err.message : 'Unknown error'
           };
           creationErrors.push(errorInfo);
-          
+
           // Update errors state
           setErrors(prev => [...prev, errorInfo]);
           setProgress(Math.round(((i + 1) / count) * 100));
-          
+
           // Show error toast
           toast.error(`Failed to create product ${i + 1}/${count}`);
         }
@@ -103,7 +103,7 @@ export function useGenerateMockProducts() {
         products: createdProducts,
         errors: creationErrors.length > 0 ? creationErrors : undefined
       };
-      
+
       return result;
     } catch (error) {
       console.error("Error generating mock products:", error);
@@ -212,54 +212,54 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
     "Electric Hair Curler"
   ];
 
-  const brands = [
-    "TechPro",
-    "ComfortWear",
-    "ErgoDesign",
-    "LuxeSkin",
-    "VitaWell",
-    "GameMaster",
-    "PageTurner",
-    "SportElite",
-    "GigaTech",
-    "SoundWave",
-    "ChicStyle",
-    "RunFast",
-    "TimeWise",
-    "PlayStation",
-    "CleanTech",
-    "AudioLux",
-    "SnapShot",
-    "QuietZone",
-    "FitTrack",
-    "HomeSmart",
-    "KettleKing",
-    "PureAir",
-    "RoboClean",
-    "BikePro",
-    "CampMaster",
-    "ZenYoga",
-    "MixMaster",
-    "PowerToolPro",
-    "CookSmart",
-    "GrillKing",
-    "ThermoSmart",
-    "LightWise",
-    "ChargeUp",
-    "NetConnect",
-    "StreamBox",
-    "BrightBulb",
-    "ShaveSmart",
-    "FrameItUp",
-    "VacuumPro",
-    "BrewMaster",
-    "GrillTech",
-    "WashAway",
-    "HydroSmart",
-    "BlanketCozy",
-    "DoorGuard",
-    "ScootSmart", 
-  ];
+  // const brands = [
+  //   "TechPro",
+  //   "ComfortWear",
+  //   "ErgoDesign",
+  //   "LuxeSkin",
+  //   "VitaWell",
+  //   "GameMaster",
+  //   "PageTurner",
+  //   "SportElite",
+  //   "GigaTech",
+  //   "SoundWave",
+  //   "ChicStyle",
+  //   "RunFast",
+  //   "TimeWise",
+  //   "PlayStation",
+  //   "CleanTech",
+  //   "AudioLux",
+  //   "SnapShot",
+  //   "QuietZone",
+  //   "FitTrack",
+  //   "HomeSmart",
+  //   "KettleKing",
+  //   "PureAir",
+  //   "RoboClean",
+  //   "BikePro",
+  //   "CampMaster",
+  //   "ZenYoga",
+  //   "MixMaster",
+  //   "PowerToolPro",
+  //   "CookSmart",
+  //   "GrillKing",
+  //   "ThermoSmart",
+  //   "LightWise",
+  //   "ChargeUp",
+  //   "NetConnect",
+  //   "StreamBox",
+  //   "BrightBulb",
+  //   "ShaveSmart",
+  //   "FrameItUp",
+  //   "VacuumPro",
+  //   "BrewMaster",
+  //   "GrillTech",
+  //   "WashAway",
+  //   "HydroSmart",
+  //   "BlanketCozy",
+  //   "DoorGuard",
+  //   "ScootSmart",
+  // ];
 
   const descriptions = [
     "The latest technology with advanced features for the modern user.",
@@ -324,24 +324,34 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
   const price = Math.floor(Math.random() * 3601) + 10;
 
   // Get random product name and description based on category
-  const randomIndex = Math.floor(Math.random() * Math.min(productNames.length-1, brands.length-1, descriptions.length-1));
+  const randomIndex = Math.floor(Math.random() * Math.min(productNames.length - 1, descriptions.length - 1));
   const name = productNames[randomIndex] + " " + Math.floor(Math.random() * 10000);
-  const brand = brands[randomIndex];
+  const brandId = "1"; // Use brandId as a string instead of an object
   const description = descriptions[randomIndex];
-  
+
 
 
   const statuses = ["ACTIVE", "DRAFT", "ARCHIVED"] as const;
   const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-
+  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
   const product = {
     shopId,
     name,
     categoryId,
+    brand:{
+      id: brandId,
+    },
+    images: includeImages
+      ? Array.from({ length: Math.floor(Math.random() * 5) + 1 }, (_, i) =>
+        `https://picsum.photos/seed/${uuid}-${i}/640/480`)
+      : [],
     description,
     createdAt: new Date().toISOString(),
     specs: {
-      brand,
+      brand: brandId, // Use brandId string directly
       packageSize: Math.floor(Math.random() * 100).toString(),
       activeIngredients: "Active Compound " + Math.floor(Math.random() * 10),
       ingredients: "Ingredient A, Ingredient B, Ingredient C",
@@ -356,23 +366,20 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
     status: randomStatus,
   };
   // Generate random ID (UUID-like format)
-  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
+
   const variant = {
     price,
     stockQuantity: Math.floor(Math.random() * 1000) + 10,
     sku: "SKU" + Math.floor(Math.random() * 10000).toString().padStart(4, '0'),
     images: includeImages
-      ? Array.from({ length: Math.floor(Math.random() * 5) + 1 }, (_, i) => 
+      ? Array.from({ length: Math.floor(Math.random() * 5) + 1 }, (_, i) =>
         `https://picsum.photos/seed/${uuid}-${i}/640/480`)
       : [],
     attributes: {
       color: ["Red", "Blue", "Green", "Black", "White"][Math.floor(Math.random() * 5)],
       size: ["S", "M", "L", "XL"][Math.floor(Math.random() * 4)],
     }
-  };  
+  };
 
   return {
     product,

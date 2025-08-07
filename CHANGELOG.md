@@ -1,3 +1,18 @@
+## [0.15.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.14.0...v0.15.0) (2025-08-07)
+
+### 🚀 Features
+
+*  add brand column ([0bdce8c](https://github.com/TranXuanPhong25/shopiew-seller/commit/0bdce8c5651d172ba30462638ab3e06072baab5e))
+
+### 🐛 Bug Fixes
+
+* products table data update ([5905861](https://github.com/TranXuanPhong25/shopiew-seller/commit/5905861350f97ead924dd6ec9ecad82d286c24e3))
+
+### 🔨 Technical Changes
+
+* clean up formatting and improve code readability in useGenerateMockProducts hook ([8adb636](https://github.com/TranXuanPhong25/shopiew-seller/commit/8adb636fa27bddf6077d8bd3192445a189bad674))
+* update import paths for category selection hooks ([0cf5485](https://github.com/TranXuanPhong25/shopiew-seller/commit/0cf5485b99c55aad5c0ae56f1a32cc189c5ec090))
+
 ## [0.14.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.13.1...v0.14.0) (2025-08-06)
 
 ### 🚀 Features

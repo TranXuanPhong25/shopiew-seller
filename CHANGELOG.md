@@ -1,3 +1,13 @@
+## [0.16.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.15.0...v0.16.0) (2025-08-07)
+
+### 🚀 Features
+
+* character count ([abf1398](https://github.com/TranXuanPhong25/shopiew-seller/commit/abf139814f27dafaf057a7d61bb3331af467a1e8))
+
+### 🔨 Technical Changes
+
+* remove debug log from ProductsTable component ([2e0082b](https://github.com/TranXuanPhong25/shopiew-seller/commit/2e0082b88435a5350e7529bb3d2c4b4d1c9d9a84))
+
 ## [0.15.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.14.0...v0.15.0) (2025-08-07)
 
 ### 🚀 Features

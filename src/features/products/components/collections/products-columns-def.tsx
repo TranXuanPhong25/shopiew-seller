@@ -47,6 +47,17 @@ export const columns: ColumnDef<Product>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "brand.name",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")} className="!p-0">
+          Brand
+          <ArrowUpDownIcon className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    }
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (

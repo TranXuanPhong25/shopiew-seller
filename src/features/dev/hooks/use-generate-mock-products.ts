@@ -211,56 +211,6 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
     "Smart Fridge Organizer",
     "Electric Hair Curler"
   ];
-
-  // const brands = [
-  //   "TechPro",
-  //   "ComfortWear",
-  //   "ErgoDesign",
-  //   "LuxeSkin",
-  //   "VitaWell",
-  //   "GameMaster",
-  //   "PageTurner",
-  //   "SportElite",
-  //   "GigaTech",
-  //   "SoundWave",
-  //   "ChicStyle",
-  //   "RunFast",
-  //   "TimeWise",
-  //   "PlayStation",
-  //   "CleanTech",
-  //   "AudioLux",
-  //   "SnapShot",
-  //   "QuietZone",
-  //   "FitTrack",
-  //   "HomeSmart",
-  //   "KettleKing",
-  //   "PureAir",
-  //   "RoboClean",
-  //   "BikePro",
-  //   "CampMaster",
-  //   "ZenYoga",
-  //   "MixMaster",
-  //   "PowerToolPro",
-  //   "CookSmart",
-  //   "GrillKing",
-  //   "ThermoSmart",
-  //   "LightWise",
-  //   "ChargeUp",
-  //   "NetConnect",
-  //   "StreamBox",
-  //   "BrightBulb",
-  //   "ShaveSmart",
-  //   "FrameItUp",
-  //   "VacuumPro",
-  //   "BrewMaster",
-  //   "GrillTech",
-  //   "WashAway",
-  //   "HydroSmart",
-  //   "BlanketCozy",
-  //   "DoorGuard",
-  //   "ScootSmart",
-  // ];
-
   const descriptions = [
     "The latest technology with advanced features for the modern user.",
     "Comfortable and stylish for everyday wear in all seasons.",
@@ -326,7 +276,7 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
   // Get random product name and description based on category
   const randomIndex = Math.floor(Math.random() * Math.min(productNames.length - 1, descriptions.length - 1));
   const name = productNames[randomIndex] + " " + Math.floor(Math.random() * 10000);
-  const brandId = "1"; // Use brandId as a string instead of an object
+  const brandId = String(Math.round(Math.random() * 36));
   const description = descriptions[randomIndex];
 
 
@@ -341,7 +291,7 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
     shopId,
     name,
     categoryId,
-    brand:{
+    brand: {
       id: brandId,
     },
     coverImage: includeImages ? `https://picsum.photos/seed/${uuid}/640/480` : "",

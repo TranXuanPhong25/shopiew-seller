@@ -1,3 +1,9 @@
+## [0.19.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.18.0...v0.19.0) (2025-08-08)
+
+### 🚀 Features
+
+* Enhance NewProductForm and SalesInfoSection with variant handling and loading skeleton ([53778b1](https://github.com/TranXuanPhong25/shopiew-seller/commit/53778b17c589c3ffdfe43159bfd838b803253b94))
+
 ## [0.18.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.17.0...v0.18.0) (2025-08-08)
 
 ### 🚀 Features

@@ -33,6 +33,7 @@ export default function NewProductForm() {
       name: "",
       category: "",
       description: "<p></p>",
+      sku: "",
       specs: {
         brand: "",
         packageSize: "",

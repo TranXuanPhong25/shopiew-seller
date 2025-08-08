@@ -1,3 +1,9 @@
+## [0.17.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.16.0...v0.17.0) (2025-08-08)
+
+### 🚀 Features
+
+* Refactor product image upload and management ([a884235](https://github.com/TranXuanPhong25/shopiew-seller/commit/a8842354b2b26f05308c0f5de09459230747e365))
+
 ## [0.16.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.15.0...v0.16.0) (2025-08-07)
 
 ### 🚀 Features

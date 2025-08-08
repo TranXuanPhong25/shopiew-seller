@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { CreateProductData, UploadImageResponse } from "./model";
+import { CreateProductData, Product, ProductVariant, UploadImageResponse } from "./model";
 import { ProductsService, UploadService } from "./service";
 import { useVariantStore } from "@/stores/variant-store";
 import { MediaItem } from "@/stores/types/product-media-store";
@@ -14,22 +14,22 @@ const useCreateProduct = () => {
       mutationFn: async (data: CreateProductData) => {
          try {
             const product = await ProductsService.createDraftProduct(data);
-            const productId = product?.id;
             const productImages = images.map(image => ({
                id: image.id,
                file: image.file
             }));
-            const selectedVariantHasImage = getSelectedVariantsHasImage();
             const uploadedProductImages = await Promise.all(productImages.map(image => uploadImages(image)));
             product.images = uploadedProductImages.map(uploaded => uploaded.resource);
-            let updatedVariants = product.variants || [];
+
+            let updatedVariants: ProductVariant[] = [];
             if (product.variants) {
+               const selectedVariantHasImage = getSelectedVariantsHasImage();
                const variantImages = selectedVariantHasImage.flatMap(variant => variant.images || []);
                const uploadedVariantImages = await Promise.all(variantImages.map(image => uploadImages({ id: image.id, file: image.file })));
                updatedVariants = product.variants.map(variant => {
                   const matchedVariant = selectedVariantHasImage
-                  .find(variantInStore => 
-                     variantInStore.name == Object.values(variant.attributes||{}).join('/')
+                  .find(variantInStore =>
+                     variantInStore.name == Object.values(variant.attributes || {}).join('/')
                   );
                   return {
                      ...variant,
@@ -39,7 +39,8 @@ const useCreateProduct = () => {
                   };
                });
             }
-            const updatedProduct = await ProductsService.updateProductById(productId, {
+            
+            const updatedProduct = await ProductsService.updateProductById(product?.id, {
                product: {
                   ...product,
                },
@@ -47,7 +48,7 @@ const useCreateProduct = () => {
             });
             return updatedProduct;
          } catch (error) {
-            throw error; // Re-throw to handle it in the component
+            throw error;
          }
       },
    });

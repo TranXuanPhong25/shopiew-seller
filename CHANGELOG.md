@@ -1,3 +1,9 @@
+## [0.22.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.21.0...v0.22.0) (2025-08-08)
+
+### 🚀 Features
+
+* Add cover image handling to product creation and update product model ([fda46ee](https://github.com/TranXuanPhong25/shopiew-seller/commit/fda46ee7347fae14f6beada472ecea2dfa0b02e4))
+
 ## [0.21.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.20.0...v0.21.0) (2025-08-08)
 
 ### 🚀 Features

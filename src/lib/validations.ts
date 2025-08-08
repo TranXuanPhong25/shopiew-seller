@@ -37,6 +37,8 @@ export const NewProductFormSchema = z.object({
     productSize: z.string().optional(),
     packagingMaterial: z.string().optional()
   }),
+  sku: z.string().optional(),
+
   price: z.string()
     .refine(val => !val || /^\d+(\.\d+)?$/.test(val), { message: "Giá phải là số." }),
   stockQuantity: z.string()

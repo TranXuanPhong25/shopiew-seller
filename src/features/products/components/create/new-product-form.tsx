@@ -77,7 +77,7 @@ export default function NewProductForm() {
     const submitVariants = hasVariants ? selectedVariants : [{
       price: data.price,
       stockQuantity: data.stockQuantity,
-      sku: "",
+      sku: data.sku,
       selected: true,
       attributes: {},
       images: [],

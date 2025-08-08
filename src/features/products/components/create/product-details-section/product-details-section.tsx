@@ -53,11 +53,10 @@ export default function ProductDetailsSection({ control, errors, isDirty }: Prod
                               {errors.specs?.brand?.message || "Thương hiệu là bắt buộc."
                               }
                            </p>
-                        )} 
+                        )}
                      </div>
                   )}
                />
-
                {/* Package Size */}
                <Controller
                   control={control}

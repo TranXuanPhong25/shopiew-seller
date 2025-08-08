@@ -25,34 +25,34 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
          className=" mt-8 space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
          <h2 className="text-2xl font-bold mb-2">Thông tin bán hàng</h2>
 
-         
-         <VariantOptions/>
+
+         <VariantOptions />
          {!hasOption() && (
             <>
-               <div className="">
-                  <Label htmlFor="price" className="text-base font-normal">
-                     <span className="text-red-500">*</span> Giá
-                  </Label>
-                  <div>
-                     <div className="flex items-center gap-2">
-                        <InputWithUnit
-                           id="price"
-                           placeholder="0"
-                           type="number"
-                           unit="đ"
-                           {...register("price")}
-                        />
-                        {
-                           errors.price && (
-                              <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
-                           )
-                        }
-                     </div>
-                     {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
-                  </div>
-               </div>
-               {/* Stock Quantity */}
                <div className="grid  md:grid-cols-2 gap-6">
+                  <div>
+                     <Label htmlFor="price" className="text-base font-normal">
+                        <span className="text-red-500">*</span> Giá
+                     </Label>
+                     <div>
+                        <div className="flex items-center gap-2">
+                           <InputWithUnit
+                              id="price"
+                              placeholder="0"
+                              type="number"
+                              unit="đ"
+                              className="w-full"
+                              {...register("price")}
+                           />
+                           {
+                              errors.price && (
+                                 <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+                              )
+                           }
+                        </div>
+                        {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
+                     </div>
+                  </div>
                   <div className=" ">
                      <Label htmlFor="stock-quantity" className="text-base font-normal gap-1 flex items-center">
                         <span className="text-red-500">*</span> Kho hàng
@@ -74,7 +74,25 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
                         {errors.stockQuantity && <p className="text-red-500 text-sm mt-1">{errors.stockQuantity.message}</p>}
                      </div>
                   </div>
-
+               </div>
+               {/* Stock Quantity */}
+               <div className="grid  md:grid-cols-2 gap-6">
+                  <div>
+                     <Label htmlFor="sku" className="text-base font-normal">
+                        SKU
+                     </Label>
+                     <div>
+                        <div className="flex items-center gap-2">
+                           <Input id="sku" placeholder="SKU" {...register("sku")} />
+                           {
+                              errors.sku && (
+                                 <p className="text-red-500 text-sm mt-1">{errors.sku.message}</p>
+                              )
+                           }
+                        </div>
+                        {errors.sku && <p className="text-red-500 text-sm mt-1">{errors.sku.message}</p>}
+                     </div>
+                  </div>
                   {/* Max Purchase Quantity */}
                   <div className="">
                      <Label htmlFor="max-purchase-quantity" className="text-base font-normal flex items-center gap-1">
@@ -123,7 +141,7 @@ const SalesInfoSection = ({ register, control, errors }: SalesInfoSectionProps) 
                </div>
             </>
          )}
-         
+
       </section>
    )
 }

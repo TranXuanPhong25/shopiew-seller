@@ -1,13 +1,13 @@
-import axiosClient from "@/utils/axiosClient";
-import { CreateProductData, GetProductResponse, Product } from "./model";
-import { ErrorResponse } from "@/types/ErrorResponse";
+import axiosClient from "@/lib/clients/shopiewClient";
+import { CreateProductData, CreateProductResponse, GetProductResponse, Product, UpdateProductData, UploadImageResponse } from "./model";
+import { ErrorResponse } from "@/lib/clients/types/ErrorResponse";
 import axios from "axios";
 
 
 export const ProductsService = {
-   createProduct: async (data: CreateProductData): Promise<Product> => {
+   createDraftProduct: async (data: CreateProductData): Promise<CreateProductResponse> => {
       try {
-         const response = await axiosClient.post<Product>("/products", data);
+         const response = await axiosClient.post<CreateProductResponse>("/products", data);
          return response.data;
       } catch (err) {
          if (axios.isAxiosError(err) && err.response) {
@@ -54,7 +54,7 @@ export const ProductsService = {
          throw err;
       }
    },
-   updateProductById: async (productId: string, data: CreateProductData): Promise<Product> => {
+   updateProductById: async (productId: string, data: UpdateProductData): Promise<Product> => {
       try {
          const response = await axiosClient.put<Product>(`/products/${productId}`, data);
          return response.data;
@@ -75,5 +75,40 @@ export const ProductsService = {
          }
          throw err;
       }
+   }
+}
+
+export const UploadService = {
+   generatePresignedUrl: async (file: File, fileName: string): Promise<UploadImageResponse> => {
+      try {
+         const response = await axiosClient.post<UploadImageResponse>("/upload/presigned-url/image", {
+            fileName: fileName,
+            mimeType: file.type,
+            fileSize: file.size
+         });
+         return response.data;
+      } catch (err) {
+         if (axios.isAxiosError(err) && err.response) {
+            throw err.response.data as ErrorResponse;
+         }
+         throw err;
+      }
+   },
+   upload(file: File, presignedUrl: string): Promise<string> {
+      return new Promise((resolve, reject) => {
+         const xhr = new XMLHttpRequest();
+         xhr.open("PUT", presignedUrl, true);
+         xhr.setRequestHeader("Content-Type", file.type);
+         console.log(presignedUrl, file.type);
+         xhr.onload = () => {
+            if (xhr.status === 200) {
+               resolve(presignedUrl.split("?")[0]); // Return the URL without query params
+            } else {
+               reject(new Error(`Failed to upload file: ${xhr.statusText}`));
+            }
+         };
+         xhr.onerror = () => reject(new Error("Network error"));
+         xhr.send(file);
+      });
    }
 }

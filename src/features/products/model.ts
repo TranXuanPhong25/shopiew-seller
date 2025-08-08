@@ -12,6 +12,7 @@ export type Product = RawProduct & {
    id: string
    createdAt: string
    updatedAt: string
+   images?: string[]
 }
 export type Brand = {
    id: string
@@ -30,6 +31,7 @@ export type RawProductVariant = {
 
 
 export type ProductVariant = RawProductVariant & {
+   images:string[]
    id: string
 }
 
@@ -52,4 +54,19 @@ export type GetProductResponse = {
    pageSize: number
    totalElements: number
    totalPages: number
+}
+
+export type CreateProductResponse = Product & {
+   variants: ProductVariant[]
+}
+
+export type UploadImageResponse = {
+   presignedUrl: string;
+   fileName: string;
+   resource: string;
+}
+
+export type UpdateProductData = {
+   product: Product
+   variants: ProductVariant[]
 }

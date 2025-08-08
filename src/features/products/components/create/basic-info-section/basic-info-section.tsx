@@ -1,16 +1,14 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import Image from "next/image"
-import { PlayCircle, ImageIcon } from "lucide-react"
+import { PlayCircle } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form"
-import React, { useEffect } from "react"
+import { Control, FieldErrors, UseFormRegister } from "react-hook-form"
+import React from "react"
 import { NewProductFormData } from "@/lib/validations"
 import CategorySelection from "./categories/category-selection"
 import ProductDescription from "./description/product-description"
+import ImageListUpload from "./media/image-list-upload"
 export type BasicInfoSectionProps = {
    register: UseFormRegister<NewProductFormData>,
    control: Control<NewProductFormData, any, NewProductFormData>,
@@ -22,52 +20,8 @@ const BasicInfoSection = ({ register, control, errors, isDirty }: BasicInfoSecti
       <section className=" space-y-8 p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto" id={"basic-info-section"}>
          <h2 className="text-2xl font-bold mb-6 ">Thông tin cơ bản</h2>
 
-         <div>
-            <Label htmlFor="product-images" className="text-base font-normal pt-2">
-               Hình ảnh sản phẩm
-            </Label>
-            <div>
-               <div className="flex items-center gap-2 mb-4">
-                  <Label htmlFor="image-ratio-1-1" className="text-base font-normal">
-                     *Hình ảnh tỷ lệ 1:1
-                  </Label>
-               </div>
-               <div className="flex flex-wrap gap-4 mb-4">
-                  {Array.from({ length: 7 }).map((_, index) => (
-                     <div key={index} className="relative w-24 h-24 border rounded-md overflow-hidden group">
-                        <Image
-                           src="/placeholder.svg?height=96&width=96"
-                           alt={`Product image ${index + 1}`}
-                           width={96}
-                           height={96}
-                           className="object-cover w-full h-full"
-                        />
-                        {index === 0 && (
-                           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs text-center py-1">
-                              Ảnh bìa
-                           </div>
-                        )}
-                        {index === 0 && (
-                           <div className="absolute inset-0 border-2 border-red-500 rounded-md pointer-events-none" />
-                        )}
-                     </div>
-                  ))}
-               </div>
-               <div className="flex items-center gap-2 text-sm">
-                  <Checkbox id="image-ratio-3-4" />
-                  <Label htmlFor="image-ratio-3-4" className="font-normal">
-                     Hình ảnh tỷ lệ 3:4{" "}
-                     <span className="text-muted-foreground">
-                        Giúp sản phẩm thời trang thêm nổi bật với tỷ lệ hình ảnh 3:4
-                     </span>
-                  </Label>
-                  <a href="#" className="text-blue-600 hover:underline">
-                     Xem ví dụ
-                  </a>
-               </div>
-            </div>
-         </div>
-
+         <ImageListUpload />
+         
          {/* Product Video Section */}
          <div>
             <Label htmlFor="product-video" className="text-base font-normal pt-2">

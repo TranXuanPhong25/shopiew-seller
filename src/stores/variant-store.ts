@@ -7,14 +7,9 @@ import {
   OptionValue
 } from '@/stores/types/variant-store'
 import { TriadState } from '@/components/ui/triad-checkbox'
-import { formatPriceValue } from '@/lib/utils'
+import { formatPriceValue, generateUniqueId } from '@/lib/utils'
 
 // Helper function to generate unique IDs
-let idCounter = 0
-const generateUniqueId = () => {
-  idCounter += 1
-  return `${Date.now()}-${idCounter}`
-}
 
 let debounceTimer: NodeJS.Timeout | null = null
 
@@ -46,7 +41,7 @@ const generateVariantCombinations = (options: ProductOption[]): Variant[] => {
     price: '',
     available: '',
     sku: '',
-    selected: false,
+    selected: true,
     combination
   }))
 }
@@ -263,7 +258,8 @@ export const useVariantStore = create<VariantStore>()(
             } : variant
         )
         set({ variants: newVariants })
-      }
+      },
+      getSelectedVariantsHasImage: () => get().variants.filter(variant => variant.selected && variant.images && variant.images.length > 0)
     }),
     {
       name: 'variant-store',

@@ -2,7 +2,7 @@
  * Auth service handling API interactions
  */
 import {LoginResponse, RegisterResponse, Shop, User} from './models';
-import axiosClient from '@/utils/axiosClient';
+import axiosClient from '@/lib/clients/shopiewClient';
 
 export const AuthService = {
     /**

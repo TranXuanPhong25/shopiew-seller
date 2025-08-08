@@ -48,6 +48,12 @@ export default function ProductDetailsSection({ control, errors, isDirty }: Prod
                               <SelectItem value="Brand B">Brand B</SelectItem>
                            </SelectContent>
                         </Select>
+                        {errors.specs?.brand && (
+                           <p className="text-red-500 text-xs mt-1">
+                              {errors.specs?.brand?.message || "Thương hiệu là bắt buộc."
+                              }
+                           </p>
+                        )} 
                      </div>
                   )}
                />

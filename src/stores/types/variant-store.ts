@@ -24,7 +24,7 @@ export interface Variant {
 
 export interface VariantImage{
   id: string
-  file: File | null
+  file: File
 }
 
 export interface VariantStoreActions {
@@ -48,6 +48,7 @@ export interface VariantStoreActions {
   variantsSelectState: () => TriadState
   resetVariants: () => void
   onImageChange: (variantId: string, file: File | null) => void
+  getSelectedVariantsHasImage: () => Variant[]
 }
 
 export interface VariantStoreState {

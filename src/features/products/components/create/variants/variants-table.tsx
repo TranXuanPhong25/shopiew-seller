@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { TriadCheckbox } from "@/components/ui/triad-checkbox"
 import { useVariantStore } from "@/stores/variant-store"
 import { InputWithUnit } from "@/components/form/input-with-unit"
-import ImageUpload from "./variant-image-upload"
+import ImageUpload from "@/components/form/image-upload"
 
 export default function VariantsTable() {
    const {
@@ -21,7 +21,6 @@ export default function VariantsTable() {
    if (variants.length === 0) {
       return null
    }
-   console.log(variants)
    return (
       <div className="bg-white rounded-lg shadow-sm border">
          <div className="p-4 border-b flex justify-between items-center">

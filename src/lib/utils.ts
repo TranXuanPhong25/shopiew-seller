@@ -89,3 +89,9 @@ export const formatPriceValue = (value: string): string => {
 
   return formattedInteger
 }
+
+let idCounter = 0
+export const generateUniqueId = () => {
+  idCounter += 1
+  return `${Date.now()}-${idCounter}`
+}

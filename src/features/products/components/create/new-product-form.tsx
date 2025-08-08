@@ -8,7 +8,7 @@ import BasicInfoSection from "./basic-info-section/basic-info-section"
 import { toast } from "sonner"
 import FloatingNotificationBar from "@/features/notifications/floating-notification-bar"
 import { useCreateProduct } from "../../hook"
-import { ErrorResponse } from "@/types/ErrorResponse"
+import { ErrorResponse } from "@/lib/clients/types/ErrorResponse"
 import { NewProductFormData, NewProductFormSchema } from "@/lib/validations"
 import { useAuth } from "@/features/auth/hook"
 import ProductDetailsSection from "./product-details-section/product-details-section"
@@ -30,9 +30,6 @@ export default function NewProductForm() {
     handleSubmit,
     control,
     reset,
-    watch,
-    setValue,
-    getValues,
     formState: { errors, isDirty },
   } = useForm<NewProductFormData>({
     resolver: zodResolver(NewProductFormSchema),

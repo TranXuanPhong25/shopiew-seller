@@ -4,7 +4,7 @@ import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import { Button } from "@/components/ui/button"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, useRef } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import TiptapMenu from "./tiptap-menu"
@@ -25,6 +25,7 @@ export default function ProductDescriptionEditor({
 }: ProductDescriptionEditorProps) {
    const [linkUrl, setLinkUrl] = useState("")
    const [showLinkInput, setShowLinkInput] = useState(false)
+   const [isUpdatingFromEditor, setIsUpdatingFromEditor] = useState(false)
 
    const editor = useEditor({
       extensions: [
@@ -39,7 +40,10 @@ export default function ProductDescriptionEditor({
       ],
       content,
       onUpdate: ({ editor }) => {
+         setIsUpdatingFromEditor(true)
          onChange(editor.getHTML())
+         // Reset the flag after a short delay to allow the effect to process
+         setTimeout(() => setIsUpdatingFromEditor(false), 10)
       },
       editorProps: {
          attributes: {
@@ -48,11 +52,16 @@ export default function ProductDescriptionEditor({
       },
       immediatelyRender: true,
    })
+   
    useEffect(() => {
-      if (!isDirty && editor.getText() !== "") {
+      if (!editor || isUpdatingFromEditor) return
+      
+      const currentContent = editor.getHTML()
+      // Only update content if it's actually different and not from editor update
+      if (!isDirty && content !== currentContent && content !== "") {
          editor.commands.setContent(content)
       }
-   }, [content, isDirty, editor])
+   }, [content, isDirty, editor, isUpdatingFromEditor])
    const setLink = useCallback(() => {
       if (!editor) return
 

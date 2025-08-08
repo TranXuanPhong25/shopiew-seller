@@ -49,6 +49,7 @@ export interface VariantStoreActions {
   resetVariants: () => void
   onImageChange: (variantId: string, file: File | null) => void
   getSelectedVariantsHasImage: () => Variant[]
+  hasOption: () => boolean
 }
 
 export interface VariantStoreState {

@@ -1,7 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { TriangleAlert, X } from "lucide-react"
-
+import { TriangleAlert } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import BasicInfoSection from "./basic-info-section/basic-info-section"
@@ -16,15 +15,12 @@ import SalesInfoSection from "./sales-info-section/sales-info-section"
 import PublishCardForm from "./publish-card-form"
 import ShippingSection from "./shipping-section/shipping-section"
 import OthersInfoSection from "./others-info-section"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useVariantStore } from "@/stores/variant-store"
 import { useVariantFormIntegration } from "./variants/hook"
-import { useEffect } from "react"
-import VerticalSectionsNav from "../../../../components/navigations/vertical-sections-nav"
+import VerticalSectionsNav from "@/components/navigations/vertical-sections-nav"
+import ProductFormSkeleton from "./product-form-skeleton"
 
 export default function NewProductForm() {
   const { shop, loading } = useAuth();
-
   const {
     register,
     handleSubmit,
@@ -63,7 +59,6 @@ export default function NewProductForm() {
           height: "",
         },
       },
-      // Add variants field to form
     },
   })
   const { createProduct } = useCreateProduct()
@@ -72,13 +67,21 @@ export default function NewProductForm() {
     hasSelectedVariants,
     resetAllVariants
   } = useVariantFormIntegration()
+
   const onSubmit = async (data: NewProductFormData) => {
     if (!shop?.id) {
       return;
     }
-
-    // Get selected variants from store using the hook
     const selectedVariants = getSelectedVariantsForSubmission()
+    const hasVariants = selectedVariants.length > 0;
+    const submitVariants = hasVariants ? selectedVariants : [{
+      price: data.price,
+      stockQuantity: data.stockQuantity,
+      sku: "",
+      selected: true,
+      attributes: {},
+      images: [],
+    }];
     await createProduct({
       product: {
         shopId: shop?.id,
@@ -94,7 +97,7 @@ export default function NewProductForm() {
         },
         status: data.status,
       },
-      variants: selectedVariants,
+      variants: submitVariants,
       shippingInfo: {
         ...data.shippingInfo
       },
@@ -113,63 +116,12 @@ export default function NewProductForm() {
   }
   const handleReset = () => {
     reset()
-    resetAllVariants() // Reset variant store when discarding changes
+    resetAllVariants()
   }
 
   return (
     <>
-      {loading ? (
-        <div className="space-y-8">
-          {/* Skeleton for BasicInfoSection */}
-          <div className="p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
-            <Skeleton className="h-8 w-1/3 mb-6" />
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
-                <Skeleton className="h-6 w-24" />
-                <Skeleton className="h-10 w-full" />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
-                <Skeleton className="h-6 w-32" />
-                <Skeleton className="h-10 w-full" />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
-                <Skeleton className="h-6 w-28" />
-                <Skeleton className="h-10 w-full" />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
-                <Skeleton className="h-6 w-24" />
-                <Skeleton className="h-40 w-full" />
-              </div>
-            </div>
-          </div>
-
-          {/* Skeleton for ProductDetailsForm */}
-          <div className="p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
-            <Skeleton className="h-8 w-1/4 mb-6" />
-            <div className="space-y-6">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
-                  <Skeleton className="h-6 w-28" />
-                  <Skeleton className="h-10 w-full" />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Skeleton for SalesInfoSection */}
-          <div className="p-6 bg-white rounded-lg shadow-sm max-w-5xl mx-auto">
-            <Skeleton className="h-8 w-1/4 mb-6" />
-            <div className="space-y-6">
-              {[1, 2].map((i) => (
-                <div key={i} className="grid grid-cols-1 md:grid-cols-[150px_1fr] gap-6">
-                  <Skeleton className="h-6 w-28" />
-                  <Skeleton className="h-10 w-full" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : (
+      {loading ? <ProductFormSkeleton/> : (
         <div className="relative flex justify-center">
           <FloatingNotificationBar isExpanded={isDirty || hasSelectedVariants()}>
             <div className="flex items-center justify-between w-full">

@@ -259,8 +259,10 @@ export const useVariantStore = create<VariantStore>()(
         )
         set({ variants: newVariants })
       },
-      getSelectedVariantsHasImage: () => get().variants.filter(variant => variant.selected && variant.images && variant.images.length > 0)
+      getSelectedVariantsHasImage: () => get().variants.filter(variant => variant.selected && variant.images && variant.images.length > 0),
+      hasOption: () => { return get().options.length > 0 },
     }),
+    
     {
       name: 'variant-store',
     }

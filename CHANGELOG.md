@@ -1,3 +1,9 @@
+## [0.18.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.17.0...v0.18.0) (2025-08-08)
+
+### 🚀 Features
+
+* Add searchable select component with command and popover integration ([70808e1](https://github.com/TranXuanPhong25/shopiew-seller/commit/70808e18d91d2bfd85807484df0a1345f1ca6be1))
+
 ## [0.17.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.16.0...v0.17.0) (2025-08-08)
 
 ### 🚀 Features

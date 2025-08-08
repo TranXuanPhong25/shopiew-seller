@@ -5,12 +5,12 @@ import ImageList from './image-list';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import useProductMediaStore from '@/stores/product-media-store';
-import { ImageItem } from '@/stores/types/product-media-store';
+import { MediaItem } from '@/stores/types/product-media-store';
 
 const ImageListUpload = () => {
   const {images, setImages } = useProductMediaStore();
 
-  const handleImagesChange = (newImages: ImageItem[]) => {
+  const handleImagesChange = (newImages: MediaItem[]) => {
     setImages(newImages);
   };
 
@@ -20,7 +20,6 @@ const ImageListUpload = () => {
         <h2 className="text-xl mb-2">Hình ảnh sản phẩm</h2>
         <p className="text-gray-600">*Hình ảnh tỷ lệ 1:1</p>
       </div>
-
       <ImageList
         images={images}
         onImagesChange={handleImagesChange}
@@ -30,7 +29,7 @@ const ImageListUpload = () => {
         allowReorder={true}
         placeholder="Add product image"
       />
-      <div className="flex items-center gap-2 text-sm">
+      <div className="flex items-center gap-2 text-sm bg-slate-50/80 p-4">
         <Checkbox id="image-ratio-3-4" />
         <Label htmlFor="image-ratio-3-4" className="font-normal">
           Hình ảnh tỷ lệ 3:4{" "}

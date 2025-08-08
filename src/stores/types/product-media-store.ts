@@ -1,20 +1,17 @@
 export interface ProductMediaStoreActions {
    setImages: (images: MediaItem[]) => void;
-   addImage: (image: MediaItem) => void;
-   removeImage: (imageId: string) => void;
+   setCoverImage: (image: File | null) => void;
 }
 
 export type MediaItem = {
-  id: string;
-  url?: string;
-  file: File;
-//   name?: string;
+   id: string;
+   url?: string;
+   file: File;
+   //   name?: string;
 }
 
 export interface ProductMediaStoreState {
    images: MediaItem[];
-   setImages: (images: MediaItem[]) => void;
-   addImage: (image: MediaItem) => void;
-   removeImage: (imageId: string) => void;
+   coverImage: File | null;
 }
 export type ProductMediaStore = ProductMediaStoreState & ProductMediaStoreActions

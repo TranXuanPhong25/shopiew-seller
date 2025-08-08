@@ -7,17 +7,12 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { X, MoveLeft, MoveRight } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-
-interface ImageItem {
-  id: string;
-  url: string;
-  file?: File;
-  name?: string;
-}
+import { MediaItem } from '@/stores/types/product-media-store';
+import CoverImage from './cover-image';
 
 interface ImageListProps {
-  images?: ImageItem[];
-  onImagesChange?: (images: ImageItem[]) => void;
+  images?: MediaItem[];
+  onImagesChange?: (images: MediaItem[]) => void;
   maxImages?: number;
   maxSizeMB?: number;
   className?: string;
@@ -43,11 +38,10 @@ const ImageList = ({
 
   const handleImageUpload = useCallback((file: File | null, url: string | null) => {
     if (file && url) {
-      const newImage: ImageItem = {
+      const newImage: MediaItem = {
         id: `img_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         url,
         file,
-        name: file.name
       };
 
       const updatedImages = [...images, newImage];
@@ -124,6 +118,7 @@ const ImageList = ({
     <div className={cn("space-y-4", className)}>
       {/* Images Grid */}
       <div className="flex flex-wrap gap-4">
+        <CoverImage />
         {images.map((image, index) => (
           <div
             key={image.id}
@@ -146,8 +141,8 @@ const ImageList = ({
               sizeClasses[size]
             )}>
               <Image
-                src={image.url}
-                alt={image.name || `Image ${index + 1}`}
+                src={image.url||""}
+                alt={image.file.name || `Image ${index + 1}`}
                 fill
                 className="object-cover"
                 sizes={`${Number(sizeClasses[size].slice(-2)) * 4}px`}

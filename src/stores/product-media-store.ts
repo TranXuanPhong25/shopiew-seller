@@ -6,15 +6,11 @@ const useProductMediaStore = create<ProductMediaStore>()(
    devtools(
       (set, get) => ({
          images: [],
+         coverImage: null,
          setImages: (images) => set({ images }),
-         addImage: (image) => {
-            const newImage = {
-               ...image,
-               id: `img_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
-            }
-            set((state) => ({ images: [...state.images, newImage] }))
+         setCoverImage: (file) => {
+            set({ coverImage: file })
          },
-         removeImage: (imageId) => set((state) => ({ images: state.images.filter((img) => img.id !== imageId) }))
       }))
 )
 export default useProductMediaStore

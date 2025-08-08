@@ -10,7 +10,6 @@ import { X, Upload, Camera, ImageIcon } from 'lucide-react';
 
 interface ImageUploadProps {
    onImageChange?: (file: File | null) => void;
-   onImageUrlChange?: (url: string | null) => void;
    maxSizeMB?: number;
    className?: string;
    disabled?: boolean;
@@ -18,6 +17,7 @@ interface ImageUploadProps {
    size?: 'sm' | 'md' | 'lg' | 'xl';
    variant?: 'default' | 'compact';
    initialImageUrl?: string;
+   label?: string;
 }
 
 export const ImageUploadSizeClasses = {
@@ -29,21 +29,20 @@ export const ImageUploadSizeClasses = {
 
 const ImageUpload = ({
    onImageChange,
-   onImageUrlChange,
    maxSizeMB = 5,
    className,
    disabled = false,
    placeholder = "",
    size = 'md',
    variant = 'default',
-   initialImageUrl
+   initialImageUrl,
+   label
 }: ImageUploadProps) => {
-   const [previewUrl, setPreviewUrl] = useState<string | null>(initialImageUrl || null);
+   const [previewUrl, setPreviewUrl] = useState<string | null>(initialImageUrl||null);
    const [isDragOver, setIsDragOver] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
    const [error, setError] = useState<string | null>(null);
    const fileInputRef = useRef<HTMLInputElement>(null);
-
    const validateFile = useCallback((file: File): string | null => {
       // Check file type
       if (!file.type.startsWith('image/')) {
@@ -58,7 +57,6 @@ const ImageUpload = ({
 
       return null;
    }, [maxSizeMB]);
-
    const handleFileSelect = useCallback(async (file: File) => {
       setError(null);
       setIsLoading(true);
@@ -74,17 +72,14 @@ const ImageUpload = ({
          // Create preview URL
          const url = URL.createObjectURL(file);
          setPreviewUrl(url);
-
          // Call callbacks
          onImageChange?.(file);
-         onImageUrlChange?.(url);
       } catch (err) {
          setError('Failed to process image');
       } finally {
          setIsLoading(false);
       }
-   }, [validateFile, onImageChange, onImageUrlChange]);
-
+   }, [validateFile, onImageChange]);
    const handleFileInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (file) {
@@ -128,13 +123,12 @@ const ImageUpload = ({
       setPreviewUrl(null);
       setError(null);
       onImageChange?.(null);
-      onImageUrlChange?.(null);
 
       // Clear file input
       if (fileInputRef.current) {
          fileInputRef.current.value = '';
       }
-   }, [previewUrl, initialImageUrl, onImageChange, onImageUrlChange]);
+   }, [previewUrl, initialImageUrl, onImageChange]);
 
    const handleClick = useCallback(() => {
       if (!disabled) {
@@ -264,7 +258,7 @@ const ImageUpload = ({
    );
 
    return (
-      <div className={cn("space-y-2", className)}>
+      <div className={cn("space-y-2 relative", className)}>
          {variant === 'compact' ? renderCompactView() : renderDefaultView()}
 
          <input
@@ -275,7 +269,11 @@ const ImageUpload = ({
             className="hidden"
             disabled={disabled}
          />
-
+         {label && (
+            <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-sm px-3 py-2 text-center">
+               {label}
+            </div>
+         )}
          {error && (
             <div className="flex items-center space-x-2">
                <Badge variant="destructive" className="text-xs">

@@ -29,6 +29,7 @@ export const NewProductFormSchema = z.object({
     ingredients: z.string().optional(),
     quantity: z.string()
       .refine(val => !val || /^\d+$/.test(val), { message: "Số lượng phải là số." }),
+      
     responsibleManufacturingAddress: z.string().optional(),
     weightValue: z.string()
       .refine(val => !val || /^\d+(\.\d+)?$/.test(val), { message: "Trọng lượng phải là số." }),

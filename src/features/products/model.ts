@@ -32,6 +32,7 @@ export type RawProductVariant = {
 
 export type ProductVariant = RawProductVariant & {
    images:string[]
+   coverImage: string
    id: string
 }
 

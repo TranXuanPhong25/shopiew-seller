@@ -1,3 +1,9 @@
+## [0.23.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.22.0...v0.23.0) (2025-08-08)
+
+### 🚀 Features
+
+* Update mock product creation to use draft product service and add cover image handling ([425a669](https://github.com/TranXuanPhong25/shopiew-seller/commit/425a6696796c4779cf6ec509464fdfc29b50f9ab))
+
 ## [0.22.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.21.0...v0.22.0) (2025-08-08)
 
 ### 🚀 Features

@@ -1,3 +1,10 @@
+## [0.24.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.23.0...v0.24.0) (2025-08-08)
+
+### 🚀 Features
+
+* add Tiptap extensions for image, color, and text styling; enhance image upload functionality ([b9576cf](https://github.com/TranXuanPhong25/shopiew-seller/commit/b9576cf7f49b627f0bb7d689d642c964376f9ed7))
+* random brand when creating mock ([e85d03b](https://github.com/TranXuanPhong25/shopiew-seller/commit/e85d03b4220dee679b59e487f9ff126abd268f2e))
+
 ## [0.23.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.22.0...v0.23.0) (2025-08-08)
 
 ### 🚀 Features

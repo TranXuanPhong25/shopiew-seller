@@ -1,3 +1,17 @@
+## [0.21.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.20.0...v0.21.0) (2025-08-08)
+
+### 🚀 Features
+
+* Implement cover image upload functionality and update media store types ([371ff61](https://github.com/TranXuanPhong25/shopiew-seller/commit/371ff617106b823216f1347ee2c34659461b0c4b))
+
+### 🐛 Bug Fixes
+
+* set default value for sku ([82b90df](https://github.com/TranXuanPhong25/shopiew-seller/commit/82b90dfad605824f6fc59f41203c4c8034b67993))
+
+### 🔨 Technical Changes
+
+* refactoring create product code ([9664ed9](https://github.com/TranXuanPhong25/shopiew-seller/commit/9664ed9d6e0369e0c83f94cd6b2140276e0a1fa4))
+
 ## [0.20.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.19.0...v0.20.0) (2025-08-08)
 
 ### 🚀 Features

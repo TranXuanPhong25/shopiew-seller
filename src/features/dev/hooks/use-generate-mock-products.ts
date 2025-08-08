@@ -71,7 +71,7 @@ export function useGenerateMockProducts() {
           };
 
           // Call the actual product service to create the product
-          const createdProduct = await ProductsService.createProduct(createProductData);
+          const createdProduct = await ProductsService.createDraftProduct(createProductData);
           createdProducts.push(createdProduct);
 
           // Update state after each successful creation for better UX
@@ -344,6 +344,7 @@ function generateMockProduct(shopId: string, categoryId: number, includeImages: 
     brand:{
       id: brandId,
     },
+    coverImage: includeImages ? `https://picsum.photos/seed/${uuid}/640/480` : "",
     images: includeImages
       ? Array.from({ length: Math.floor(Math.random() * 5) + 1 }, (_, i) =>
         `https://picsum.photos/seed/${uuid}-${i}/640/480`)

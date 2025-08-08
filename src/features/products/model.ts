@@ -13,6 +13,7 @@ export type Product = RawProduct & {
    createdAt: string
    updatedAt: string
    images?: string[]
+   coverImage: string
 }
 export type Brand = {
    id: string

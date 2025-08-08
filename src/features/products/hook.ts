@@ -7,39 +7,53 @@ import useProductMediaStore from "@/stores/product-media-store";
 
 const useCreateProduct = () => {
    const { getSelectedVariantsHasImage } = useVariantStore();
-   const { images } = useProductMediaStore();
+   const { images, coverImage } = useProductMediaStore();
+
    const { uploadImages } = useUploadImages();
    const { mutateAsync, isPending, isError, error } = useMutation({
       mutationKey: ["createProduct"],
       mutationFn: async (data: CreateProductData) => {
          try {
             const product = await ProductsService.createDraftProduct(data);
-            const productImages = images.map(image => ({
-               id: image.id,
-               file: image.file
-            }));
-            const uploadedProductImages = await Promise.all(productImages.map(image => uploadImages(image)));
+
+            if (!coverImage) {
+               throw new Error("Cover image is required");
+            }
+
+            const coverImageUpload = await uploadImages({
+               id: `_cover_${product.id}`,
+               file: coverImage,
+            });
+            product.coverImage = coverImageUpload.resource;
+
+            const uploadedProductImages = await Promise.all(images.map(image => uploadImages(image)));
             product.images = uploadedProductImages.map(uploaded => uploaded.resource);
 
             let updatedVariants: ProductVariant[] = [];
             if (product.variants) {
                const selectedVariantHasImage = getSelectedVariantsHasImage();
                const variantImages = selectedVariantHasImage.flatMap(variant => variant.images || []);
-               const uploadedVariantImages = await Promise.all(variantImages.map(image => uploadImages({ id: image.id, file: image.file })));
+               const uploadedVariantImages
+                  = await Promise.all(variantImages.map(
+                     image => uploadImages({
+                        id: image.id,
+                        file: image.file
+                     })));
                updatedVariants = product.variants.map(variant => {
                   const matchedVariant = selectedVariantHasImage
-                  .find(variantInStore =>
-                     variantInStore.name == Object.values(variant.attributes || {}).join('/')
-                  );
+                     .find(variantInStore =>
+                        variantInStore.name == Object.values(variant.attributes || {}).join('/')
+                     );
                   return {
                      ...variant,
                      images: uploadedVariantImages
-                     .map(uploaded => uploaded.resource)
-                     .filter(url => matchedVariant?.images?.some(image => url.includes(image.id + "_" + image.file.name)))
+                        .map(uploaded => uploaded.resource)
+                        .filter(url => matchedVariant?.images
+                           ?.some(image => url.includes(image.id + "_" + image.file.name)))
                   };
                });
             }
-            
+
             const updatedProduct = await ProductsService.updateProductById(product?.id, {
                product: {
                   ...product,

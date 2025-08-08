@@ -113,6 +113,9 @@ const ImageUpload = ({
 
       if (imageFiles.length > 0) {
          handleFileSelect(imageFiles[0]);
+         if (variant === 'compact') {
+            handleRemoveImage();
+         }  
       }
    }, [disabled, handleFileSelect]);
 

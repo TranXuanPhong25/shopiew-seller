@@ -1,3 +1,9 @@
+## [0.20.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.19.0...v0.20.0) (2025-08-08)
+
+### 🚀 Features
+
+* Update NewProductForm, ProductDetailsSection, and SalesInfoSection with SKU handling and validation improvements ([0b04f6c](https://github.com/TranXuanPhong25/shopiew-seller/commit/0b04f6c65299bb3aa251b299ad7df95ba878a5be))
+
 ## [0.19.0](https://github.com/TranXuanPhong25/shopiew-seller/compare/v0.18.0...v0.19.0) (2025-08-08)
 
 ### 🚀 Features
